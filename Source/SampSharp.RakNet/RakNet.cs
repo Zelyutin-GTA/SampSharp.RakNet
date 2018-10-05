@@ -2,7 +2,7 @@
 
 namespace SampSharp.RakNet
 {
-    public class Class1
+    public class RakNet
     {
     }
 }

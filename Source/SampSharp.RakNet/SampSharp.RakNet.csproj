@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SampSharp.Core" Version="0.8.0-alpha8" />
+    <PackageReference Include="SampSharp.GameMode" Version="0.8.0-alpha8" />
+  </ItemGroup>
+
 </Project>
