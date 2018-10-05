@@ -1,8 +1,10 @@
 ﻿using System;
 
+using SampSharp.GameMode.API;
+
 namespace SampSharp.RakNet
 {
-    public class RakNet
+    public partial class RakNet : Extension
     {
     }
 }
