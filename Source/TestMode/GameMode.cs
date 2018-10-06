@@ -1,6 +1,7 @@
 ﻿using System;
 
 using SampSharp.GameMode;
+using SampSharp.RakNet;
 
 namespace TestMode
 {
@@ -8,7 +9,9 @@ namespace TestMode
     {
         #region Overrides of BaseMode
         protected override void OnInitialized(EventArgs e)
-        {   
+        {
+            var raknet = Services.GetService<IRakNet>();
+
             base.OnInitialized(e);
         }
         #endregion
