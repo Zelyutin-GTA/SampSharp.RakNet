@@ -6,6 +6,10 @@ using SampSharp.Core.Natives.NativeObjects;
 
 namespace SampSharp.RakNet
 {
+    public class BitStream
+    {
+
+    }
     public partial class RakNet
     {
         protected static RakNetInternal Internal;
@@ -24,15 +28,20 @@ namespace SampSharp.RakNet
                 throw new NativeNotImplementedException();
             }
             */
+            [NativeMethod(Function = "BS_New")]
+            public virtual BitStream BS_New(int playerid, int rate)
+            {
+                throw new NativeNotImplementedException();
+            }
 
 
             // Raknet Natives:
             /*
-            native BS_RPC(BitStream:bs, playerid, rpcid, PR_PacketPriority:priority = PR_HIGH_PRIORITY, PR_PacketReliability:reliability = PR_RELIABLE_ORDERED);
-            native BS_Send(BitStream:bs, playerid, PR_PacketPriority:priority = PR_HIGH_PRIORITY, PR_PacketReliability:reliability = PR_RELIABLE_ORDERED);
-
             native BitStream:BS_New();
             native BS_Delete(&BitStream:bs);
+
+            native BS_RPC(BitStream:bs, playerid, rpcid, PR_PacketPriority:priority = PR_HIGH_PRIORITY, PR_PacketReliability:reliability = PR_RELIABLE_ORDERED);
+            native BS_Send(BitStream:bs, playerid, PR_PacketPriority:priority = PR_HIGH_PRIORITY, PR_PacketReliability:reliability = PR_RELIABLE_ORDERED);
 
             native BS_Reset(BitStream:bs);
             native BS_ResetReadPointer(BitStream:bs);
