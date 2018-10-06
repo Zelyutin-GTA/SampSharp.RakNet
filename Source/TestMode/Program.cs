@@ -2,7 +2,7 @@
 
 using SampSharp.Core;
 
-namespace ASGameMode
+namespace TestMode
 {
     class Program
     {
