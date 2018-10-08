@@ -9,18 +9,6 @@ namespace SampSharp.RakNet
 {
     public partial class RakNet
     {
-        //Callback example from streamer:
-        /*[Callback]
-        internal void OnDynamicObjectMoved(int objectid)
-        {
-            var @object = DynamicObject.Find(objectid);
-
-            if (@object == null)
-                return;
-
-            OnDynamicObjectMoved(@object, EventArgs.Empty);
-        }*/
-
         [Callback]
         internal void OnIncomingRPC(int playerid, int rpcid, int bs)
         {
@@ -29,12 +17,22 @@ namespace SampSharp.RakNet
 
             //var player = BasePlayer.FindOrCreate(playerid);
             //var rpc = new RPC(rpcid);
-            Console.WriteLine($"HOOKING INCOMING {playerid}, {rpcid}, {bs}");
+            Console.WriteLine($"HOOKING INCOMING RPC {playerid}, {rpcid}, {bs}");
         }
         [Callback]
         internal void OnOutcomingRPC(int playerid, int rpcid, int bs)
         {
-            Console.WriteLine($"HOOKING OUTCOMING {playerid}, {rpcid}, {bs}");
+            Console.WriteLine($"HOOKING OUTCOMING RPC {playerid}, {rpcid}, {bs}");
+        }
+        [Callback]
+        internal void OnIncomingPacket(int playerid, int packetid, int bs)
+        {
+            Console.WriteLine($"HOOKING INCOMING PACKET {playerid}, {packetid}, {bs}");
+        }
+        [Callback]
+        internal void OnOutcomingPacket(int playerid, int packetid, int bs)
+        {
+            Console.WriteLine($"HOOKING OUTCOMING PACKET {playerid}, {packetid}, {bs}");
         }
 
         //RakNet callbacs
