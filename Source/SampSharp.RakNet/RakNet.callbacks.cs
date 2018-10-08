@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using SampSharp.Core.Callbacks;
+using SampSharp.GameMode.World;
 
 namespace SampSharp.RakNet
 {
@@ -19,6 +20,22 @@ namespace SampSharp.RakNet
 
             OnDynamicObjectMoved(@object, EventArgs.Empty);
         }*/
+
+        [Callback]
+        internal void OnIncomingRPC(int playerid, int rpcid, int bs)
+        {
+            //player == -1 => broadcast
+            //bs == 0 => no bs
+
+            //var player = BasePlayer.FindOrCreate(playerid);
+            //var rpc = new RPC(rpcid);
+            Console.WriteLine($"HOOKING INCOMING {playerid}, {rpcid}, {bs}");
+        }
+        [Callback]
+        internal void OnOutcomingRPC(int playerid, int rpcid, int bs)
+        {
+            Console.WriteLine($"HOOKING OUTCOMING {playerid}, {rpcid}, {bs}");
+        }
 
         //RakNet callbacs
         /*

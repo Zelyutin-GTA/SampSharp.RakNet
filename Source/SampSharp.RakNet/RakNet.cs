@@ -10,6 +10,12 @@ namespace SampSharp.RakNet
 {
     public partial class RakNet : Extension, IRakNet
     {
+        public override void PostLoad(BaseMode gameMode)
+        {
+            Console.WriteLine("SampSharp.RakNet was loaded!");
+            base.PostLoad(gameMode);
+        }
+
         #region Implementation of IService
 
         /// <summary>
@@ -18,10 +24,5 @@ namespace SampSharp.RakNet
         public BaseMode GameMode { get; private set; }
 
         #endregion
-        public override void PostLoad(BaseMode gameMode)
-        {
-            Console.WriteLine("SampSharp.RakNet was loaded!");
-            base.PostLoad(gameMode);
-        }
     }
 }

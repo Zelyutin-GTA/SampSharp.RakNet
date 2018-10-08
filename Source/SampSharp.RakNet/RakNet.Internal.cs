@@ -29,7 +29,7 @@ namespace SampSharp.RakNet
             }
             */
             [NativeMethod(Function = "BS_New")]
-            public virtual BitStream BS_New(int playerid, int rate)
+            public virtual int BS_New()
             {
                 throw new NativeNotImplementedException();
             }

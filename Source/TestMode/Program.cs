@@ -1,6 +1,4 @@
-﻿using System;
-
-using SampSharp.Core;
+﻿using SampSharp.Core;
 
 namespace TestMode
 {
