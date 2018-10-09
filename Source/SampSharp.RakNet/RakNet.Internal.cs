@@ -18,6 +18,11 @@ namespace SampSharp.RakNet
             {
                 throw new NativeNotImplementedException();
             }
+            [NativeMethod]
+            public virtual int PR_RegHandler(int name, string functionName, int type)
+            {
+                throw new NativeNotImplementedException();
+            }
         }
     }
 }

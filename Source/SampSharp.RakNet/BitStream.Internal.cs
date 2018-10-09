@@ -45,12 +45,14 @@ namespace SampSharp.RakNet
                 throw new NativeNotImplementedException();
             }
 
+            //TODO: implement wrapper
             [NativeMethod]
             public virtual int BS_RPC(int bs, int playerid, int rpcid, int priority = (int)PacketPriority.HIGH_PRIORITY, int reliability = (int)PacketReliability.RELIABLE_ORDERED)
             {
                 throw new NativeNotImplementedException();
             }
 
+            //TODO: implement wrapper
             [NativeMethod]
             public virtual int BS_Send(int bs, int playerid, int priority = (int)PacketPriority.HIGH_PRIORITY, int reliability = (int)PacketReliability.RELIABLE_ORDERED)
             {
