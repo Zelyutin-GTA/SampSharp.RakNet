@@ -191,13 +191,6 @@ namespace SampSharp.RakNet
             #endregion
 
             #endregion
-            #region Common Utils
-            [NativeMethod]
-            public virtual int CallRemoteFunction(string functionName, string argumentsFormat)
-            {
-                throw new NativeNotImplementedException();
-            }
-            #endregion
 
 
             // Raknet Natives:
