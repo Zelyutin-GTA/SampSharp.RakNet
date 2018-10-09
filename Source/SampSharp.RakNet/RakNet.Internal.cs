@@ -28,6 +28,11 @@ namespace SampSharp.RakNet
                 throw new NativeNotImplementedException();
             }
             */
+            [NativeMethod(Function = "CallRemoteFunction")]
+            public virtual int CallRemoteFunction(string functionName, string argumentsFormat)
+            {
+                throw new NativeNotImplementedException();
+            }
             [NativeMethod(Function = "BS_New")]
             public virtual int BS_New()
             {
