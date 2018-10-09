@@ -6,12 +6,9 @@ using SampSharp.Core.Natives.NativeObjects;
 
 namespace SampSharp.RakNet
 {
-    public class BitStream
-    {
-
-    }
     public partial class RakNet
     {
+        #region Enums
         public enum PR_HandlerType
         {
             PR_INCOMING_RPC,
@@ -63,12 +60,30 @@ namespace SampSharp.RakNet
             PR_RELIABLE_ORDERED,
             PR_RELIABLE_SEQUENCED
         };
+        #endregion
 
+        #region Floating params number Natives
+        /*public virtual void BS_WriteValue(int bs, params object[] arguments)
+        {
+            var loader = .GameModeClient;
+            var callRemoteFunction = this.Client.NativeLoader.Load("CallRemoteFunction", null, new[] { typeof(string), typeof(int) });
+
+            callRemoteFunction.Invoke("SomethingInPawn" 42);
+            native BS_WriteValue(BitStream:bs, { PR_ValueType, Float, _}:...);
+            native BS_ReadValue(BitStream:bs, { PR_ValueType, Float, _}:...);
+        }
+        public virtual void BS_ReadValue(int bs, params object[] arguments)
+        {
+
+        }*/
+        #endregion
+
+        #region RakNetInternal
         protected static RakNetInternal Internal;
 
         static RakNet()
         {
-            Internal = NativeObjectProxyFactory.CreateInstance<RakNetInternal>();
+            Internal = NativeObjectProxyFactory.CreateInstance<RakNetInternal>(); // TODO: change to class extension as in BaseModeInternal
         }
         public class RakNetInternal
         {
@@ -82,7 +97,7 @@ namespace SampSharp.RakNet
             }
 
             [NativeMethod]
-            public virtual int BS_Delete(int bs) // TODO: bs is ref-type
+            public virtual int BS_Delete(out int bs)
             {
                 throw new NativeNotImplementedException();
             }
@@ -134,7 +149,7 @@ namespace SampSharp.RakNet
                 throw new NativeNotImplementedException();
             }
             [NativeMethod]
-            public virtual int BS_GetWriteOffset(int bs, int offset) // TODO: offset ref-type
+            public virtual int BS_GetWriteOffset(int bs, out int offset)
             {
                 throw new NativeNotImplementedException();
             }
@@ -144,7 +159,7 @@ namespace SampSharp.RakNet
                 throw new NativeNotImplementedException();
             }
             [NativeMethod]
-            public virtual int BS_GetReadOffset(int bs, int offset) // TODO: offset ref-type
+            public virtual int BS_GetReadOffset(int bs, out int offset)
             {
                 throw new NativeNotImplementedException();
             }
@@ -152,24 +167,24 @@ namespace SampSharp.RakNet
 
             #region
             [NativeMethod]
-            public virtual int BS_GetNumberOfBitsUsed(int bs, int number) // TODO: number ref-type
+            public virtual int BS_GetNumberOfBitsUsed(int bs, out int number)
             {
                 throw new NativeNotImplementedException();
             }
             [NativeMethod]
-            public virtual int BS_GetNumberOfBytesUsed(int bs, int number) // TODO: number ref-type
-            {
-                throw new NativeNotImplementedException();
-            }
-
-            [NativeMethod]
-            public virtual int BS_GetNumberOfUnreadBits(int bs, int number) // TODO: number ref-type
+            public virtual int BS_GetNumberOfBytesUsed(int bs, out int number)
             {
                 throw new NativeNotImplementedException();
             }
 
             [NativeMethod]
-            public virtual int BS_GetNumberOfBitsAllocated(int bs, int number) // TODO: number ref-type
+            public virtual int BS_GetNumberOfUnreadBits(int bs, out int number)
+            {
+                throw new NativeNotImplementedException();
+            }
+
+            [NativeMethod]
+            public virtual int BS_GetNumberOfBitsAllocated(int bs, out int number)
             {
                 throw new NativeNotImplementedException();
             }
@@ -212,5 +227,6 @@ namespace SampSharp.RakNet
             native BS_ReadValue(BitStream:bs, { PR_ValueType, Float, _}:...);
             */
         }
+        #endregion
     }
 }
