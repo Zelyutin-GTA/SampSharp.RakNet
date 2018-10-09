@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using SampSharp.Core.Natives.NativeObjects;
+﻿using SampSharp.Core.Natives.NativeObjects;
 
 namespace SampSharp.RakNet
 {

@@ -1,67 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using SampSharp.Core.Natives.NativeObjects;
+﻿using SampSharp.Core.Natives.NativeObjects;
+using SampSharp.RakNet.Definitions;
 
 namespace SampSharp.RakNet
 {
     public partial class BitStream
     {
-        #region Enums
-        public enum PR_HandlerType
-        {
-            PR_INCOMING_RPC,
-            PR_INCOMING_PACKET,
-            PR_OUTCOMING_RPC,
-            PR_OUTCOMING_PACKET,
-            PR_NUMBER_OF_HANDLER_TYPES
-        };
-
-        public enum PR_ValueType
-        {
-            PR_INT8,
-            PR_INT16,
-            PR_INT32,
-            PR_UINT8,
-            PR_UINT16,
-            PR_UINT32,
-            PR_FLOAT,
-            PR_BOOL,
-            PR_STRING,
-
-            // compressed
-            PR_CINT8,
-            PR_CINT16,
-            PR_CINT32,
-            PR_CUINT8,
-            PR_CUINT16,
-            PR_CUINT32,
-            PR_CFLOAT,
-            PR_CBOOL,
-            PR_CSTRING,
-
-            PR_BITS
-        };
-
-        public enum PR_PacketPriority
-        {
-            PR_SYSTEM_PRIORITY,
-            PR_HIGH_PRIORITY,
-            PR_MEDIUM_PRIORITY,
-            PR_LOW_PRIORITY
-        };
-
-        public enum PR_PacketReliability
-        {
-            PR_UNRELIABLE = 6,
-            PR_UNRELIABLE_SEQUENCED,
-            PR_RELIABLE,
-            PR_RELIABLE_ORDERED,
-            PR_RELIABLE_SEQUENCED
-        };
-        #endregion
-
         #region Floating params number Natives
         /*public virtual void BS_WriteValue(int bs, params object[] arguments)
         {
@@ -103,13 +46,13 @@ namespace SampSharp.RakNet
             }
 
             [NativeMethod]
-            public virtual int BS_RPC(int bs, int playerid, int rpcid, int priority = (int)PR_PacketPriority.PR_HIGH_PRIORITY, int reliability = (int)PR_PacketReliability.PR_RELIABLE_ORDERED) // priority and reliability -> enums
+            public virtual int BS_RPC(int bs, int playerid, int rpcid, int priority = (int)PacketPriority.HIGH_PRIORITY, int reliability = (int)PacketReliability.RELIABLE_ORDERED)
             {
                 throw new NativeNotImplementedException();
             }
 
             [NativeMethod]
-            public virtual int BS_Send(int bs, int playerid, int priority = (int)PR_PacketPriority.PR_HIGH_PRIORITY, int reliability = (int)PR_PacketReliability.PR_RELIABLE_ORDERED) // priority and reliability -> enums
+            public virtual int BS_Send(int bs, int playerid, int priority = (int)PacketPriority.HIGH_PRIORITY, int reliability = (int)PacketReliability.RELIABLE_ORDERED)
             {
                 throw new NativeNotImplementedException();
             }

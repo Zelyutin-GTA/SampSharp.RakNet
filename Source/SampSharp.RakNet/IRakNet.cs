@@ -1,5 +1,4 @@
-﻿using System;
-using SampSharp.GameMode;
+﻿using SampSharp.GameMode;
 
 namespace SampSharp.RakNet
 {

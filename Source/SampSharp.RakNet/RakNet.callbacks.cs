@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 using SampSharp.Core.Callbacks;
-using SampSharp.GameMode.World;
 
 namespace SampSharp.RakNet
 {
