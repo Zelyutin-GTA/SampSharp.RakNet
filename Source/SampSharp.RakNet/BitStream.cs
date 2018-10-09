@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SampSharp.RakNet
 {
-    class BitStream
+    partial class BitStream
     {
         public readonly int ID;
         public BitStream(int id)

@@ -6,7 +6,7 @@ using SampSharp.Core.Natives.NativeObjects;
 
 namespace SampSharp.RakNet
 {
-    public partial class RakNet
+    public partial class BitStream
     {
         #region Enums
         public enum PR_HandlerType
@@ -78,16 +78,16 @@ namespace SampSharp.RakNet
         }*/
         #endregion
 
-        #region RakNetInternal
-        protected static RakNetInternal Internal;
+        #region BitStreamInternal
+        protected static BitStreamInternal Internal;
 
-        static RakNet()
+        static BitStream()
         {
-            Internal = NativeObjectProxyFactory.CreateInstance<RakNetInternal>(); // TODO: change to class extension as in BaseModeInternal
+            Internal = NativeObjectProxyFactory.CreateInstance<BitStreamInternal>(); // TODO: change to class extension as in BaseModeInternal
         }
-        public class RakNetInternal
+        public class BitStreamInternal
         {
-            #region Pawn.RakNet natives
+            #region Pawn.RakNet BitStream natives
 
             #region Main
             [NativeMethod]
