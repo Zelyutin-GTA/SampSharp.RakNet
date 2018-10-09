@@ -136,7 +136,7 @@ namespace SampSharp.RakNet
             }
 
             [NativeMethod]
-            public virtual int BS_IgnoreBits(int bs, int number_of_bits)
+            public virtual int BS_IgnoreBits(int bs, int numberOfBits)
             {
                 throw new NativeNotImplementedException();
             }
