@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SampSharp.RakNet.Definitions
 {
-    public enum ValueType
+    public enum ParamType
     {
         INT8,
         INT16,
