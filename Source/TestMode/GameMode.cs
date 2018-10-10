@@ -10,8 +10,12 @@ using SampSharp.Core.Callbacks;
 
 namespace TestMode
 {
-    public class GameMode : BaseMode
+    public class GameMode : BaseMode, IHasClient
     {
+        #region Implementation of IHasClient
+        public IGameModeClient GameModeClient => Client;
+        #endregion
+
         #region Overrides of BaseMode
         protected override void OnInitialized(EventArgs e)
         {
