@@ -20,7 +20,7 @@ namespace SampSharp.RakNet
 
             if(!typeof(IHasClient).IsAssignableFrom(gameMode.GetType()))
             {
-                throw new Exception("Gamemode should implement IHasClient interface to use SampSharp.RakNet");
+                throw new RakNetException("Gamemode should implement IHasClient interface to use SampSharp.RakNet");
             }
             RakNet.Mode = gameMode;
 
