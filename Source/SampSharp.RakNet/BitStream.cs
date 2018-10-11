@@ -2,7 +2,7 @@
 
 namespace SampSharp.RakNet
 {
-    partial class BitStream : IDisposable
+    public partial class BitStream : IDisposable
     {
         public int ID { get; private set; }
         public BitStream(int id)
