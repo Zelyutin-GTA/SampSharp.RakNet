@@ -20,6 +20,7 @@ namespace TestMode
         protected override void OnInitialized(EventArgs e)
         {
             var raknet = Services.GetService<IRakNet>();
+            base.OnInitialized(e);
         }
         #endregion
     }
