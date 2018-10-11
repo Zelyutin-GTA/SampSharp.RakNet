@@ -14,25 +14,38 @@ namespace SampSharp.RakNet
         internal static BaseMode Mode;
         internal static IGameModeClient Client => ((IHasClient)Mode).GameModeClient;
 
-        public override void PostLoad(BaseMode gameMode)
-        {
-            Console.WriteLine("SampSharp.RakNet was loaded!");
-
-            if(!typeof(IHasClient).IsAssignableFrom(gameMode.GetType()))
-            {
-                throw new RakNetException("Gamemode should implement IHasClient interface to use SampSharp.RakNet");
-            }
-            RakNet.Mode = gameMode;
-
-            base.PostLoad(gameMode);
-        }
-
         #region Implementation of IService
 
         /// <summary>
         ///     Gets the game mode.
         /// </summary>
         public BaseMode GameMode { get; private set; }
+
+        #endregion
+
+        #region Overrides of Extension
+
+        /// <summary>
+        ///     Loads services provided by this extensions.
+        /// </summary>
+        /// <param name="gameMode">The game mode.</param>
+        public override void LoadServices(BaseMode gameMode)
+        {
+            // Add the raknet service to the service provider.
+            Console.WriteLine("SampSharp.RakNet is loading");
+
+            if (!typeof(IHasClient).IsAssignableFrom(gameMode.GetType()))
+            {
+                throw new RakNetException("[SampSharp.RakNet] Gamemode should implement IHasClient interface to use SampSharp.RakNet");
+            }
+
+            this.GameMode = gameMode;
+            RakNet.Mode = gameMode;
+            gameMode.Services.AddService<IRakNet>(this);
+            
+
+            base.LoadServices(gameMode);
+        }
 
         #endregion
     }
