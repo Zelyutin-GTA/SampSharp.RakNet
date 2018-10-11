@@ -1,4 +1,5 @@
 ﻿using System;
+using SampSharp.RakNet.Events;
 
 namespace SampSharp.RakNet
 {

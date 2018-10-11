@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SampSharp.RakNet
+namespace SampSharp.RakNet.Events
 {
     public class BitStreamReadEventArgs : EventArgs
     {
