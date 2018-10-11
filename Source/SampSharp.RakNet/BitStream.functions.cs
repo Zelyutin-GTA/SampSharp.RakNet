@@ -38,86 +38,21 @@ namespace SampSharp.RakNet
                     nativeParams[nonArgumentsCount + i] = (int)argument;
 
                     var paramTypeGroup = GetParamTypeGroup((ParamType)argument);
+                    
                     //Adding Param content to native parameters
-                    switch (paramTypeGroup)
+                    var followingParamsCount = GetFollowingParamsCount(paramTypeGroup);
+                    var types = GetFollowingParamsTypes(paramTypeGroup);
+
+                    if (i + followingParamsCount >= arguments.Length)
                     {
-                        case ParamTypeGroup.INT:
-                        {
-                            const int followingParams = 1;
-                            if (i + followingParams >= arguments.Length)
-                            {
-                                throw new RakNetException($"Param [index:{i}] does not have following arguments [amount:{followingParams}] with content");
-                            }
-
-                            nativeParamsTypes[nonArgumentsCount + i + 1] = typeof(int).MakeByRefType();
-                            nativeParams[nonArgumentsCount + i + 1] = arguments[i + 1];
-
-                            i += followingParams + 1;
-                            break;
-                        }
-                        case ParamTypeGroup.BOOL:
-                        {
-                            const int followingParams = 1;
-                            if (i + followingParams >= arguments.Length)
-                            {
-                                throw new RakNetException($"Param [index:{i}] does not have following arguments [amount:{followingParams}] with content");
-                            }
-
-                            nativeParamsTypes[nonArgumentsCount + i + 1] = typeof(bool).MakeByRefType();
-                            nativeParams[nonArgumentsCount + i + 1] = arguments[i + 1];
-
-                            i += followingParams + 1;
-                            break;
-                        }
-                        case ParamTypeGroup.FLOAT:
-                        {
-                            const int followingParams = 1;
-                            if (i + followingParams >= arguments.Length)
-                            {
-                                throw new RakNetException($"Param [index:{i}] does not have following arguments [amount:{followingParams}] with content");
-                            }
-
-                            nativeParamsTypes[nonArgumentsCount + i + 1] = typeof(float).MakeByRefType();
-                            nativeParams[nonArgumentsCount + i + 1] = arguments[i + 1];
-
-                            i += followingParams + 1;
-                            break;
-                        }
-                        case ParamTypeGroup.STRING:
-                        {
-                            const int followingParams = 1;
-                            if (i + followingParams >= arguments.Length)
-                            {
-                                throw new RakNetException($"Param [index:{i}] does not have following arguments [amount:{followingParams}] with content");
-                            }
-
-                            nativeParamsTypes[nonArgumentsCount + i + 1] = typeof(string).MakeByRefType();
-                            nativeParams[nonArgumentsCount + i + 1] = arguments[i + 1];
-
-                            i += followingParams + 1;
-                            break;
-                        }
-                        case ParamTypeGroup.BITS:
-                        {
-                            const int followingParams = 2;
-                            if (i + followingParams >= arguments.Length)
-                            {
-                                throw new RakNetException($"Param [index:{i}] does not have following arguments [amount:{followingParams}] with content");
-                            }
-
-                            nativeParamsTypes[nonArgumentsCount + i + 1] = typeof(int).MakeByRefType();
-                            nativeParams[nonArgumentsCount + i + 1] = arguments[i + 1];
-                            nativeParamsTypes[nonArgumentsCount + i + 2] = typeof(int).MakeByRefType();
-                            nativeParams[nonArgumentsCount + i + 2] = arguments[i + 2];
-
-                            i += followingParams + 1;
-                            break;
-                        }
-                        default:
-                        {
-                            throw new RakNetException($"Param [index:{i}] has unknown ParamType");
-                        }
+                        throw new RakNetException($"Param [index:{i}] does not have following arguments [amount:{followingParamsCount}] with content");
                     }
+                    for (int j = 1; j <= followingParamsCount; j++)
+                    {
+                        nativeParamsTypes[nonArgumentsCount + i + j] = types[j-1].MakeByRefType();
+                        nativeParams[nonArgumentsCount + i + j] = arguments[i + j];
+                    }
+                    i += followingParamsCount + 1;
                 }
                 return new object[2] { nativeParamsTypes, nativeParams };
             }
@@ -165,6 +100,32 @@ namespace SampSharp.RakNet
                 else if (bitsType.Contains(param)) return ParamTypeGroup.BITS;
 
                 throw new RakNetException($"Param has unknown ParamType");
+            }
+            private int GetFollowingParamsCount(ParamTypeGroup group)
+            {
+                switch (group)
+                {
+                    case ParamTypeGroup.INT: return 1;
+                    case ParamTypeGroup.BOOL: return 1;
+                    case ParamTypeGroup.FLOAT: return 1;
+                    case ParamTypeGroup.STRING: return 1;
+                    case ParamTypeGroup.BITS: return 2;
+                }
+
+                throw new RakNetException($"Param has unknown ParamGroupType");
+            }
+            private Type[] GetFollowingParamsTypes(ParamTypeGroup group)
+            {
+                switch (group)
+                {
+                    case ParamTypeGroup.INT: return new Type[]{ typeof(int) };
+                    case ParamTypeGroup.BOOL: return new Type[] { typeof(bool) };
+                    case ParamTypeGroup.FLOAT: return new Type[] { typeof(float) };
+                    case ParamTypeGroup.STRING: return new Type[] { typeof(string) };
+                    case ParamTypeGroup.BITS: return new Type[] { typeof(int), typeof(int) };
+                }
+
+                throw new RakNetException($"Param has unknown ParamGroupType");
             }
         }
     }
