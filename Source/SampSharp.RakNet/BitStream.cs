@@ -7,7 +7,15 @@ namespace SampSharp.RakNet
         public int ID { get; private set; }
         public BitStream(int id)
         {
+            if(id == 0)
+            {
+                Console.WriteLine("[SampSharp.RakNet][Warning] Trying to create BitStream with id(handle) = 0");
+            }
             this.ID = id;
+        }
+        public bool IsEmptyHandle()
+        {
+            return this.ID == 0;
         }
         public void Reset()
         {
@@ -82,7 +90,7 @@ namespace SampSharp.RakNet
                 return number;
             }
         }
-
+        
         public void Dispose()
         {
             int id = this.ID; // Added to let this.ID stay readonly (or with private setter)
