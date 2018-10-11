@@ -1,5 +1,6 @@
 ﻿using System;
 using SampSharp.RakNet.Definitions;
+using System.Linq;
 
 namespace SampSharp.RakNet
 {
@@ -7,6 +8,14 @@ namespace SampSharp.RakNet
     {
         public partial class BitStreamInternal
         {
+            private enum ParamTypeGroup
+            {
+                INT,
+                BOOL,
+                FLOAT,
+                STRING,
+                BITS
+            }
             private object[] PrepareParams(int bs, params object[] arguments)
             {
                 const int nonArgumentsCount = 1; // int bs
@@ -25,26 +34,15 @@ namespace SampSharp.RakNet
                     }
 
                     //Adding ParamType to native parameters
-                    nativeParamsTypes[nonArgumentsCount + i] = typeof(int).MakeByRefType(); // Should be reference to take values
+                    nativeParamsTypes[nonArgumentsCount + i] = typeof(int).MakeByRefType(); // Should be reference to take in values
                     nativeParams[nonArgumentsCount + i] = (int)argument;
 
+                    var paramTypeGroup = GetParamTypeGroup((ParamType)argument);
                     //Adding Param content to native parameters
-                    switch (argument)
+                    switch (paramTypeGroup)
                     {
-                        case ParamType.INT8:
-                        case ParamType.INT16:
-                        case ParamType.INT32:
-                        case ParamType.UINT8:
-                        case ParamType.UINT16:
-                        case ParamType.UINT32:
-                        case ParamType.CINT8:
-                        case ParamType.CINT16:
-                        case ParamType.CINT32:
-                        case ParamType.CUINT8:
-                        case ParamType.CUINT16:
-                        case ParamType.CUINT32:
+                        case ParamTypeGroup.INT:
                         {
-                            //int;
                             const int followingParams = 1;
                             if (i + followingParams >= arguments.Length)
                             {
@@ -57,10 +55,8 @@ namespace SampSharp.RakNet
                             i += followingParams + 1;
                             break;
                         }
-                        case ParamType.BOOL:
-                        case ParamType.CBOOL:
+                        case ParamTypeGroup.BOOL:
                         {
-                            //bool;
                             const int followingParams = 1;
                             if (i + followingParams >= arguments.Length)
                             {
@@ -73,10 +69,8 @@ namespace SampSharp.RakNet
                             i += followingParams + 1;
                             break;
                         }
-                        case ParamType.FLOAT:
-                        case ParamType.CFLOAT:
+                        case ParamTypeGroup.FLOAT:
                         {
-                            //float;
                             const int followingParams = 1;
                             if (i + followingParams >= arguments.Length)
                             {
@@ -89,10 +83,8 @@ namespace SampSharp.RakNet
                             i += followingParams + 1;
                             break;
                         }
-                        case ParamType.STRING:
-                        case ParamType.CSTRING:
+                        case ParamTypeGroup.STRING:
                         {
-                            //string;
                             const int followingParams = 1;
                             if (i + followingParams >= arguments.Length)
                             {
@@ -105,9 +97,8 @@ namespace SampSharp.RakNet
                             i += followingParams + 1;
                             break;
                         }
-                        case ParamType.BITS:
+                        case ParamTypeGroup.BITS:
                         {
-                            //bits;
                             const int followingParams = 2;
                             if (i + followingParams >= arguments.Length)
                             {
@@ -129,6 +120,51 @@ namespace SampSharp.RakNet
                     }
                 }
                 return new object[2] { nativeParamsTypes, nativeParams };
+            }
+            private ParamTypeGroup GetParamTypeGroup(ParamType param)
+            {
+                var intType = new ParamType[]
+                {
+                    ParamType.INT8,
+                    ParamType.INT16,
+                    ParamType.INT32,
+                    ParamType.UINT8,
+                    ParamType.UINT16,
+                    ParamType.UINT32,
+                    ParamType.CINT8,
+                    ParamType.CINT16,
+                    ParamType.CINT32,
+                    ParamType.CUINT8,
+                    ParamType.CUINT16,
+                    ParamType.CUINT32
+                };
+                var boolType = new ParamType[]
+                {
+                    ParamType.BOOL,
+                    ParamType.CBOOL
+                };
+                var floatType = new ParamType[]
+                {
+                    ParamType.FLOAT,
+                    ParamType.CFLOAT
+                };
+                var stringType = new ParamType[]
+                {
+                    ParamType.STRING,
+                    ParamType.CSTRING
+                };
+                var bitsType = new ParamType[]
+                {
+                    ParamType.BITS
+                };
+
+                if (intType.Contains(param)) return ParamTypeGroup.INT;
+                else if (boolType.Contains(param)) return ParamTypeGroup.BOOL;
+                else if (floatType.Contains(param)) return ParamTypeGroup.FLOAT;
+                else if (stringType.Contains(param)) return ParamTypeGroup.STRING;
+                else if (bitsType.Contains(param)) return ParamTypeGroup.BITS;
+
+                throw new RakNetException($"Param has unknown ParamType");
             }
         }
     }
