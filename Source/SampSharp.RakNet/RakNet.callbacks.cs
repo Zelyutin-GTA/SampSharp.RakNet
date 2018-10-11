@@ -20,20 +20,28 @@ namespace SampSharp.RakNet
             //BlockRPC();
             if(rpcid == 119)
             {
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine();
-
-                Console.WriteLine(bs);
                 var BS = new BitStream(bs);
                 float x = 0.0f, y = 0.0f, z = 0.0f;
-                BS.ReadValue(Definitions.ParamType.FLOAT, x, Definitions.ParamType.FLOAT, y, Definitions.ParamType.FLOAT, z);
+                BS.ReadCompleted += (sender, e) =>
+                {
+                    float _x = (float)e.Result[0];
+                    float _y = (float)e.Result[1];
+                    float _z = (float)e.Result[2];
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine();
 
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine();
+                    Console.WriteLine($"{_x};{_y};{_z};");
+
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine();
+
+                };
+                BS.ReadValue(Definitions.ParamType.FLOAT, x, Definitions.ParamType.FLOAT, y, Definitions.ParamType.FLOAT, z);
             }
         }
+
         [Callback]
         internal void OnOutcomingRPC(int playerid, int rpcid, int bs)
         {

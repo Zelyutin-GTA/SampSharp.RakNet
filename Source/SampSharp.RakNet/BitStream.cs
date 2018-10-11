@@ -96,7 +96,9 @@ namespace SampSharp.RakNet
         }
         public void ReadValue(params object[] arguments)
         {
-            Internal.BS_ReadValue(this.ID, arguments);
+            var values = Internal.BS_ReadValue(this.ID, arguments);
+            var e = new BitStreamReadEventArgs(values);
+            this.ReadCompleted?.Invoke(this, e);
         }
 
         public void Dispose()
@@ -110,5 +112,7 @@ namespace SampSharp.RakNet
             int id = Internal.BS_New();
             return new BitStream(id);
         }
+
+        public event EventHandler<BitStreamReadEventArgs> ReadCompleted;
     }
 }

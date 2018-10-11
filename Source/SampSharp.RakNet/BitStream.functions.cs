@@ -1,6 +1,7 @@
 ﻿using System;
 using SampSharp.RakNet.Definitions;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SampSharp.RakNet
 {
@@ -21,6 +22,7 @@ namespace SampSharp.RakNet
                 const int nonArgumentsCount = 1; // int bs
                 var nativeParamsTypes = new Type[nonArgumentsCount + arguments.Length];
                 var nativeParams = new object[nonArgumentsCount + arguments.Length];
+                var returningParamsIndexes = new List<int>();
                 nativeParamsTypes[0] = typeof(int);
                 nativeParams[0] = bs;
 
@@ -52,9 +54,10 @@ namespace SampSharp.RakNet
                         nativeParamsTypes[nonArgumentsCount + i + j] = types[j-1].MakeByRefType();
                         nativeParams[nonArgumentsCount + i + j] = arguments[i + j];
                     }
+                    returningParamsIndexes.Add(nonArgumentsCount + i + 1);
                     i += followingParamsCount + 1;
                 }
-                return new object[2] { nativeParamsTypes, nativeParams };
+                return new object[3] { nativeParamsTypes, nativeParams, returningParamsIndexes};
             }
             private ParamTypeGroup GetParamTypeGroup(ParamType param)
             {
