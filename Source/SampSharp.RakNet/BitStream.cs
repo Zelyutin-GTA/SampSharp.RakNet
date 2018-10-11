@@ -90,7 +90,15 @@ namespace SampSharp.RakNet
                 return number;
             }
         }
-        
+        public void WriteValue(params object[] arguments)
+        {
+            Internal.BS_WriteValue(this.ID, arguments);
+        }
+        public void ReadValue(params object[] arguments)
+        {
+            Internal.BS_ReadValue(this.ID, arguments);
+        }
+
         public void Dispose()
         {
             int id = this.ID; // Added to let this.ID stay readonly (or with private setter)

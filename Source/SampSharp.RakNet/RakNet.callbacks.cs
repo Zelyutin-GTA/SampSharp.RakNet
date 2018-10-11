@@ -1,6 +1,7 @@
 ﻿using System;
 
 using SampSharp.Core.Callbacks;
+using SampSharp.RakNet.Definitions;
 
 namespace SampSharp.RakNet
 {
@@ -15,7 +16,23 @@ namespace SampSharp.RakNet
             //var player = BasePlayer.FindOrCreate(playerid);
             //var rpc = new RPC(rpcid);
             Console.WriteLine($"[S#] Hooking Incoming RPC {playerid}, {rpcid}, {bs}");
+            
             //BlockRPC();
+            if(rpcid == 119)
+            {
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+
+                Console.WriteLine(bs);
+                var BS = new BitStream(bs);
+                float x = 0.0f, y = 0.0f, z = 0.0f;
+                BS.ReadValue(Definitions.ParamType.FLOAT, x, Definitions.ParamType.FLOAT, y, Definitions.ParamType.FLOAT, z);
+
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+            }
         }
         [Callback]
         internal void OnOutcomingRPC(int playerid, int rpcid, int bs)
