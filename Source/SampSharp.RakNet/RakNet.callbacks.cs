@@ -22,7 +22,7 @@ namespace SampSharp.RakNet
 
             //var player = BasePlayer.FindOrCreate(playerid);
             //var rpc = new RPC(rpcid);
-            Console.WriteLine($"[S#] Hooking Incoming RPC {playerid}, {rpcid}, {bs}");
+            if(this.LoggingIncomingRPC) Console.WriteLine($"[SampSharp.RakNet] Hooking Incoming RPC {playerid}, {rpcid}, {bs}");
             
             //BlockRPC();
            
@@ -32,20 +32,20 @@ namespace SampSharp.RakNet
         internal void OnOutcomingRPC(int playerid, int rpcid, int bs)
         {
             OutcomingRPC?.Invoke(this, new PacketRPCEventArgs(rpcid, playerid, bs));
-            Console.WriteLine($"[S#] Hooking Outcoming RPC {playerid}, {rpcid}, {bs}");
+            if (this.LoggingOutcomingRPC) Console.WriteLine($"[SampSharp.RakNet] Hooking Outcoming RPC {playerid}, {rpcid}, {bs}");
         }
         [Callback]
         internal void OnIncomingPacket(int playerid, int packetid, int bs)
         {
             IncomingPacket?.Invoke(this, new PacketRPCEventArgs(packetid, playerid, bs));
-            Console.WriteLine($"[S#] Hooking Incoming Packet {playerid}, {packetid}, {bs}");
+            if (this.LoggingIncomingPacket) Console.WriteLine($"[SampSharp.RakNet] Hooking Incoming Packet {playerid}, {packetid}, {bs}");
             //BlockPacket();
         }
         [Callback]
         internal void OnOutcomingPacket(int playerid, int packetid, int bs)
         {
             OutcomingPacket?.Invoke(this, new PacketRPCEventArgs(packetid, playerid, bs));
-            Console.WriteLine($"[S#] Hooking Outcoming Packet {playerid}, {packetid}, {bs}");
+            if (this.LoggingOutcomingPacket) Console.WriteLine($"[SampSharp.RakNet] Hooking Outcoming Packet {playerid}, {packetid}, {bs}");
         }
         internal void BlockRPC()
         {

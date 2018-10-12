@@ -48,5 +48,18 @@ namespace SampSharp.RakNet
         }
 
         #endregion
+
+        bool LoggingIncomingRPC = false;
+        bool LoggingOutcomingRPC = false;
+        bool LoggingIncomingPacket = false;
+        bool LoggingOutcomingPacket = false;
+
+        public void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket)
+        {
+            this.LoggingIncomingRPC = incomingRPC;
+            this.LoggingOutcomingRPC = outcomingRPC;
+            this.LoggingIncomingPacket = incomingPacket;
+            this.LoggingOutcomingPacket = outcomingPacket;
+        }
     }
 }
