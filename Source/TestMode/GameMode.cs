@@ -1,12 +1,14 @@
 ﻿using System;
 
-using SampSharp.GameMode;
-using SampSharp.RakNet;
-
 using SampSharp.Core;
-using SampSharp.Core.Natives;
+using SampSharp.GameMode;
 using SampSharp.GameMode.World;
-using SampSharp.Core.Callbacks;
+using SampSharp.GameMode.Events;
+using SampSharp.GameMode.SAMP.Commands;
+using SampSharp.GameMode.Definitions;
+using SampSharp.GameMode.SAMP;
+
+using SampSharp.RakNet;
 using SampSharp.RakNet.Events;
 using SampSharp.RakNet.Definitions;
 
@@ -24,6 +26,23 @@ namespace TestMode
             var raknet = Services.GetService<IRakNet>();
             raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
             base.OnInitialized(e);
+        }
+
+        [Command("explode")]
+        public static void ExplodeCommand(BasePlayer sender)
+        {
+            var bs = BitStream.New();
+            float x = sender.Position.X;
+            float y = sender.Position.Y;
+            float z = sender.Position.Z;
+            int type = 1;
+            float radius = 100.0f;
+
+            bs.WriteValue(ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z, ParamType.UINT16, type, ParamType.FLOAT, radius);
+
+            int createExplosionRPC = 79;
+            bs.SendRPC(createExplosionRPC, sender.Id);
+            sender.SendClientMessage("Creating RPC Explosion!");
         }
 
         void OnIncomingRPC(PacketRPCEventArgs e)

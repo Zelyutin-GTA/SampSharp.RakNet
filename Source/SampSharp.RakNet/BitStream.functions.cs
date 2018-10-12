@@ -17,7 +17,7 @@ namespace SampSharp.RakNet
                 STRING,
                 BITS
             }
-            private object[] PrepareParams(int bs, params object[] arguments)
+            private object[] PrepareParams(int bs, bool returning, params object[] arguments)
             {
                 const int nonArgumentsCount = 1; // int bs
                 var nativeParamsTypes = new Type[nonArgumentsCount + arguments.Length];
@@ -51,15 +51,24 @@ namespace SampSharp.RakNet
                     }
                     for (int j = 1; j <= followingParamsCount; j++)
                     {
-                        nativeParamsTypes[nonArgumentsCount + i + j] = types[j-1].MakeByRefType();
-                        nativeParams[nonArgumentsCount + i + j] = Activator.CreateInstance(types[j-1]);
-
+                        nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1].MakeByRefType();
+                        if (returning)
+                        {
+                            nativeParams[nonArgumentsCount + i + j] = Activator.CreateInstance(types[j - 1]);
+                        }
+                        else
+                        {
+                            nativeParams[nonArgumentsCount + i + j] = arguments[i + j];
+                        }
                     }
-                    if (!typeof(string).IsAssignableFrom(arguments[i + 1].GetType()))
+                    if (returning)
                     {
-                        throw new RakNetException($"Param [index:{i + 1}] is not a string representing label name");
+                        if (!typeof(string).IsAssignableFrom(arguments[i + 1].GetType()))
+                        {
+                            throw new RakNetException($"Param [index:{i + 1}] is not a string representing label name");
+                        }
+                        returningParamsIndexes.Add((string)arguments[i + 1], nonArgumentsCount + i + 1);
                     }
-                    returningParamsIndexes.Add((string)arguments[i + 1], nonArgumentsCount + i + 1);
                     i += followingParamsCount + 1;
                 }
                 return new object[3] { nativeParamsTypes, nativeParams, returningParamsIndexes};

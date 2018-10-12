@@ -32,16 +32,14 @@ namespace SampSharp.RakNet
                 throw new NativeNotImplementedException();
             }
 
-            //TODO: implement wrapper
             [NativeMethod]
-            public virtual int BS_RPC(int bs, int playerid, int rpcid, int priority = (int)PacketPriority.HIGH_PRIORITY, int reliability = (int)PacketReliability.RELIABLE_ORDERED)
+            public virtual int BS_RPC(int bs, int playerid, int rpcid, int priority, int reliability)
             {
                 throw new NativeNotImplementedException();
             }
 
-            //TODO: implement wrapper
             [NativeMethod]
-            public virtual int BS_Send(int bs, int playerid, int priority = (int)PacketPriority.HIGH_PRIORITY, int reliability = (int)PacketReliability.RELIABLE_ORDERED)
+            public virtual int BS_Send(int bs, int playerid, int priority, int reliability)
             {
                 throw new NativeNotImplementedException();
             }
@@ -125,17 +123,26 @@ namespace SampSharp.RakNet
             #region Floating params number Natives
             public virtual void BS_WriteValue(int bs, params object[] arguments)
             {
-                var loader = RakNet.Client.NativeLoader.Load("BS_WriteValue", null);
-                //var callRemoteFunction = this.Client.NativeLoader.Load("CallRemoteFunction", null, new[] { typeof(string), typeof(int) });
+                var @params = PrepareParams(bs, false, arguments);
+                var nativeParamsTypes = (Type[])@params[0];
+                var nativeParams = (object[])@params[1];
 
-                //callRemoteFunction.Invoke("SomethingInPawn" 42);
-                //native BS_WriteValue(BitStream:bs, { PR_ValueType, Float, _}:...);
-                //native BS_ReadValue(BitStream:bs, { PR_ValueType, Float, _}:...);
+                var loader = RakNet.Client.NativeLoader;
+                var NativeRead = loader.Load("BS_WriteValue", null, nativeParamsTypes);
+
+                var result = NativeRead.Invoke(nativeParams);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("WriteValue result: "+result);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
             }
             public virtual Dictionary<string, object> BS_ReadValue(int bs, params object[] arguments)
             {
 
-                var @params = PrepareParams(bs, arguments);
+                var @params = PrepareParams(bs, true, arguments);
                 var nativeParamsTypes = (Type[])@params[0];
                 var nativeParams = (object[])@params[1];
                 var returningParamsIndexes = (Dictionary<string, int>)@params[2];

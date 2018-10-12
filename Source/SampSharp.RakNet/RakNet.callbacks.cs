@@ -39,7 +39,7 @@ namespace SampSharp.RakNet
         {
             IncomingPacket?.Invoke(this, new PacketRPCEventArgs(packetid, playerid, bs));
             Console.WriteLine($"[S#] Hooking Incoming Packet {playerid}, {packetid}, {bs}");
-            BlockPacket();
+            //BlockPacket();
         }
         [Callback]
         internal void OnOutcomingPacket(int playerid, int packetid, int bs)
