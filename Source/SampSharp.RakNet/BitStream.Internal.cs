@@ -132,25 +132,24 @@ namespace SampSharp.RakNet
                 //native BS_WriteValue(BitStream:bs, { PR_ValueType, Float, _}:...);
                 //native BS_ReadValue(BitStream:bs, { PR_ValueType, Float, _}:...);
             }
-            public virtual object[] BS_ReadValue(int bs, params object[] arguments)
+            public virtual Dictionary<string, object> BS_ReadValue(int bs, params object[] arguments)
             {
 
                 var @params = PrepareParams(bs, arguments);
                 var nativeParamsTypes = (Type[])@params[0];
                 var nativeParams = (object[])@params[1];
-                var returningParamsIndexes = (List<int>)@params[2];
+                var returningParamsIndexes = (Dictionary<string, int>)@params[2];
                 
 
                 var loader = RakNet.Client.NativeLoader;
                 var NativeRead = loader.Load("BS_ReadValue", null, nativeParamsTypes);
 
                 NativeRead.Invoke(nativeParams);
-                var returningParams = new object[returningParamsIndexes.Count];
-                int i = 0;
-                foreach (int index in returningParamsIndexes)
+                var returningParams = new Dictionary<string, object>();
+
+                foreach (KeyValuePair<string, int> keyValue in returningParamsIndexes)
                 {
-                    returningParams[i] = nativeParams[index];
-                    i++;
+                    returningParams.Add(keyValue.Key, nativeParams[keyValue.Value]);
                 }
 
                 return returningParams;

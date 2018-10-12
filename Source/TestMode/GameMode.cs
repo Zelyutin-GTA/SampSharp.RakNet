@@ -37,15 +37,14 @@ namespace TestMode
                 var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
-                    float _x = (float)args.Result[0];
-                    float _y = (float)args.Result[1];
-                    float _z = (float)args.Result[2];
+                    float x = (float)args.Result["x"];
+                    float y = (float)args.Result["y"];
+                    float z = (float)args.Result["z"];
 
-                    Console.WriteLine($"Map Clicked {_x};{_y};{_z};");
+                    Console.WriteLine($"Map Clicked X: {x}; Y: {y}; Z: {z};");
                 };
-                float x = 0.0f, y = 0.0f, z = 0.0f;
                 
-                BS.ReadValue(ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z);
+                BS.ReadValue(ParamType.FLOAT, "x", ParamType.FLOAT, "y", ParamType.FLOAT, "z");
             }
         }
         #endregion

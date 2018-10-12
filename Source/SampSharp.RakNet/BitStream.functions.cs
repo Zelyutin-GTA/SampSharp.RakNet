@@ -22,7 +22,7 @@ namespace SampSharp.RakNet
                 const int nonArgumentsCount = 1; // int bs
                 var nativeParamsTypes = new Type[nonArgumentsCount + arguments.Length];
                 var nativeParams = new object[nonArgumentsCount + arguments.Length];
-                var returningParamsIndexes = new List<int>();
+                var returningParamsIndexes = new Dictionary<string, int>();
                 nativeParamsTypes[0] = typeof(int);
                 nativeParams[0] = bs;
 
@@ -52,9 +52,14 @@ namespace SampSharp.RakNet
                     for (int j = 1; j <= followingParamsCount; j++)
                     {
                         nativeParamsTypes[nonArgumentsCount + i + j] = types[j-1].MakeByRefType();
-                        nativeParams[nonArgumentsCount + i + j] = arguments[i + j];
+                        nativeParams[nonArgumentsCount + i + j] = Activator.CreateInstance(types[j-1]);
+
                     }
-                    returningParamsIndexes.Add(nonArgumentsCount + i + 1);
+                    if (!typeof(string).IsAssignableFrom(arguments[i + 1].GetType()))
+                    {
+                        throw new RakNetException($"Param [index:{i + 1}] is not a string representing label name");
+                    }
+                    returningParamsIndexes.Add((string)arguments[i + 1], nonArgumentsCount + i + 1);
                     i += followingParamsCount + 1;
                 }
                 return new object[3] { nativeParamsTypes, nativeParams, returningParamsIndexes};
