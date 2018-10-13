@@ -170,7 +170,6 @@ namespace SampSharp.RakNet
                 {
                     Console.WriteLine(t);
                 }
-                NativeRead.Invoke(nativeParams);
                 var returningParams = new Dictionary<string, object>();
                 foreach (KeyValuePair<string, int> keyValue in returningParamsIndexes)
                 {
