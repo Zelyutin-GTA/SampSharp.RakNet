@@ -153,7 +153,7 @@ namespace SampSharp.RakNet
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine("WriteValue result: "+result);
+                Console.WriteLine("WriteValue result: " + result);
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine();
@@ -166,7 +166,7 @@ namespace SampSharp.RakNet
                 var nativeParams = (object[])@params[1];
                 var nativeParamsSizes = (uint[])@params[2];
                 var returningParamsIndexes = (Dictionary<string, int>)@params[3];
-                
+
 
                 var loader = RakNet.Client.NativeLoader;
                 var NativeRead = loader.Load("BS_ReadValue", nativeParamsSizes, nativeParamsTypes);
@@ -206,8 +206,8 @@ namespace SampSharp.RakNet
             #endregion
 
             #endregion
-            [NativeMethod(Function = "BS_WriteValue")]
-            public virtual int Test_WriteValue(int bs, int playerIDType, int playerID, int nameLenType, int nameLen, int nameType, string name)
+            [NativeMethod(4, Function = "BS_WriteValue")]
+            public virtual int Test_WriteValue(int bs, ref int playerIDType, ref int playerID, ref int nameLenType, ref int nameLen, ref int nameType, ref string name)
             {
                 throw new NativeNotImplementedException();
             }

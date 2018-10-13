@@ -67,8 +67,8 @@ namespace TestMode
 
             BS.TestWriteValue(ParamType.UINT16, sender.Id, ParamType.UINT8, name.Length, ParamType.STRING, name);
 
-            //BS.SendRPC(11, sender.Id);
-            //Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
+            BS.SendRPC(11, sender.Id);
+            Console.WriteLine($"Nickname changed. ID: {sender.Id}, Nickname: {name}; Len: {name.Length}");
             sender.SendClientMessage("Name changed with a native!");
         }
         [Command("explode")]

@@ -98,7 +98,13 @@ namespace SampSharp.RakNet
         }
         public void TestWriteValue(ParamType playerIDType, int playerID, ParamType nameLenType, int nameLen, ParamType nameType, string name)
         {
-            Internal.Test_WriteValue(this.ID, (int) playerIDType, playerID, (int) nameLenType, nameLen, (int) nameType, name);
+            var int_playerIDType = (int)playerIDType;
+            var int_nameLenType = (int)nameLenType;
+            var int_nameType = (int)nameType;
+            Console.WriteLine("Len: "+nameLen);
+
+
+            Internal.Test_WriteValue(this.ID, ref int_playerIDType, ref playerID, ref int_nameLenType, ref nameLen, ref int_nameType, ref name);
         }
         public void ReadValue(params object[] arguments)
         {
