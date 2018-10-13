@@ -67,3 +67,24 @@ public BlockNextPacket()
 	blockNextPacket = true;
 	printf("[Pawn] Blocking Next Packet");
 }
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+    if(!strcmp(cmdtext, "/changenamepawnrpc", true))
+    {
+        new BitStream:bs = BS_New();
+
+        new name[MAX_PLAYER_NAME] = "Change_Pawn";
+	    BS_WriteValue(
+	        bs,
+	        PR_UINT16, playerid,
+	        PR_UINT8, strlen(name), // Size should be exactly the same
+	        PR_STRING, name
+	    );
+
+	    BS_RPC(bs, playerid, 11);
+
+	    //BS_Delete(bs);
+        return 1;
+    }
+    return 0;
+}

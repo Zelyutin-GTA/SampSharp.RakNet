@@ -24,10 +24,29 @@ namespace TestMode
         protected override void OnInitialized(EventArgs e)
         {
             var raknet = Services.GetService<IRakNet>();
-            raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
+            //raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
+            raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
             base.OnInitialized(e);
         }
 
+        [Command("changename")]
+        public static void ChangeNameCommand(BasePlayer sender)
+        {
+            sender.Name = "Changed_Nickname";
+            sender.SendClientMessage("Name changed!");
+        }
+        [Command("changenamerpc")]
+        public static void ChangeNameRPCCommand(BasePlayer sender)
+        {
+            var BS = BitStream.New();
+            var name = "Changed_Nickname";
+
+            BS.WriteValue(ParamType.UINT16, sender.Id, ParamType.UINT8, name.Length, ParamType.STRING, name);
+
+            BS.SendRPC(11, sender.Id);
+            //Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
+            sender.SendClientMessage("Name changed!");
+        }
         [Command("explode")]
         public static void ExplodeCommand(BasePlayer sender)
         {
@@ -88,6 +107,28 @@ namespace TestMode
                     ParamType.UINT8, "clientVersionLen",
                     ParamType.STRING, "clientVersion"
                 );
+            }
+        }
+
+        void OnOutcomingRPC(PacketRPCEventArgs e)
+        {
+            var bs = e.BitStreamID;
+            var rpcid = e.ID;
+            var playerID = e.PlayerID;
+
+            if (rpcid == 11)
+            {
+                var BS = new BitStream(bs);
+                BS.ReadCompleted += (sender, args) =>
+                {
+                    var ID = (int)args.Result["playerID"];
+                    var nicknameLen = (int)args.Result["nickname"];
+                    var nickname = (string)args.Result["nicknameLen"];
+
+                    Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
+                };
+
+                BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");
             }
         }
         #endregion
