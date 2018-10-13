@@ -23,6 +23,7 @@ namespace SampSharp.RakNet
                 var nativeParamsTypes = new Type[nonArgumentsCount + arguments.Length];
                 var nativeParams = new object[nonArgumentsCount + arguments.Length];
                 var returningParamsIndexes = new Dictionary<string, int>();
+                var nativeParamsSizes = new List<int>();
                 nativeParamsTypes[0] = typeof(int);
                 nativeParams[0] = bs;
 
@@ -54,12 +55,34 @@ namespace SampSharp.RakNet
                         nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1].MakeByRefType();
                         if (returning)
                         {
-                            nativeParams[nonArgumentsCount + i + j] = Activator.CreateInstance(types[j - 1]);
+                            if (types[j - 1] == typeof(string))
+                            {
+                                nativeParams[nonArgumentsCount + i + j] = new String("");
+                            }
+                            //For testing sizes
+                            else if (types[j - 1] == typeof(int))
+                            {
+                                nativeParams[nonArgumentsCount + i + j] = 32;
+                            }
+                            else
+                            {
+                                nativeParams[nonArgumentsCount + i + j] = Activator.CreateInstance(types[j - 1]);
+                            }
                         }
                         else
                         {
                             nativeParams[nonArgumentsCount + i + j] = arguments[i + j];
                         }
+                    }
+                    if (paramTypeGroup == ParamTypeGroup.STRING)
+                    {
+                        int lengthSpecifierParamTypeIndex = i - 2;
+                        int lengthSpecifierIndex = i - 1;
+                        if (lengthSpecifierParamTypeIndex < 0 || !typeof(ParamType).IsAssignableFrom(arguments[lengthSpecifierParamTypeIndex].GetType()) || GetParamTypeGroup((ParamType)arguments[lengthSpecifierParamTypeIndex]) != ParamTypeGroup.INT)
+                        {
+                            throw new RakNetException($"String param [index:{i}] doesn't have prior length specifying");
+                        }
+                        nativeParamsSizes.Add((int)nonArgumentsCount + lengthSpecifierIndex);
                     }
                     if (returning)
                     {
@@ -71,7 +94,7 @@ namespace SampSharp.RakNet
                     }
                     i += followingParamsCount + 1;
                 }
-                return new object[3] { nativeParamsTypes, nativeParams, returningParamsIndexes};
+                return new object[4] { nativeParamsTypes, nativeParams, nativeParamsSizes.ToArray(), returningParamsIndexes };
             }
             private ParamTypeGroup GetParamTypeGroup(ParamType param)
             {

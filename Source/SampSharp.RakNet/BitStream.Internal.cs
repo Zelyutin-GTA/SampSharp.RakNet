@@ -145,11 +145,12 @@ namespace SampSharp.RakNet
                 var @params = PrepareParams(bs, true, arguments);
                 var nativeParamsTypes = (Type[])@params[0];
                 var nativeParams = (object[])@params[1];
-                var returningParamsIndexes = (Dictionary<string, int>)@params[2];
+                var nativeParamsSizes = (uint[])@params[2];
+                var returningParamsIndexes = (Dictionary<string, int>)@params[3];
                 
 
                 var loader = RakNet.Client.NativeLoader;
-                var NativeRead = loader.Load("BS_ReadValue", null, nativeParamsTypes);
+                var NativeRead = loader.Load("BS_ReadValue", nativeParamsSizes, nativeParamsTypes);
 
                 NativeRead.Invoke(nativeParams);
                 var returningParams = new Dictionary<string, object>();

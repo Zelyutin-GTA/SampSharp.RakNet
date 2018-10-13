@@ -65,6 +65,30 @@ namespace TestMode
                 
                 BS.ReadValue(ParamType.FLOAT, "x", ParamType.FLOAT, "y", ParamType.FLOAT, "z");
             }
+            if (rpcid == 25)
+            {
+                var BS = new BitStream(bs);
+                BS.ReadCompleted += (sender, args) =>
+                {
+                    var nickname = (string) args.Result["nickname"];
+                    var clientVersion = (string)args.Result["clientVersion"];
+                    var authKey = (string)args.Result["authKey"];
+
+                    Console.WriteLine($"Client joined. Version: {clientVersion}; Auth Key: {authKey}; Nickname: {nickname};");
+                };
+
+                BS.ReadValue(
+                    ParamType.INT32, "version",
+                    ParamType.UINT8, "mod",
+                    ParamType.UINT8, "nicknameLen",
+                    ParamType.STRING, "nickname",
+                    ParamType.UINT32, "challengeResponse",
+                    ParamType.UINT8, "authKeyLen",
+                    ParamType.STRING, "authKey",
+                    ParamType.UINT8, "clientVersionLen",
+                    ParamType.STRING, "clientVersion"
+                );
+            }
         }
         #endregion
     }
