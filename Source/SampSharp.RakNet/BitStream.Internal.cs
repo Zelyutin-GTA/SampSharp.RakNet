@@ -129,7 +129,7 @@ namespace SampSharp.RakNet
                 var nativeParamsSizes = (uint[])@params[2];
 
                 var loader = RakNet.Client.NativeLoader;
-                var NativeRead = loader.Load("BS_WriteValue", null, nativeParamsTypes);
+                var NativeRead = loader.Load("BS_WriteValue", nativeParamsSizes, nativeParamsTypes);
 
                 Console.WriteLine("ParamTypes:");
                 Console.WriteLine($"Length: {nativeParamsTypes.Length}");

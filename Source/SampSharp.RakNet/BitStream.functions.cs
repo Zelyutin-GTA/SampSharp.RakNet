@@ -52,7 +52,7 @@ namespace SampSharp.RakNet
                     }
                     for (int j = 1; j <= followingParamsCount; j++)
                     {
-                        nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1];
+                        nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1].MakeByRefType();
                         if (returning)
                         {
                             if (types[j - 1] == typeof(string))
