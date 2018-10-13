@@ -37,7 +37,7 @@ namespace SampSharp.RakNet
                     }
 
                     //Adding ParamType to native parameters
-                    nativeParamsTypes[nonArgumentsCount + i] = typeof(int); // Should be reference to take in values
+                    nativeParamsTypes[nonArgumentsCount + i] = typeof(int).MakeByRefType(); // Should be reference to take in values
                     nativeParams[nonArgumentsCount + i] = (int)argument;
 
                     var paramTypeGroup = GetParamTypeGroup((ParamType)argument);

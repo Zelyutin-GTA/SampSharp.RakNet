@@ -28,7 +28,7 @@ namespace TestMode
             raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
             base.OnInitialized(e);
         }
-
+        #endregion
         [Command("changename")]
         public static void ChangeNameCommand(BasePlayer sender)
         {
@@ -46,6 +46,17 @@ namespace TestMode
             BS.SendRPC(11, sender.Id);
             //Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
             sender.SendClientMessage("Name changed!");
+        }
+        [Command("setpos")]
+        public static void SetPosCommand(BasePlayer sender, float x, float y, float z)
+        {
+            var BS = BitStream.New();
+
+            BS.WriteValue(ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z);
+
+            int setPosRPC = 12;
+            BS.SendRPC(setPosRPC, sender.Id);
+            sender.SendClientMessage("Set position!");
         }
         [Command("explode")]
         public static void ExplodeCommand(BasePlayer sender)
@@ -131,6 +142,5 @@ namespace TestMode
                 BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");
             }
         }
-        #endregion
     }
 }
