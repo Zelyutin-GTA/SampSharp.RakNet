@@ -53,9 +53,9 @@ namespace SampSharp.RakNet
                     for (int j = 1; j <= followingParamsCount; j++)
                     {
                         if (types[j - 1] == typeof(string))
-                            nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1].MakeByRefType();
-                        else
                             nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1];
+                        else
+                            nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1].MakeByRefType();
                         if (returning)
                         {
                             if (types[j - 1] == typeof(string))
