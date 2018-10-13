@@ -129,7 +129,7 @@ namespace SampSharp.RakNet
                 var nativeParamsSizes = (uint[])@params[2];
 
                 var loader = RakNet.Client.NativeLoader;
-                var NativeRead = loader.Load("BS_WriteValue", nativeParamsSizes, nativeParamsTypes);
+                var NativeRead = loader.Load("BS_WriteValue", null, nativeParamsTypes);
 
                 Console.WriteLine("ParamTypes:");
                 Console.WriteLine($"Length: {nativeParamsTypes.Length}");
@@ -206,7 +206,11 @@ namespace SampSharp.RakNet
             #endregion
 
             #endregion
-
+            [NativeMethod(Function = "BS_WriteValue")]
+            public virtual int Test_WriteValue(int bs, int playerIDType, int playerID, int nameLenType, int nameLen, int nameType, string name)
+            {
+                throw new NativeNotImplementedException();
+            }
 
             // Raknet Natives:
             /*

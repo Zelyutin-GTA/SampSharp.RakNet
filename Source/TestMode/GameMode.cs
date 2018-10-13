@@ -58,6 +58,19 @@ namespace TestMode
             BS.SendRPC(setPosRPC, sender.Id);
             sender.SendClientMessage("Set position!");
         }
+
+        [Command("changenamenative")]
+        public static void ChangeNameNativeCommand(BasePlayer sender)
+        {
+            var BS = BitStream.New();
+            var name = "Changed_Nickname";
+
+            BS.TestWriteValue(ParamType.UINT16, sender.Id, ParamType.UINT8, name.Length, ParamType.STRING, name);
+
+            //BS.SendRPC(11, sender.Id);
+            //Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
+            sender.SendClientMessage("Name changed with a native!");
+        }
         [Command("explode")]
         public static void ExplodeCommand(BasePlayer sender)
         {

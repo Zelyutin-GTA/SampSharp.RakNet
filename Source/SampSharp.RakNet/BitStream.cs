@@ -96,6 +96,10 @@ namespace SampSharp.RakNet
         {
             Internal.BS_WriteValue(this.ID, arguments);
         }
+        public void TestWriteValue(ParamType playerIDType, int playerID, ParamType nameLenType, int nameLen, ParamType nameType, string name)
+        {
+            Internal.Test_WriteValue(this.ID, (int) playerIDType, playerID, (int) nameLenType, nameLen, (int) nameType, name);
+        }
         public void ReadValue(params object[] arguments)
         {
             var values = Internal.BS_ReadValue(this.ID, arguments);
