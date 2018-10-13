@@ -153,11 +153,34 @@ namespace SampSharp.RakNet
                 var NativeRead = loader.Load("BS_ReadValue", nativeParamsSizes, nativeParamsTypes);
 
                 NativeRead.Invoke(nativeParams);
+                Console.WriteLine("ParamTypes:");
+                Console.WriteLine($"Length: {nativeParamsTypes.Length}");
+                foreach (var t in nativeParamsTypes)
+                {
+                    Console.WriteLine(t);
+                }
+                Console.WriteLine("Params:");
+                Console.WriteLine($"Length: {nativeParams.Length}");
+                foreach (var t in nativeParams)
+                {
+                    Console.WriteLine(t);
+                }
+                Console.WriteLine("Params sizes:");
+                foreach (var t in nativeParamsSizes)
+                {
+                    Console.WriteLine(t);
+                }
+                NativeRead.Invoke(nativeParams);
                 var returningParams = new Dictionary<string, object>();
-
                 foreach (KeyValuePair<string, int> keyValue in returningParamsIndexes)
                 {
                     returningParams.Add(keyValue.Key, nativeParams[keyValue.Value]);
+                }
+                Console.WriteLine("Returning Params:");
+                Console.WriteLine("Returning Params sizes:");
+                foreach (var t in returningParams)
+                {
+                    Console.WriteLine(t);
                 }
 
                 return returningParams;
