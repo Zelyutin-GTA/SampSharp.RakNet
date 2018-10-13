@@ -116,7 +116,7 @@ namespace SampSharp.RakNet
         public void SendRPC(int rpcID, int playerID, PacketPriority priority = PacketPriority.HIGH_PRIORITY, PacketReliability reliability = PacketReliability.RELIABLE_ORDERED)
         {
             var result = Internal.BS_RPC(this.ID, playerID, rpcID, (int)priority, (int)reliability);
-            Console.WriteLine(result);
+            Console.WriteLine("Send RPC Result: "+result);
         }
 
         public void Dispose()
