@@ -157,6 +157,7 @@ namespace TestMode
 
             if (rpcid == 11)
             {
+                //return;
                 /*var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
@@ -188,6 +189,7 @@ namespace TestMode
                 {
                     Console.WriteLine(values[i]);
                 }
+                //nicknameLen = (int)values[4];
 
 
                 types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int) };
@@ -202,6 +204,8 @@ namespace TestMode
                 {
                     Console.WriteLine(values[i]);
                 }
+
+                nickname = (string)values[2];
                 Console.WriteLine("Read nickname: "+nickname);
             }
         }
