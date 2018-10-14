@@ -169,11 +169,14 @@ namespace TestMode
 
                 BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");*/
 
+                var type_ID = (int)ParamType.UINT16;
+                var type_nickname = (int)ParamType.UINT8;
+                var type_nicknameLen = (int)ParamType.STRING;
                 var ID = playerID;
                 var nickname = "";
                 var nicknameLen = nickname.Length + 1;
                 var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType(), typeof(string) };
-                var values = new object[7] { bs, (int)ParamType.UINT16, ID, (int)ParamType.UINT8, nicknameLen, (int)ParamType.STRING, nickname};
+                var values = new object[7] { bs, type_ID, ID, type_nicknameLen, nicknameLen, type_nickname, nickname};
                 var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 4 }, types);
                 Read.Invoke(values);
 
