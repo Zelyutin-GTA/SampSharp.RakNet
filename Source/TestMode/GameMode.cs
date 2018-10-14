@@ -171,7 +171,7 @@ namespace TestMode
 
                 var ID = playerID;
                 var nickname = "";
-                var nicknameLen = nickname.Length;
+                var nicknameLen = nickname.Length + 1;
                 var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(string).MakeByRefType() };
                 var values = new object[7] { bs, (int)ParamType.UINT16, ID, (int)ParamType.UINT8, nicknameLen, (int)ParamType.STRING, nickname};
                 var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 4 }, types);
