@@ -38,7 +38,7 @@ namespace TestMode
 
             BS.SendRPC(11, sender.Id);
             //Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
-            sender.SendClientMessage("Name changed!");
+            sender.SendClientMessage("Changing name with RPC!");
         }
         [Command("setpos")]
         public static void SetPosCommand(BasePlayer sender, float x, float y, float z)
@@ -49,7 +49,7 @@ namespace TestMode
 
             int setPosRPC = 12;
             BS.SendRPC(setPosRPC, sender.Id);
-            sender.SendClientMessage("Set position!");
+            sender.SendClientMessage("Setting position with RPC!");
         }
 
         [Command("explode")]
@@ -66,8 +66,62 @@ namespace TestMode
 
             int createExplosionRPC = 79;
             bs.SendRPC(createExplosionRPC, sender.Id);
-            sender.SendClientMessage("Creating RPC Explosion!");
+            sender.SendClientMessage("Creating Explosion with RPC!");
         }
+
+        [Command("join")]
+        public static void JoinCommand(BasePlayer sender)
+        {
+            var bs = BitStream.New();
+            int playerID = 228;
+            string name = "Daniele_Stradivari";
+            bs.WriteValue(ParamType.UINT16, playerID, ParamType.INT32, 0, ParamType.UINT8, 0, ParamType.UINT8, name.Length, ParamType.STRING, name);
+
+            int serverJoin = 137;
+            bs.SendRPC(serverJoin, sender.Id);
+
+            bs = BitStream.New();
+            playerID = 322;
+            name = "Matteo_Machiavelli";
+            bs.WriteValue(ParamType.UINT16, playerID, ParamType.INT32, 0, ParamType.UINT8, 0, ParamType.UINT8, name.Length, ParamType.STRING, name);
+
+            bs.SendRPC(serverJoin, sender.Id);
+            sender.SendClientMessage("Creating Joining with RPC!");
+        }
+        [Command("player")]
+        public static void PlayerCommand(BasePlayer sender)
+        {
+            var bs = BitStream.New();
+            int playerID = 228;
+            int team = sender.Team;
+            int skin = 228;
+            float x = sender.Position.X;
+            float y = sender.Position.Y;
+            float z = sender.Position.Z;
+            float angle = 0;
+            int color = Color.Aqua;
+            int fight = 0;
+            bs.WriteValue(ParamType.UINT16, playerID, ParamType.UINT8, team, ParamType.UINT32, skin, ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z, ParamType.FLOAT, angle, ParamType.UINT32, color, ParamType.UINT8, fight);
+
+            int worldPlayerAdd = 32;
+            bs.SendRPC(worldPlayerAdd, sender.Id);
+
+            bs = BitStream.New();
+            playerID = 322;
+            team = sender.Team;
+            skin = 228;
+            x = sender.Position.X;
+            y = sender.Position.Y;
+            z = sender.Position.Z;
+            angle = 0;
+            color = Color.Aqua;
+            fight = 0;
+            bs.WriteValue(ParamType.UINT16, playerID, ParamType.UINT8, team, ParamType.UINT32, skin, ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z, ParamType.FLOAT, angle, ParamType.UINT32, color, ParamType.UINT8, fight);
+
+            bs.SendRPC(worldPlayerAdd, sender.Id);
+            sender.SendClientMessage("Creating RPC Player!");
+        }
+
 
         void OnIncomingRPC(PacketRPCEventArgs e)
         {
