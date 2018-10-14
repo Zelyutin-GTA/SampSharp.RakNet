@@ -29,8 +29,16 @@ namespace TestMode
             base.OnInitialized(e);
         }
         #endregion
+
+        #region Test Commands
+        [Command("setnamenonrpc")]
+        public static void SetNameNonRPCCommand(BasePlayer sender, string name)
+        {
+            sender.Name = name;
+            sender.SendClientMessage("Changing name without RPC!");
+        }
         [Command("setname")]
-        public static void ChangeNameCommand(BasePlayer sender, string name)
+        public static void SetNameCommand(BasePlayer sender, string name)
         {
             var BS = BitStream.New();
 
@@ -162,5 +170,6 @@ namespace TestMode
                 BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");
             }
         }
+        #endregion
     }
 }
