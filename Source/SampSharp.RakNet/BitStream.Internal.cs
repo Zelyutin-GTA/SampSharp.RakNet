@@ -206,11 +206,6 @@ namespace SampSharp.RakNet
             #endregion
 
             #endregion
-            [NativeMethod(4, Function = "BS_WriteValue")]
-            public virtual int Test_WriteValue(int bs, ref int playerIDType, ref int playerID, ref int nameLenType, ref int nameLen, ref int nameType, ref string name)
-            {
-                throw new NativeNotImplementedException();
-            }
 
             // Raknet Natives:
             /*

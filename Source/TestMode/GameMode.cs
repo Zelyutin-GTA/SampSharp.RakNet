@@ -29,17 +29,10 @@ namespace TestMode
             base.OnInitialized(e);
         }
         #endregion
-        [Command("changename")]
-        public static void ChangeNameCommand(BasePlayer sender)
-        {
-            sender.Name = "Changed_Nickname";
-            sender.SendClientMessage("Name changed!");
-        }
-        [Command("changenamerpc")]
-        public static void ChangeNameRPCCommand(BasePlayer sender)
+        [Command("setname")]
+        public static void ChangeNameCommand(BasePlayer sender, string name)
         {
             var BS = BitStream.New();
-            var name = "Changed_Nickname";
 
             BS.WriteValue(ParamType.UINT16, sender.Id, ParamType.UINT8, name.Length, ParamType.STRING, name);
 
@@ -59,18 +52,6 @@ namespace TestMode
             sender.SendClientMessage("Set position!");
         }
 
-        [Command("changenamenative")]
-        public static void ChangeNameNativeCommand(BasePlayer sender)
-        {
-            var BS = BitStream.New();
-            var name = "Changed_Nickname";
-
-            BS.TestWriteValue(ParamType.UINT16, sender.Id, ParamType.UINT8, name.Length, ParamType.STRING, name);
-
-            BS.SendRPC(11, sender.Id);
-            Console.WriteLine($"Nickname changed. ID: {sender.Id}, Nickname: {name}; Len: {name.Length}");
-            sender.SendClientMessage("Name changed with a native!");
-        }
         [Command("explode")]
         public static void ExplodeCommand(BasePlayer sender)
         {
