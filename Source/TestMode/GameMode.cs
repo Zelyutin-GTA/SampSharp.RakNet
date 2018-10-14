@@ -179,8 +179,12 @@ namespace TestMode
                 var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType() };
                 var values = new object[7] { bs, type_ID, ID, type_nicknameLen, nicknameLen, type_nickname, nickname};
                 var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 4 }, types);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    Console.WriteLine(values[i]);
+                }
                 Read.Invoke(values);
-                
+
                 Console.WriteLine("Read nickname: "+nickname);
             }
         }
