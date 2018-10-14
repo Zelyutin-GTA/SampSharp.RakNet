@@ -29,7 +29,11 @@ public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
     	new len = MAX_PLAYER_NAME;
     	new name[MAX_PLAYER_NAME] = "";
 
-    	BS_ReadValue(bs, PR_UINT16, pID, PR_UINT8, len, PR_STRING, name, len);
+    	BS_ReadValue(bs, PR_UINT16, pID, PR_UINT8, len);
+		
+		printf("Pawn read nickname: PlayerID: %d; Length: %d;", pID, len);
+
+    	BS_ReadValue(bs, PR_STRING, name, len);
 
         printf("Pawn read nickname: PlayerID: %d; Length: %d; Name: %s;", pID, len, name);
     }
