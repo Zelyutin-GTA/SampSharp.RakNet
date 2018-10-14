@@ -174,35 +174,20 @@ namespace TestMode
                 var type_nickname = (int)ParamType.STRING;
                 var type_nicknameLen = (int)ParamType.UINT8;
                 
-                var ID = 999;
-                var nickname = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
-                var nicknameLen = 32;
+                var ID = 0;
+                var nickname = "";
+                var nicknameLen = 0;
+
                 var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType()};
                 var values = new object[] { bs, type_ID, ID, type_nicknameLen, nicknameLen};
                 var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", null, types);
-                for (int i = 0; i < values.Length; i++)
-                {
-                    Console.WriteLine(values[i]);
-                }
                 Read.Invoke(values);
-                for (int i = 0; i < values.Length; i++)
-                {
-                    Console.WriteLine(values[i]);
-                }
                 nicknameLen = (int)values[4]+1;
 
                 types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int).MakeByRefType() };
                 values = new object[] { bs, type_nickname, nickname, nicknameLen };
                 Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
-                for (int i = 0; i < values.Length; i++)
-                {
-                    Console.WriteLine(values[i]);
-                }
                 Read.Invoke(values);
-                for (int i = 0; i < values.Length; i++)
-                {
-                    Console.WriteLine(values[i]);
-                }
 
                 nickname = (string)values[2];
                 Console.WriteLine($"Read nickname: {nickname};");
