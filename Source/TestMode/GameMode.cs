@@ -157,7 +157,6 @@ namespace TestMode
 
             if (rpcid == 11)
             {
-                return;
                 /*var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
@@ -177,9 +176,23 @@ namespace TestMode
                 var ID = 999;
                 var nickname = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
                 var nicknameLen = 32;
-                var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(string).MakeByRefType() };
-                var values = new object[] { bs, type_ID, ID, type_nicknameLen, nicknameLen, type_nickname, nickname};
-                var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 4 }, types);
+                var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType()};
+                var values = new object[] { bs, type_ID, ID, type_nicknameLen, nicknameLen};
+                var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", null, types);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    Console.WriteLine(values[i]);
+                }
+                Read.Invoke(values);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    Console.WriteLine(values[i]);
+                }
+
+
+                types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int) };
+                values = new object[] { bs, type_nickname, nickname, nicknameLen };
+                Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", null, types);
                 for (int i = 0; i < values.Length; i++)
                 {
                     Console.WriteLine(values[i]);
