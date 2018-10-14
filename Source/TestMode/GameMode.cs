@@ -157,6 +157,7 @@ namespace TestMode
 
             if (rpcid == 11)
             {
+                return;
                 /*var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
@@ -173,7 +174,7 @@ namespace TestMode
                 var type_nickname = (int)ParamType.STRING;
                 var type_nicknameLen = (int)ParamType.UINT8;
                 
-                var ID = playerID;
+                var ID = 0;
                 var nickname = "";
                 var nicknameLen = 32;
                 var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType() };
