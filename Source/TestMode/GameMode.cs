@@ -189,10 +189,9 @@ namespace TestMode
                 {
                     Console.WriteLine(values[i]);
                 }
-                //nicknameLen = (int)values[4];
+                nicknameLen = (int)values[4]+1;
 
-
-                types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int) };
+                types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int).MakeByRefType() };
                 values = new object[] { bs, type_nickname, nickname, nicknameLen };
                 Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
                 for (int i = 0; i < values.Length; i++)
@@ -206,7 +205,7 @@ namespace TestMode
                 }
 
                 nickname = (string)values[2];
-                Console.WriteLine("Read nickname: "+nickname);
+                Console.WriteLine($"Read nickname: {nickname};");
             }
         }
         #endregion
