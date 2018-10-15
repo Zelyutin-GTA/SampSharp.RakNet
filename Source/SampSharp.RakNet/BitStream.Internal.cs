@@ -125,8 +125,8 @@ namespace SampSharp.RakNet
             public virtual void BS_WriteValue(int bs, params object[] arguments)
             {
                 var @params = PrepareParams(bs, false, arguments);
-                var nativeParamsTypes = (Type[])@params[0];
-                var nativeParams = (object[])@params[1];
+                var nativeParamsTypes = ((List<Type>)@params[0]).ToArray();
+                var nativeParams = ((List<object>)@params[1]).ToArray();
                 var nativeParamsSizes = (uint[])@params[2];
 
                 var loader = RakNet.Client.NativeLoader;

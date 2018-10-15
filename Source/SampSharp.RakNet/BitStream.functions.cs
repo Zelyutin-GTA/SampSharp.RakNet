@@ -172,7 +172,6 @@ namespace SampSharp.RakNet
             {
                 var loader = RakNet.Client.NativeLoader;
 
-                Console.WriteLine("PARAMS SIZES LENGTH: "+ nativeParamsSizes.Length);
                 if (extraParamSize != null)
                 {
                     var newNativeParamsSizes = new uint[1+ nativeParamsSizes.Length];
@@ -183,7 +182,6 @@ namespace SampSharp.RakNet
                     }
                     nativeParamsSizes = newNativeParamsSizes;
                 }
-                Console.WriteLine("PARAMS SIZES LENGTH: " + nativeParamsSizes.Length);
 
                 Console.WriteLine("ParamTypes:");
                 Console.WriteLine($"Length: {nativeParamsTypes.Length}");
