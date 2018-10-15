@@ -103,6 +103,13 @@ namespace TestMode
             sender.SendClientMessage("Creating Player with RPC!");
         }
 
+        [Command("setanimnonrpc")]
+        public static void SetAnimNonRPCCommand(BasePlayer sender, string animlib, string animname)
+        {
+            sender.ApplyAnimation(animlib, animname, 1.0f, true, false, false, false, 0);
+            sender.SendClientMessage("Applying animation without RPC!");
+        }
+
         void OnIncomingRPC(PacketRPCEventArgs e)
         {
             var bs = e.BitStreamID;
@@ -192,6 +199,32 @@ namespace TestMode
                 nickname = (string)values[2];
 
                 Console.WriteLine($"Read nickname: {nickname};"); */
+            }
+
+            if (rpcid == 86)
+            {
+                var BS = new BitStream(bs);
+                BS.ReadCompleted += (sender, args) =>
+                {
+                    var ID = (int)args.Result["playerID"];
+                    var AnimLib = (string)args.Result["AnimLib"];
+                    var AnimName = (string)args.Result["AnimName"];
+
+                    Console.WriteLine($"Animation applied. ID: {ID}; Anim Lib: {AnimLib}; Anim Name: {AnimName}");
+                };
+                BS.ReadValue(
+                ParamType.UINT16, "playerID",
+                ParamType.UINT8, "AnimLibLength",
+                ParamType.STRING, "AnimLib",
+                ParamType.UINT8, "AnimNameLength",
+                ParamType.STRING, "AnimName",
+                ParamType.FLOAT, "fDelta",
+                ParamType.BOOL, "loop",
+                ParamType.BOOL, "lockx",
+                ParamType.BOOL, "locky",
+                ParamType.BOOL, "freeze",
+                ParamType.UINT32, "dTime"
+                );
             }
         }
         #endregion
