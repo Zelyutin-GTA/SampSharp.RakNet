@@ -37,6 +37,25 @@ public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
 
         printf("Pawn read nickname: PlayerID: %d; Length: %d; Name: %s;", pID, len, name);
     }
+    if (rpcid == 86)
+    {
+    	new pID = 999;
+    	const len = 50;
+    	new animName[len] = "";
+    	new animLibName[len] = "";
+    	new animLibNameLen = 0;
+    	new animNameLen = 0;
+
+    	BS_ReadValue(bs, 
+    	PR_UINT16, pID,
+        PR_UINT8, animLibNameLen,
+        PR_STRING, animLibName, animLibNameLen,
+        PR_UINT8, animNameLen,
+        PR_STRING, animName, animNameLen
+        );
+		
+		printf("Pawn read anim: PlayerID: %d; Anim lib: %s; Anim name: %s;", pID, animLibName, animName);
+    }
 	if(blockNextRPC)
 	{
 		print("[Pawn] RPC blocked");
