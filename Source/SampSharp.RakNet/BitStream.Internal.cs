@@ -245,7 +245,7 @@ namespace SampSharp.RakNet
                     var partial_nativeParamsArray = partial_nativeParams.ToArray(); // Needed to get returned value
                     ExecuteReturningNative(partial_nativeParamsTypes.ToArray(), ref partial_nativeParamsArray, partial_nativeParamsSizes.ToArray(), partial_returningParamsIndexes, ref returningParams, processedParamSize);
 
-                    int stringLen = (int)partial_nativeParamsArray[curStringLengthIndex] + 1; // SampSharp.Core needs 1 symbol more
+                    int stringLen = (int)partial_nativeParamsArray[curStringLengthIndex];
 
                     
                     nativeParamsTypes.Insert(necessaryParamsCount + stringTypeAndContentParamsCount, typeof(int).MakeByRefType());
