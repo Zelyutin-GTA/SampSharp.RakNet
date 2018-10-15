@@ -203,7 +203,7 @@ namespace TestMode
 
             if (rpcid == 86)
             {
-                /*var BS = new BitStream(bs);
+                var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
                     var ID = (int)args.Result["playerID"];
@@ -224,9 +224,9 @@ namespace TestMode
                 ParamType.BOOL, "locky",
                 ParamType.BOOL, "freeze",
                 ParamType.UINT32, "dTime"
-                );*/
+                );
 
-                
+                /*
                 var type_ID = (int)ParamType.UINT16;
                 var type_animLibLen = (int)ParamType.UINT8;
                 var type_animLib = (int)ParamType.STRING;
@@ -311,6 +311,7 @@ namespace TestMode
                 animName = (string)values[2];
 
                 Console.WriteLine($"Read anim: LIB: {animLib}; NAME: {animName};");
+                */
             }
         }
         #endregion
