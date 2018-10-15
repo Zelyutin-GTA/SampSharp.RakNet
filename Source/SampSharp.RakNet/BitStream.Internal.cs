@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using SampSharp.Core.Natives.NativeObjects;
 using SampSharp.RakNet.Definitions;
+using System.Linq;
 
 namespace SampSharp.RakNet
 {
@@ -162,49 +163,104 @@ namespace SampSharp.RakNet
             {
 
                 var @params = PrepareParams(bs, true, arguments);
-                var nativeParamsTypes = (Type[])@params[0];
-                var nativeParams = (object[])@params[1];
-                var nativeParamsSizes = (uint[])@params[2];
+                var nativeParamsTypes = (List<Type>)@params[0];
+                var nativeParams = (List<object>)@params[1];
+                var nativeParamsSizes = ((uint[])@params[2]).ToList();
                 var returningParamsIndexes = (Dictionary<string, int>)@params[3];
 
-
-                var loader = RakNet.Client.NativeLoader;
-                var NativeRead = loader.Load("BS_ReadValue", nativeParamsSizes, nativeParamsTypes);
-
-                NativeRead.Invoke(nativeParams);
-                Console.WriteLine("ParamTypes:");
-                Console.WriteLine($"Length: {nativeParamsTypes.Length}");
-                foreach (var t in nativeParamsTypes)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Params:");
-                Console.WriteLine($"Length: {nativeParams.Length}");
-                foreach (var t in nativeParams)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Params sizes:");
-                foreach (var t in nativeParamsSizes)
-                {
-                    Console.WriteLine(t);
-                }
                 var returningParams = new Dictionary<string, object>();
-                foreach (KeyValuePair<string, int> keyValue in returningParamsIndexes)
+
+                var count = nativeParamsSizes.Count; // Needed because real .Count will not be changed in the future
+
+                uint? processedParamSize = null;
+                bool processedParamSizeExists = false;
+
+                while (nativeParamsSizes.Count > 0)
                 {
-                    returningParams.Add(keyValue.Key, nativeParams[keyValue.Value]);
-                }
-                Console.WriteLine("Returning Params:");
-                Console.WriteLine("Returning Params sizes:");
-                foreach (var t in returningParams)
-                {
-                    Console.WriteLine(t);
+                    if (processedParamSizeExists)
+                    {
+                        processedParamSize = nativeParamsSizes[0];
+                        nativeParamsSizes.RemoveAt(0);
+                        if (nativeParamsSizes.Count == 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    var necessaryParamsCount = 1; // bs
+                    var curStringLengthIndex = (int)nativeParamsSizes[0];
+                    nativeParamsSizes.RemoveAt(0);
+
+                    var partialSize = curStringLengthIndex - (necessaryParamsCount - 1);
+
+                    var partial_nativeParamsTypes = new List<Type>();
+                    var partial_nativeParams = new List<object>();
+                    var partial_nativeParamsSizes = new List<uint>();
+                    var partial_returningParamsIndexes = new Dictionary<string, int>();
+
+                    var stringTypeAndContentParamsCount = 2; //ParamType.STRING + string
+
+                    for (int j = 0; j < necessaryParamsCount; j++) // bs
+                    {
+                        partial_nativeParamsTypes.Add(nativeParamsTypes[j]);
+                        partial_nativeParams.Add(nativeParams[j]);
+                    }
+
+                    for (int j = 0; j < partialSize; j++)
+                    {
+
+                        partial_nativeParamsTypes.Add(nativeParamsTypes[necessaryParamsCount]);
+                        nativeParamsTypes.RemoveAt(necessaryParamsCount);
+
+                        partial_nativeParams.Add(nativeParams[necessaryParamsCount]);
+                        nativeParams.RemoveAt(necessaryParamsCount);
+                    }
+
+                    string[] keys = new string[returningParamsIndexes.Count];
+                    returningParamsIndexes.Keys.CopyTo(keys, 0);
+
+                    for (int j = 0; j < keys.Length; j++)
+                    {
+                        if (returningParamsIndexes[keys[j]] <= curStringLengthIndex)
+                        {
+                            partial_returningParamsIndexes.Add(keys[j], returningParamsIndexes[keys[j]]);
+                            returningParamsIndexes.Remove(keys[j]);
+                        }
+                        else
+                        {
+                            returningParamsIndexes[keys[j]] -= partialSize;
+                            if (returningParamsIndexes[keys[j]] >= necessaryParamsCount + stringTypeAndContentParamsCount)
+                            {
+                                returningParamsIndexes[keys[j]] += 1; // Cause of future insertion of stringLen
+                            }
+                        }
+                    }
+
+                    for (int j = 0; j < nativeParamsSizes.Count; j++)
+                    {
+                        nativeParamsSizes[j] -= (uint)partialSize;
+                        nativeParamsSizes[j] += 1; // Cause of future insertion of stringLen
+                    }
+
+                    var partial_nativeParamsArray = partial_nativeParams.ToArray(); // Needed to get returned value
+                    ExecuteReturningNative(partial_nativeParamsTypes.ToArray(), ref partial_nativeParamsArray, partial_nativeParamsSizes.ToArray(), partial_returningParamsIndexes, ref returningParams, processedParamSize);
+
+                    int stringLen = (int)partial_nativeParamsArray[curStringLengthIndex] + 1; // SampSharp.Core needs 1 symbol more
+
+                    
+                    nativeParamsTypes.Insert(necessaryParamsCount + stringTypeAndContentParamsCount, typeof(int).MakeByRefType());
+                    nativeParams.Insert(necessaryParamsCount + stringTypeAndContentParamsCount, stringLen);
+                    nativeParamsSizes.Insert(0, (uint)(necessaryParamsCount + stringTypeAndContentParamsCount)); // Add size param index that is right after string
+
+                    processedParamSizeExists = true;
                 }
 
+                var nativeParamsArray = nativeParams.ToArray();
+                
+                ExecuteReturningNative(nativeParamsTypes.ToArray(), ref nativeParamsArray, nativeParamsSizes.ToArray(), returningParamsIndexes, ref returningParams, processedParamSize);
                 return returningParams;
             }
             #endregion
-
             #endregion
 
             // Raknet Natives:

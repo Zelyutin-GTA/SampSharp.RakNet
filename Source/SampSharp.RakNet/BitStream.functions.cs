@@ -20,12 +20,12 @@ namespace SampSharp.RakNet
             private object[] PrepareParams(int bs, bool returning, params object[] arguments)
             {
                 const int nonArgumentsCount = 1; // int bs
-                var nativeParamsTypes = new Type[nonArgumentsCount + arguments.Length];
-                var nativeParams = new object[nonArgumentsCount + arguments.Length];
+                var nativeParamsTypes = new List<Type>();
+                var nativeParams = new List<object>();
                 var returningParamsIndexes = new Dictionary<string, int>();
-                var nativeParamsSizes = new List<int>();
-                nativeParamsTypes[0] = typeof(int);
-                nativeParams[0] = bs;
+                var nativeParamsSizes = new List<uint>();
+                nativeParamsTypes.Add(typeof(int));
+                nativeParams.Add(bs);
 
                 int i = 0;
                 while (i < arguments.Length)
@@ -37,8 +37,8 @@ namespace SampSharp.RakNet
                     }
 
                     //Adding ParamType to native parameters
-                    nativeParamsTypes[nonArgumentsCount + i] = typeof(int).MakeByRefType(); // Should be reference to take in values
-                    nativeParams[nonArgumentsCount + i] = (int)argument;
+                    nativeParamsTypes.Add(typeof(int).MakeByRefType()); // Should be reference to take in values
+                    nativeParams.Add((int)argument);
 
                     var paramTypeGroup = GetParamTypeGroup((ParamType)argument);
                     
@@ -52,30 +52,25 @@ namespace SampSharp.RakNet
                     }
                     for (int j = 1; j <= followingParamsCount; j++)
                     {
-                        if (types[j - 1] == typeof(string))
-                            nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1];
+                        if (types[j - 1] == typeof(string) && !returning)
+                            nativeParamsTypes.Add(types[j - 1]);
                         else
-                            nativeParamsTypes[nonArgumentsCount + i + j] = types[j - 1].MakeByRefType();
+                            nativeParamsTypes.Add(types[j - 1].MakeByRefType());
 
                         if (returning)
                         {
                             if (types[j - 1] == typeof(string))
                             {
-                                nativeParams[nonArgumentsCount + i + j] = new String("");
-                            }
-                            //For testing sizes
-                            else if (types[j - 1] == typeof(int))
-                            {
-                                nativeParams[nonArgumentsCount + i + j] = 32;
+                                nativeParams.Add(new String(""));
                             }
                             else
                             {
-                                nativeParams[nonArgumentsCount + i + j] = Activator.CreateInstance(types[j - 1]);
+                                nativeParams.Add(Activator.CreateInstance(types[j - 1]));
                             }
                         }
                         else
                         {
-                            nativeParams[nonArgumentsCount + i + j] = arguments[i + j];
+                            nativeParams.Add(arguments[i + j]);
                         }
                     }
                     if (paramTypeGroup == ParamTypeGroup.STRING)
@@ -86,7 +81,8 @@ namespace SampSharp.RakNet
                         {
                             throw new RakNetException($"String param [index:{i}] doesn't have prior length specifying");
                         }
-                        nativeParamsSizes.Add((int)nonArgumentsCount + lengthSpecifierIndex);
+                        
+                        nativeParamsSizes.Add((uint)(nonArgumentsCount + lengthSpecifierIndex));
                     }
                     if (returning)
                     {
@@ -170,6 +166,65 @@ namespace SampSharp.RakNet
                 }
 
                 throw new RakNetException($"Param has unknown ParamGroupType");
+            }
+
+            private void ExecuteReturningNative(Type[] nativeParamsTypes, ref object[] nativeParams, uint[] nativeParamsSizes, Dictionary<string, int> returningParamsIndexes, ref Dictionary<string, object> returningParams, uint? extraParamSize)
+            {
+                var loader = RakNet.Client.NativeLoader;
+
+                Console.WriteLine("PARAMS SIZES LENGTH: "+ nativeParamsSizes.Length);
+                if (extraParamSize != null)
+                {
+                    var newNativeParamsSizes = new uint[1+ nativeParamsSizes.Length];
+                    newNativeParamsSizes[0] = (uint)extraParamSize;
+                    for(int i = 0; i < nativeParamsSizes.Length; i++)
+                    {
+                        newNativeParamsSizes[1+i] = nativeParamsSizes[i];
+                    }
+                    nativeParamsSizes = newNativeParamsSizes;
+                }
+                Console.WriteLine("PARAMS SIZES LENGTH: " + nativeParamsSizes.Length);
+
+                Console.WriteLine("ParamTypes:");
+                Console.WriteLine($"Length: {nativeParamsTypes.Length}");
+                foreach (var t in nativeParamsTypes)
+                {
+                    Console.WriteLine(t);
+                }
+                Console.WriteLine("Params:");
+                Console.WriteLine($"Length: {nativeParams.Length}");
+                foreach (var t in nativeParams)
+                {
+                    Console.WriteLine(t);
+                }
+                Console.WriteLine("Real types of params:");
+                foreach (var t in nativeParams)
+                {
+                    Console.WriteLine(t.GetType());
+                }
+                Console.WriteLine("Params sizes:");
+                foreach (var t in nativeParamsSizes)
+                {
+                    Console.WriteLine(t);
+                }
+                Console.WriteLine("Returning Params Indexes:");
+                foreach (var t in returningParamsIndexes)
+                {
+                    Console.WriteLine(t);
+                }
+
+                var NativeRead = loader.Load("BS_ReadValue", nativeParamsSizes, nativeParamsTypes);
+                NativeRead.Invoke(nativeParams);
+                foreach (KeyValuePair<string, int> keyValue in returningParamsIndexes)
+                {
+                    returningParams.Add(keyValue.Key, nativeParams[keyValue.Value]);
+                }
+                Console.WriteLine("Returning Params:");
+                Console.WriteLine("Returning Params sizes:");
+                foreach (var t in returningParams)
+                {
+                    Console.WriteLine(t);
+                }
             }
         }
     }

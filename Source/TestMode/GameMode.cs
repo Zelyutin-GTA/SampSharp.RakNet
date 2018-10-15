@@ -157,19 +157,19 @@ namespace TestMode
 
             if (rpcid == 11)
             {
-                //return;
-                /*var BS = new BitStream(bs);
+                var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
                     var ID = (int)args.Result["playerID"];
-                    var nicknameLen = (int)args.Result["nickname"];
-                    var nickname = (string)args.Result["nicknameLen"];
+                    var nicknameLen = (string)args.Result["nickname"];
+                    var nickname = (int)args.Result["nicknameLen"];
 
                     Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
                 };
 
-                BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");*/
+                BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");
 
+                /*
                 var type_ID = (int)ParamType.UINT16;
                 var type_nickname = (int)ParamType.STRING;
                 var type_nicknameLen = (int)ParamType.UINT8;
@@ -188,9 +188,10 @@ namespace TestMode
                 values = new object[] { bs, type_nickname, nickname, nicknameLen };
                 Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
                 Read.Invoke(values);
-
+                *.
                 nickname = (string)values[2];
-                Console.WriteLine($"Read nickname: {nickname};");
+
+                Console.WriteLine($"Read nickname: {nickname};"); */
             }
         }
         #endregion
