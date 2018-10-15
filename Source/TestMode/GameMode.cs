@@ -203,7 +203,7 @@ namespace TestMode
 
             if (rpcid == 86)
             {
-                var BS = new BitStream(bs);
+                /*var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
                     var ID = (int)args.Result["playerID"];
@@ -224,7 +224,93 @@ namespace TestMode
                 ParamType.BOOL, "locky",
                 ParamType.BOOL, "freeze",
                 ParamType.UINT32, "dTime"
-                );
+                );*/
+
+                
+                var type_ID = (int)ParamType.UINT16;
+                var type_animLibLen = (int)ParamType.UINT8;
+                var type_animLib = (int)ParamType.STRING;
+                var type_animNameLen = (int)ParamType.UINT8;
+                var type_animName = (int)ParamType.STRING;
+                var type_fDelta = (int)ParamType.FLOAT;
+                var type_loop = (int)ParamType.BOOL;
+                var type_lockx = (int)ParamType.BOOL;
+                var type_locky = (int)ParamType.BOOL;
+                var type_freeze = (int)ParamType.BOOL;
+                var type_dTime = (int)ParamType.UINT32;
+
+                var pID = 0;
+                var animLibLen = 0;
+                var animLib = "";
+                var animNameLen = 0;
+                var animName = "";
+                var fDelta = 0.0f;
+                var loop = false;
+                var lockx = false;
+                var locky = false;
+                var freeze = false;
+                var dTime = 0;
+                
+                var types = new Type[] {
+                typeof(int),
+                typeof(int).MakeByRefType(), typeof(int).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(int).MakeByRefType()
+                };
+                var values = new object[] { bs,
+                type_ID, pID,
+                type_animLibLen, animLibLen };
+                var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", null, types);
+                Read.Invoke(values);
+                animLibLen = (int)values[4];
+
+                types = new Type[] {
+                typeof(int),
+                typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(int).MakeByRefType()
+                };
+                values = new object[] { bs,
+                type_animLib, animLib, animLibLen,
+                type_animNameLen, animNameLen};
+                Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
+                foreach (var t in values)
+                {
+                    Console.WriteLine(t);
+                }
+                Read.Invoke(values);
+                
+                animLib = (string)values[2];
+                animNameLen = (int)values[5];
+                foreach(var t in values)
+                {
+                    Console.WriteLine(t);
+                }
+                Console.WriteLine("Len: "+animNameLen);
+
+                types = new Type[] {
+                typeof(int),
+                typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(float).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(int).MakeByRefType(),
+                };
+                values = new object[] {
+                bs,
+                type_animName, animName, animNameLen,
+                type_fDelta, fDelta,
+                type_loop, loop,
+                type_lockx, lockx,
+                type_locky, locky,
+                type_freeze, freeze,
+                type_dTime, dTime};
+                Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
+                Read.Invoke(values);
+
+                animName = (string)values[2];
+
+                Console.WriteLine($"Read anim: LIB: {animLib}; NAME: {animName};");
             }
         }
         #endregion
