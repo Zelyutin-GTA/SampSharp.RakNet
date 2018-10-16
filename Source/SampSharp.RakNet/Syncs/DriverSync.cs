@@ -61,7 +61,8 @@ namespace SampSharp.RakNet.Syncs
                 this.vehicleID = (int)result["vehicleID"];
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
-                this.keys = (int)result["keys"];this.quaternion = new Vector4((float) result["quaternion_0"], (float) result["quaternion_1"], (float) result["quaternion_2"], (float) result["quaternion_3"]);
+                this.keys = (int)result["keys"];
+                this.quaternion = new Vector4((float) result["quaternion_0"], (float) result["quaternion_1"], (float) result["quaternion_2"], (float) result["quaternion_3"]);
                 this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
                 
 

@@ -102,6 +102,7 @@ namespace SampSharp.RakNet.Syncs
             }
 
             BS.ReadValue(arguments.ToArray());
+            //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
         }
     }
 }

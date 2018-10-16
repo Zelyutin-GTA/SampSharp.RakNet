@@ -33,11 +33,14 @@ namespace TestMode
             BaseVehicle.Create((VehicleModelType)429, new Vector3(5, 0, 5), 0, 0, 0);
             BaseVehicle.Create((VehicleModelType)461, new Vector3(10, 0, 5), 0, 0, 0);
             BaseVehicle.Create((VehicleModelType)488, new Vector3(15, 0, 5), 0, 0, 0);
+
+            BaseVehicle.Create((VehicleModelType)403, new Vector3(25, 0, 5), 0, 0, 0);
+            BaseVehicle.Create((VehicleModelType)435, new Vector3(30, 0, 5), 0, 0, 0);
             base.OnInitialized(e);
         }
         protected override void OnPlayerSpawned(BasePlayer player, SpawnEventArgs e)
         {
-            player.Position = new Vector3(100, 100, 5);
+            player.Position = new Vector3(40, 0, 5);
             player.GiveWeapon(Weapon.AK47, 50);
             player.Health = 76;
             player.Armour = 156;
@@ -439,6 +442,17 @@ namespace TestMode
                         Console.WriteLine($"Reading incoming SpectatorSync. Position: {spectator.position};");
                     };
                     spectator.ReadIncoming();
+
+                    break;
+                }
+                case (int)PacketIdentifiers.TRAILER_SYNC:
+                {
+                    var trailer = new TrailerSync(BS);
+                    trailer.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming TrailerSync. Position: {trailer.position};");
+                    };
+                    trailer.ReadIncoming();
 
                     break;
                 }
