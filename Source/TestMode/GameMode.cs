@@ -263,7 +263,7 @@ namespace TestMode
                 Read.Invoke(values);
                 animLibLen = (int)values[4];
 
-                var animLibInt = new int[animLibLen];
+                var animLibInt = new int[0];
                 types = new Type[] {
                 typeof(int),
                 typeof(int).MakeByRefType(), typeof(int[]).MakeByRefType(), typeof(int).MakeByRefType(),
@@ -281,8 +281,8 @@ namespace TestMode
                 Read.Invoke(values);
 
                 animLibInt = (int[])values[2];
-                var animLibChar = new char[animLibInt.Length];
-                for (int i = 0; i < animLibInt.Length; i++)
+                var animLibChar = new char[animLibLen];
+                for (int i = 0; i < animLibLen; i++)
                 {
                     animLibChar[i] = (char)animLibInt[i];
                 }
@@ -295,7 +295,7 @@ namespace TestMode
                 }
                 Console.WriteLine("Len: "+animNameLen);
 
-                var animNameInt = new int[animNameLen];
+                var animNameInt = new int[0];
 
                 types = new Type[] {
                 typeof(int),
@@ -320,8 +320,8 @@ namespace TestMode
                 Read.Invoke(values);
 
                 animNameInt = (int[])values[2];
-                var animNameChar = new char[animNameInt.Length];
-                for(int i = 0; i < animNameInt.Length; i++)
+                var animNameChar = new char[animNameLen];
+                for(int i = 0; i < animNameLen; i++)
                 {
                     animNameChar[i] = (char)animNameInt[i];
                 }
