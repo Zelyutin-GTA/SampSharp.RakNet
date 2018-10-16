@@ -400,6 +400,17 @@ namespace TestMode
 
                     break;
                 }
+                case (int)PacketIdentifiers.PASSENGER_SYNC:
+                {
+                    var passenger = new PassengerSync(BS);
+                    passenger.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming PassengerSync. VehicleID: {passenger.vehicleID}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
+                    };
+                    passenger.ReadIncoming();
+
+                    break;
+                }
             }
         }
 
