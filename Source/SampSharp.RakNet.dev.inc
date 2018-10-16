@@ -47,22 +47,6 @@ public OnOutcomingPacket(playerid, packetid, BitStream:bs)
 {
 	printf("[Pawn] Outcoming Packet. %d, %d, %d", playerid, packetid, bs);
 
-	if(packetid == 207)
-	{
-		new packetID;
-		new fromPlayerID;
-
-		new data[PR_OnFootSync];
-		BS_ReadValue(
-			bs,
-			PR_UINT8, packetID,
-			PR_UINT16, fromPlayerID
-		);
-
-		BS_ReadOnFootSync(bs, data);
-
-		printf("Read on foot sync in pawn. PacketID: %d. FromPlayerID: %d. ToPlayerID: %d. Position: %f, %f, %f", packetID, fromPlayerID, playerid, data[PR_position][0], data[PR_position][1], data[PR_position][2]);
-	}
 	if(blockNextPacket)
 	{
 		print("[Pawn] Packet blocked");
