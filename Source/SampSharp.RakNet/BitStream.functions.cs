@@ -44,7 +44,7 @@ namespace SampSharp.RakNet
                     
                     //Adding Param content to native parameters
                     var followingParamsCount = GetFollowingParamsCount(paramTypeGroup);
-                    var types = GetFollowingParamsTypes(paramTypeGroup);
+                    var types = GetFollowingParamsTypes(paramTypeGroup, returning);
 
                     if (i + followingParamsCount >= arguments.Length)
                     {
@@ -59,9 +59,9 @@ namespace SampSharp.RakNet
 
                         if (returning)
                         {
-                            if (types[j - 1] == typeof(string))
+                            if (types[j - 1] == typeof(int[])) // Was string
                             {
-                                nativeParams.Add(new String(""));
+                                nativeParams.Add(new int[0]);
                             }
                             else
                             {
@@ -154,14 +154,14 @@ namespace SampSharp.RakNet
 
                 throw new RakNetException($"Param has unknown ParamGroupType");
             }
-            private Type[] GetFollowingParamsTypes(ParamTypeGroup group)
+            private Type[] GetFollowingParamsTypes(ParamTypeGroup group, bool returning)
             {
                 switch (group)
                 {
                     case ParamTypeGroup.INT: return new Type[]{ typeof(int) };
                     case ParamTypeGroup.BOOL: return new Type[] { typeof(bool) };
                     case ParamTypeGroup.FLOAT: return new Type[] { typeof(float) };
-                    case ParamTypeGroup.STRING: return new Type[] { typeof(string) };
+                    case ParamTypeGroup.STRING: if (returning) return new Type[] { typeof(int[]) }; else return new Type[] { typeof(string) };
                     case ParamTypeGroup.BITS: return new Type[] { typeof(int), typeof(int) };
                 }
 
@@ -215,7 +215,21 @@ namespace SampSharp.RakNet
                 NativeRead.Invoke(nativeParams);
                 foreach (KeyValuePair<string, int> keyValue in returningParamsIndexes)
                 {
-                    returningParams.Add(keyValue.Key, nativeParams[keyValue.Value]);
+                    if (nativeParams[keyValue.Value] is int[]) // converting to string
+                    {
+                        var stringInt = (int[])nativeParams[keyValue.Value];
+                        var stringChar = new char[stringInt.Length];
+                        for (int i = 0; i < stringInt.Length; i++)
+                        {
+                            stringChar[i] = (char)stringInt[i];
+                        }
+                        var @string = new string(stringChar);
+                        returningParams.Add(keyValue.Key, @string);
+                    }
+                    else
+                    {
+                        returningParams.Add(keyValue.Key, nativeParams[keyValue.Value]);
+                    }
                 }
                 Console.WriteLine("Returning Params:");
                 Console.WriteLine("Returning Params sizes:");
