@@ -63,6 +63,10 @@ namespace SampSharp.RakNet
                             {
                                 nativeParams.Add(new int[0]);
                             }
+                            else if (paramTypeGroup == ParamTypeGroup.BITS && j == 2)
+                            {
+                                nativeParams.Add(arguments[i + j]);
+                            }
                             else
                             {
                                 nativeParams.Add(Activator.CreateInstance(types[j - 1]));
