@@ -370,6 +370,17 @@ namespace TestMode
 
                     break;
                 }
+                case (int)PacketIdentifiers.AIM_SYNC:
+                {
+                    var aim = new AimSync(BS);
+                    aim.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming AimSync. Camera looks at: {aim.cameraFrontVector};");
+                    };
+                    aim.ReadIncoming();
+
+                    break;
+                }
             }
         }
 
