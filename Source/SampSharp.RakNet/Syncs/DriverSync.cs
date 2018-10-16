@@ -8,7 +8,7 @@ using SampSharp.RakNet.Definitions;
 
 namespace SampSharp.RakNet.Syncs
 {
-    public class OnFootSync : ISync
+    public class DriverSync : ISync
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
@@ -16,23 +16,24 @@ namespace SampSharp.RakNet.Syncs
 
         public int packetID;
         public int fromPlayerID;
+        public int vehicleID;
         public int lrKey;
         public int udKey;
         public int keys;
-        public Vector3 position;
         public Vector4 quaternion;
-        public int health;
-        public int armour;
+        public Vector3 position;
+        public Vector3 velocity;
+        public float vehicleHealth;
+        public int playerHealth;
+        public int playerArmour;
         public int additionalKey;
         public int weaponID;
-        public int specialAction;
-        public Vector3 velocity;
-        public Vector3 surfingOffsets;
-        public int surfingVehicleID;
-        public int animationID;
-        public int animationFlags;
+        public int sirenState;
+        public int landingGearState;
+        public int trailerID;
+        public float trainSpeed;
 
-        public OnFootSync(BitStream bs)
+        public DriverSync(BitStream bs)
         {
             this.BS = bs;
         }
@@ -56,63 +57,66 @@ namespace SampSharp.RakNet.Syncs
                 {
                     this.fromPlayerID = (int)result["fromPlayerID"];
                 }
+
+                this.vehicleID = (int)result["vehicleID"];
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
-                this.keys = (int)result["keys"];
+                this.keys = (int)result["keys"];this.quaternion = new Vector4((float) result["quaternion_0"], (float) result["quaternion_1"], (float) result["quaternion_2"], (float) result["quaternion_3"]);
                 this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-                this.quaternion = new Vector4((float)result["quaternion_0"], (float)result["quaternion_1"], (float)result["quaternion_2"], (float)result["quaternion_3"]);
-                this.health = (int)result["health"];
-                this.armour = (int)result["armour"];
-                this.additionalKey = (int)result["additionalKey"];
+                
 
                 var BS2 = new BitStream(BS.ID);
                 BS2.ReadCompleted += (sender2, args2) =>
                 {
                     result = args2.Result;
-                    this.weaponID = (int)result["weaponID"];
-                    this.specialAction = (int)result["specialAction"];
+
                     this.velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
-                    this.surfingOffsets = new Vector3((float)result["surfingOffsets_0"], (float)result["surfingOffsets_1"], (float)result["surfingOffsets_2"]);
-                    this.surfingVehicleID = (int)result["surfingVehicleID"];
-                    this.animationID = (int)result["animationID"];
-                    this.animationFlags = (int)result["animationFlags"];
+                    this.vehicleHealth = (float)result["vehicleHealth"];
+                    this.playerHealth = (int)result["playerHealth"];
+                    this.playerArmour = (int)result["playerArmour"];
+                    this.additionalKey = (int)result["additionalKey"];
+                    this.weaponID = (int)result["weaponID"];
+                    this.sirenState = (int)result["sirenState"];
+                    this.landingGearState = (int)result["landingGearState"];
+                    this.trailerID = (int)result["trailerID"];
+                    this.trainSpeed = (float)result["trainSpeed"];
 
                     this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
                 };
 
                 BS2.ReadValue(
-                    ParamType.BITS, "weaponID", 6,
-                    ParamType.UINT8, "specialAction",
                     ParamType.FLOAT, "velocity_0",
                     ParamType.FLOAT, "velocity_1",
                     ParamType.FLOAT, "velocity_2",
-                    ParamType.FLOAT, "surfingOffsets_0",
-                    ParamType.FLOAT, "surfingOffsets_1",
-                    ParamType.FLOAT, "surfingOffsets_2",
-                    ParamType.UINT16, "surfingVehicleID",
-                    ParamType.INT16, "animationID",
-                    ParamType.INT16, "animationFlags"
+                    ParamType.FLOAT, "vehicleHealth",
+                    ParamType.UINT8, "playerHealth",
+                    ParamType.UINT8, "playerArmour",
+                    ParamType.BITS, "additionalKey", 2,
+                    ParamType.BITS, "weaponID", 6,
+                    ParamType.UINT8, "sirenState",
+                    ParamType.UINT8, "landingGearState",
+                    ParamType.UINT16, "trailerID",
+                    ParamType.FLOAT, "trainSpeed"
                 );
             };
 
             var arguments = new List<object>()
             {
                 ParamType.UINT8, "packetID",
+                ParamType.UINT16, "vehicleID",
                 ParamType.UINT16, "lrKey",
                 ParamType.UINT16, "udKey",
                 ParamType.UINT16, "keys",
-                ParamType.FLOAT, "position_0",
-                ParamType.FLOAT, "position_1",
-                ParamType.FLOAT, "position_2",
                 ParamType.FLOAT, "quaternion_0",
                 ParamType.FLOAT, "quaternion_1",
                 ParamType.FLOAT, "quaternion_2",
                 ParamType.FLOAT, "quaternion_3",
-                ParamType.UINT8, "health",
-                ParamType.UINT8, "armour",
-                ParamType.BITS, "additionalKey", 2
+                ParamType.FLOAT, "position_0",
+                ParamType.FLOAT, "position_1",
+                ParamType.FLOAT, "position_2",
+                
             };
-            if(outcoming)
+            if (outcoming)
             {
                 arguments.Insert(2, ParamType.UINT16);
                 arguments.Insert(3, "fromPlayerID");

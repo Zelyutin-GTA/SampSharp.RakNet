@@ -27,7 +27,7 @@ namespace TestMode
             var raknet = Services.GetService<IRakNet>();
             //raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
             //raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
-            //raknet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
+            raknet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
             raknet.OutcomingPacket += (sender, args) => OnOutcomingPacket(args);
 
             BaseVehicle.Create((VehicleModelType)429, new Vector3(5, 0, 5), 0, 0, 0);
@@ -354,6 +354,15 @@ namespace TestMode
                     Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position};");
                 };
                 onFoot.ReadIncoming();
+            }
+            if (packetid == (int)PacketIdentifiers.DRIVER_SYNC)
+            {
+                var driver = new DriverSync(BS);
+                driver.ReadCompleted += (sender, args) =>
+                {
+                    Console.WriteLine($"Reading incoming DriverSync. Position: {driver.position};");
+                };
+                driver.ReadIncoming();
             }
         }
 
