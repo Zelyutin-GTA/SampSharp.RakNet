@@ -445,6 +445,17 @@ namespace TestMode
 
                     break;
                 }
+                case (int)PacketIdentifiers.BULLET_SYNC:
+                {
+                    var bullet = new BulletSync(BS);
+                    bullet.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading outcoming BulletSync. Bullet hit: {bullet.hitPosition};");
+                    };
+                    bullet.ReadOutcoming();
+
+                    break;
+                }
             }
         }
         #endregion
