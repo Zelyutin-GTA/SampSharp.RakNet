@@ -203,7 +203,7 @@ namespace TestMode
 
             if (rpcid == 86)
             {
-                var BS = new BitStream(bs);
+                /*var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
                     var ID = (int)args.Result["playerID"];
@@ -224,9 +224,9 @@ namespace TestMode
                 ParamType.BOOL, "locky",
                 ParamType.BOOL, "freeze",
                 ParamType.UINT32, "dTime"
-                );
+                );*/
 
-                /*
+                
                 var type_ID = (int)ParamType.UINT16;
                 var type_animLibLen = (int)ParamType.UINT8;
                 var type_animLib = (int)ParamType.STRING;
@@ -263,22 +263,31 @@ namespace TestMode
                 Read.Invoke(values);
                 animLibLen = (int)values[4];
 
+                var animLibInt = new int[animLibLen];
                 types = new Type[] {
                 typeof(int),
-                typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(int[]).MakeByRefType(), typeof(int).MakeByRefType(),
                 typeof(int).MakeByRefType(), typeof(int).MakeByRefType()
                 };
                 values = new object[] { bs,
-                type_animLib, animLib, animLibLen,
-                type_animNameLen, animNameLen};
+                type_animLib, animLibInt, animLibLen,
+                type_animNameLen, animNameLen
+                };
                 Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
                 foreach (var t in values)
                 {
                     Console.WriteLine(t);
                 }
                 Read.Invoke(values);
+
+                animLibInt = (int[])values[2];
+                var animLibChar = new char[animLibInt.Length];
+                for (int i = 0; i < animLibInt.Length; i++)
+                {
+                    animLibChar[i] = (char)animLibInt[i];
+                }
+                animLib = new string(animLibChar);
                 
-                animLib = (string)values[2];
                 animNameLen = (int)values[5];
                 foreach(var t in values)
                 {
@@ -286,9 +295,11 @@ namespace TestMode
                 }
                 Console.WriteLine("Len: "+animNameLen);
 
+                var animNameInt = new int[animNameLen];
+
                 types = new Type[] {
                 typeof(int),
-                typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int).MakeByRefType(),
+                typeof(int).MakeByRefType(), typeof(int[]).MakeByRefType(), typeof(int).MakeByRefType(),
                 typeof(int).MakeByRefType(), typeof(float).MakeByRefType(),
                 typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
                 typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
@@ -298,7 +309,7 @@ namespace TestMode
                 };
                 values = new object[] {
                 bs,
-                type_animName, animName, animNameLen,
+                type_animName, animNameInt, animNameLen,
                 type_fDelta, fDelta,
                 type_loop, loop,
                 type_lockx, lockx,
@@ -308,10 +319,16 @@ namespace TestMode
                 Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
                 Read.Invoke(values);
 
-                animName = (string)values[2];
+                animNameInt = (int[])values[2];
+                var animNameChar = new char[animNameInt.Length];
+                for(int i = 0; i < animNameInt.Length; i++)
+                {
+                    animNameChar[i] = (char)animNameInt[i];
+                }
+                animName = new string(animNameChar);
 
                 Console.WriteLine($"Read anim: LIB: {animLib}; NAME: {animName};");
-                */
+                
             }
         }
         #endregion
