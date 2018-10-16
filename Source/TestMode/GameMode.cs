@@ -11,6 +11,7 @@ using SampSharp.GameMode.SAMP;
 using SampSharp.RakNet;
 using SampSharp.RakNet.Events;
 using SampSharp.RakNet.Definitions;
+using SampSharp.RakNet.Syncs;
 
 namespace TestMode
 {
@@ -25,7 +26,8 @@ namespace TestMode
         {
             var raknet = Services.GetService<IRakNet>();
             //raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
-            raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
+            //raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
+            raknet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
             base.OnInitialized(e);
         }
         #endregion
@@ -203,7 +205,7 @@ namespace TestMode
 
             if (rpcid == 86)
             {
-                /*var BS = new BitStream(bs);
+                var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
                     var ID = (int)args.Result["playerID"];
@@ -224,10 +226,10 @@ namespace TestMode
                 ParamType.BOOL, "locky",
                 ParamType.BOOL, "freeze",
                 ParamType.UINT32, "dTime"
-                );*/
+                );
 
                 
-                var type_ID = (int)ParamType.UINT16;
+                /*var type_ID = (int)ParamType.UINT16;
                 var type_animLibLen = (int)ParamType.UINT8;
                 var type_animLib = (int)ParamType.STRING;
                 var type_animNameLen = (int)ParamType.UINT8;
@@ -328,7 +330,27 @@ namespace TestMode
                 animName = new string(animNameChar);
 
                 Console.WriteLine($"Read anim: LIB: {animLib}; NAME: {animName};");
-                
+                */
+            }
+        }
+
+        void OnIncomingPacket(PacketRPCEventArgs e)
+        {
+            var bs = e.BitStreamID;
+            var packetid = e.ID;
+            var playerID = e.PlayerID;
+
+            var BS = new BitStream(bs);
+            if(packetid == (int)PacketIdentifiers.ONFOOT_SYNC)
+            {
+                var onFoot = new OnFootSync(BS);
+                onFoot.ReadCompleted += (sender, args) =>
+                {
+                    OnFootSync onFootSync = args.Sync as OnFootSync;
+
+                    Console.WriteLine($"Reading OnFootSync. Position: {onFootSync.position};");
+                };
+                onFoot.Read();
             }
         }
         #endregion
