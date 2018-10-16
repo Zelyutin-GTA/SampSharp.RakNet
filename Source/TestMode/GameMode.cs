@@ -30,6 +30,9 @@ namespace TestMode
             //raknet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
             raknet.OutcomingPacket += (sender, args) => OnOutcomingPacket(args);
 
+            BaseVehicle.Create((VehicleModelType)429, new Vector3(5, 0, 5), 0, 0, 0);
+            BaseVehicle.Create((VehicleModelType)461, new Vector3(10, 0, 5), 0, 0, 0);
+            BaseVehicle.Create((VehicleModelType)488, new Vector3(15, 0, 5), 0, 0, 0);
             base.OnInitialized(e);
         }
         #endregion
