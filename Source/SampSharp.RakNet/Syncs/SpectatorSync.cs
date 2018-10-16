@@ -31,7 +31,8 @@ namespace SampSharp.RakNet.Syncs
         }
         public void ReadOutcoming()
         {
-            this.Read(true);
+            //Spectator does not have outcoming packets
+            return;
         }
         private void Read(bool outcoming)
         {
