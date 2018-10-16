@@ -125,6 +125,26 @@ namespace TestMode
             sender.SendClientMessage("Applying animation without RPC!");
         }
 
+        [Command("spectate")]
+        public static void SpectateCommand(BasePlayer sender, int specPlayerID)
+        {
+            var specPlayer = BasePlayer.Find(specPlayerID);
+            if(specPlayer == null)
+            {
+                sender.SendClientMessage("Player not found!");
+                return;
+            }
+            sender.ToggleSpectating(true);
+            sender.SpectatePlayer(specPlayer);
+            sender.SendClientMessage("Spectating player!");
+        }
+        [Command("unspectate")]
+        public static void UnspectateCommand(BasePlayer sender)
+        {
+            sender.ToggleSpectating(false);
+            sender.SendClientMessage("Spectating player!");
+        }
+
         void OnIncomingRPC(PacketRPCEventArgs e)
         {
             var bs = e.BitStreamID;
@@ -408,6 +428,17 @@ namespace TestMode
                         Console.WriteLine($"Reading incoming PassengerSync. VehicleID: {passenger.vehicleID}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
                     };
                     passenger.ReadIncoming();
+
+                    break;
+                }
+                case (int)PacketIdentifiers.SPECTATOR_SYNC:
+                {
+                    var spectator = new SpectatorSync(BS);
+                    spectator.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming SpectatorSync. Position: {spectator.position};");
+                    };
+                    spectator.ReadIncoming();
 
                     break;
                 }
