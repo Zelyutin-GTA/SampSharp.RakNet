@@ -351,9 +351,7 @@ namespace TestMode
                 var onFoot = new OnFootSync(BS);
                 onFoot.ReadCompleted += (sender, args) =>
                 {
-                    OnFootSync onFootSync = args.Sync as OnFootSync;
-
-                    Console.WriteLine($"Reading incoming OnFootSync. Position: {onFootSync.position};");
+                    Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position};");
                 };
                 onFoot.ReadIncoming();
             }
@@ -371,9 +369,7 @@ namespace TestMode
                 var onFoot = new OnFootSync(BS);
                 onFoot.ReadCompleted += (sender, args) =>
                 {
-                    OnFootSync onFootSync = args.Sync as OnFootSync;
-
-                    Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFootSync.position};");
+                    Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.position};");
                 };
                 onFoot.ReadOutcoming();
             }
