@@ -39,6 +39,8 @@ namespace TestMode
         {
             player.Position = new Vector3(100, 100, 5);
             player.GiveWeapon(Weapon.AK47, 50);
+            player.Health = 76;
+            player.Armour = 156;
             base.OnPlayerSpawned(player, e);
         }
         #endregion
@@ -384,6 +386,17 @@ namespace TestMode
                         Console.WriteLine($"Reading incoming AimSync. Camera looks at: {aim.cameraFrontVector};");
                     };
                     aim.ReadIncoming();
+
+                    break;
+                }
+                case (int)PacketIdentifiers.BULLET_SYNC:
+                {
+                    var bullet = new BulletSync(BS);
+                    bullet.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming BulletSync. Bullet hit: {bullet.hitPosition};");
+                    };
+                    bullet.ReadIncoming();
 
                     break;
                 }
