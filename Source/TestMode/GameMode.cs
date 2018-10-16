@@ -35,6 +35,12 @@ namespace TestMode
             BaseVehicle.Create((VehicleModelType)488, new Vector3(15, 0, 5), 0, 0, 0);
             base.OnInitialized(e);
         }
+        protected override void OnPlayerSpawned(BasePlayer player, SpawnEventArgs e)
+        {
+            player.Position = new Vector3(100, 100, 5);
+            player.GiveWeapon(Weapon.AK47, 50);
+            base.OnPlayerSpawned(player, e);
+        }
         #endregion
 
         #region Test Commands
