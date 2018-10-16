@@ -456,6 +456,17 @@ namespace TestMode
 
                     break;
                 }
+                case (int)PacketIdentifiers.UNOCCUPIED_SYNC:
+                {
+                    var unoccupied = new UnoccupiedSync(BS);
+                    unoccupied.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming UnoccupiedSync. Position: {unoccupied.position}; Health: {unoccupied.vehicleHealth};");
+                    };
+                    unoccupied.ReadIncoming();
+
+                    break;
+                }
             }
         }
 
