@@ -352,7 +352,7 @@ namespace TestMode
 
                     Console.WriteLine($"Reading incoming OnFootSync. Position: {onFootSync.position};");
                 };
-                onFoot.Read();
+                onFoot.ReadIncoming();
             }
         }
 
@@ -372,7 +372,7 @@ namespace TestMode
 
                     Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFootSync.position};");
                 };
-                onFoot.Read();
+                onFoot.ReadOutcoming();
             }
         }
         #endregion

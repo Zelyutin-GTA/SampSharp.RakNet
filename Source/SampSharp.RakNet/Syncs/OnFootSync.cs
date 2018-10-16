@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using SampSharp.GameMode;
 
@@ -14,6 +15,7 @@ namespace SampSharp.RakNet.Syncs
         public BitStream BS;
 
         public int packetID;
+        public int fromPlayerID;
         public int lrKey;
         public int udKey;
         public int keys;
@@ -34,7 +36,15 @@ namespace SampSharp.RakNet.Syncs
         {
             this.BS = bs;
         }
-        public void Read()
+        public void ReadIncoming()
+        {
+            this.Read(false);
+        }
+        public void ReadOutcoming()
+        {
+            this.Read(true);
+        }
+        private void Read(bool outcoming)
         {
             //ReadSync() playerID;
 
@@ -42,6 +52,10 @@ namespace SampSharp.RakNet.Syncs
             {
                 var result = args.Result;
                 this.packetID = (int)result["packetID"];
+                if (outcoming)
+                {
+                    this.fromPlayerID = (int)result["fromPlayerID"];
+                }
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
                 this.keys = (int)result["keys"];
@@ -81,7 +95,8 @@ namespace SampSharp.RakNet.Syncs
                 );
             };
 
-            BS.ReadValue(
+            var arguments = new List<object>()
+            {
                 ParamType.UINT8, "packetID",
                 ParamType.UINT16, "lrKey",
                 ParamType.UINT16, "udKey",
@@ -96,7 +111,14 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.UINT8, "health",
                 ParamType.UINT8, "armour",
                 ParamType.BITS, "additionalKey", 2
-            );
+            };
+            if(outcoming)
+            {
+                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(3, "fromPlayerID");
+            }
+
+            BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
         }
     }

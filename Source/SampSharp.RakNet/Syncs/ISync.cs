@@ -7,6 +7,7 @@ namespace SampSharp.RakNet.Syncs
     {
         event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        void Read();
+        void ReadIncoming();
+        void ReadOutcoming();
     }
 }
