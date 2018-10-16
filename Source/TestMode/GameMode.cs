@@ -27,7 +27,9 @@ namespace TestMode
             var raknet = Services.GetService<IRakNet>();
             //raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
             //raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
-            raknet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
+            //raknet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
+            raknet.OutcomingPacket += (sender, args) => OnOutcomingPacket(args);
+
             base.OnInitialized(e);
         }
         #endregion
@@ -348,7 +350,27 @@ namespace TestMode
                 {
                     OnFootSync onFootSync = args.Sync as OnFootSync;
 
-                    Console.WriteLine($"Reading OnFootSync. Position: {onFootSync.position};");
+                    Console.WriteLine($"Reading incoming OnFootSync. Position: {onFootSync.position};");
+                };
+                onFoot.Read();
+            }
+        }
+
+        void OnOutcomingPacket(PacketRPCEventArgs e)
+        {
+            var bs = e.BitStreamID;
+            var packetid = e.ID;
+            var playerID = e.PlayerID;
+
+            var BS = new BitStream(bs);
+            if (packetid == (int)PacketIdentifiers.ONFOOT_SYNC)
+            {
+                var onFoot = new OnFootSync(BS);
+                onFoot.ReadCompleted += (sender, args) =>
+                {
+                    OnFootSync onFootSync = args.Sync as OnFootSync;
+
+                    Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFootSync.position};");
                 };
                 onFoot.Read();
             }
