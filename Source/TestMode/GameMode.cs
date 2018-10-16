@@ -393,6 +393,17 @@ namespace TestMode
 
                     break;
                 }
+                case (int)PacketIdentifiers.DRIVER_SYNC:
+                {
+                    var driver = new DriverSync(BS);
+                    driver.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading outcoming DriverSync. Position: {driver.position};");
+                    };
+                    driver.ReadOutcoming();
+
+                    break;
+                }
             }
         }
         #endregion
