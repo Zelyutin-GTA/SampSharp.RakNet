@@ -346,23 +346,30 @@ namespace TestMode
             var playerID = e.PlayerID;
 
             var BS = new BitStream(bs);
-            if(packetid == (int)PacketIdentifiers.ONFOOT_SYNC)
+            switch (packetid)
             {
-                var onFoot = new OnFootSync(BS);
-                onFoot.ReadCompleted += (sender, args) =>
+                case (int)PacketIdentifiers.ONFOOT_SYNC: 
                 {
-                    Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position};");
-                };
-                onFoot.ReadIncoming();
-            }
-            if (packetid == (int)PacketIdentifiers.DRIVER_SYNC)
-            {
-                var driver = new DriverSync(BS);
-                driver.ReadCompleted += (sender, args) =>
+                    var onFoot = new OnFootSync(BS);
+                    onFoot.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position};");
+                    };
+                    onFoot.ReadIncoming();
+
+                    break;
+                }
+                case (int)PacketIdentifiers.DRIVER_SYNC:
                 {
-                    Console.WriteLine($"Reading incoming DriverSync. Position: {driver.position};");
-                };
-                driver.ReadIncoming();
+                    var driver = new DriverSync(BS);
+                    driver.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading incoming DriverSync. Position: {driver.position};");
+                    };
+                    driver.ReadIncoming();
+
+                    break;
+                }
             }
         }
 
@@ -373,14 +380,19 @@ namespace TestMode
             var playerID = e.PlayerID;
 
             var BS = new BitStream(bs);
-            if (packetid == (int)PacketIdentifiers.ONFOOT_SYNC)
+            switch (packetid)
             {
-                var onFoot = new OnFootSync(BS);
-                onFoot.ReadCompleted += (sender, args) =>
+                case (int)PacketIdentifiers.ONFOOT_SYNC:
                 {
-                    Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.position};");
-                };
-                onFoot.ReadOutcoming();
+                    var onFoot = new OnFootSync(BS);
+                    onFoot.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.position};");
+                    };
+                    onFoot.ReadOutcoming();
+
+                    break;
+                }
             }
         }
         #endregion
