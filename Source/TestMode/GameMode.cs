@@ -523,6 +523,23 @@ namespace TestMode
 
                     break;
                 }
+                case (int)PacketIdentifiers.SPECTATOR_SYNC:
+                {
+                    //Spectator syncronization does not have outcoming packets;
+
+                    break;
+                }
+                case (int)PacketIdentifiers.TRAILER_SYNC:
+                {
+                    var trailer = new TrailerSync(BS);
+                    trailer.ReadCompleted += (sender, args) =>
+                    {
+                        Console.WriteLine($"Reading outcoming TrailerSync. Position: {trailer.position};");
+                    };
+                    trailer.ReadOutcoming();
+
+                    break;
+                }
             }
         }
         #endregion
