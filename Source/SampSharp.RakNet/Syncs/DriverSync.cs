@@ -45,6 +45,14 @@ namespace SampSharp.RakNet.Syncs
         {
             this.Read(true);
         }
+        public void WriteIncoming()
+        {
+            this.Write(false);
+        }
+        public void WriteOutcoming()
+        {
+            this.Write(true);
+        }
         private void Read(bool outcoming)
         {
             //ReadSync() playerID;
@@ -126,6 +134,49 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
         }
-   
+        private void Write(bool outcoming)
+        {
+            var arguments = new List<object>()
+            {
+                ParamType.UINT8, this.packetID,
+                ParamType.UINT16, this.vehicleID,
+                ParamType.UINT16, this.lrKey,
+                ParamType.UINT16, this.udKey,
+                ParamType.UINT16, this.keys,
+                ParamType.FLOAT, this.quaternion.W,
+                ParamType.FLOAT, this.quaternion.X,
+                ParamType.FLOAT, this.quaternion.Y,
+                ParamType.FLOAT, this.quaternion.Z,
+                ParamType.FLOAT, this.position.X,
+                ParamType.FLOAT, this.position.Y,
+                ParamType.FLOAT, this.position.Z,
+            };
+
+            if (outcoming)
+            {
+                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(3, this.fromPlayerID);
+            }
+
+            BS.WriteValue(arguments.ToArray());
+
+            arguments = new List<object>()
+            {
+                ParamType.FLOAT, this.velocity.X,
+                ParamType.FLOAT, this.velocity.Y,
+                ParamType.FLOAT, this.velocity.Z,
+                ParamType.FLOAT, this.vehicleHealth,
+                ParamType.UINT8, this.playerHealth,
+                ParamType.UINT8, this.playerArmour,
+                ParamType.BITS, this.additionalKey, 2,
+                ParamType.BITS, this.weaponID, 6,
+                ParamType.UINT8, this.sirenState,
+                ParamType.UINT8, this.landingGearState,
+                ParamType.UINT16, this.trailerID,
+                ParamType.FLOAT, this.trainSpeed
+            };
+
+            BS.WriteValue(arguments.ToArray());
+        }
     }
 }
