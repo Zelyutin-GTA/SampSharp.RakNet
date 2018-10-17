@@ -101,6 +101,91 @@ namespace SampSharp.RakNet
             Internal.BS_WriteValue(this.ID, ParamType.BITS, param, count);
         }
         #endregion
+        #region Compressed readings
+        public int ReadCompressedInt8()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CINT8, "param");
+            return (int)result["param"];
+        }
+        public int ReadCompressedInt16()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CINT16, "param");
+            return (int)result["param"];
+        }
+        public int ReadCompressedInt32()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CINT32, "param");
+            return (int)result["param"];
+        }
+        public int ReadCompressedUint8()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CUINT8, "param");
+            return (int)result["param"];
+        }
+        public int ReadCompressedUint16()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CUINT16, "param");
+            return (int)result["param"];
+        }
+        public int ReadCompressedUint32()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CUINT32, "param");
+            return (int)result["param"];
+        }
+        public float ReadCompressedFloat()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CFLOAT, "param");
+            return (float)result["param"];
+        }
+        public bool ReadCompressedBool()
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CBOOL, "param");
+            return (bool)result["param"];
+        }
+        public string ReadCompressedString(int length)
+        {
+            var result = Internal.BS_ReadValue(this.ID, ParamType.CSTRING, "param", length);
+            return (string)result["param"];
+        }
+        #endregion
+        #region Compressed writings
+        public void WriteCompressedInt8(int param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CINT8, param);
+        }
+        public void WriteCompressedInt16(int param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CINT16, param);
+        }
+        public void WriteCompressedInt32(int param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CINT32, param);
+        }
+        public void WriteCompressedUint8(int param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CUINT8, param);
+        }
+        public void WriteCompressedUint16(int param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CUINT16, param);
+        }
+        public void WriteCompressedUint32(int param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CUINT32, param);
+        }
+        public void WriteCompressedFloat(float param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CFLOAT, param);
+        }
+        public void WriteCompressedBool(bool param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CBOOL, param);
+        }
+        public void WriteCompressedString(string param)
+        {
+            Internal.BS_WriteValue(this.ID, ParamType.CSTRING, param);
+        }
+        #endregion
 
         public void WriteVector(Vector3 vector)
         {
