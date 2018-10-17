@@ -44,6 +44,14 @@ namespace SampSharp.RakNet.Syncs
         {
             this.Read(true);
         }
+        public void WriteIncoming()
+        {
+            this.Write(false);
+        }
+        public void WriteOutcoming()
+        {
+            this.Write(true);
+        }
         private void Read(bool outcoming)
         {
             //ReadSync() playerID;
@@ -120,6 +128,51 @@ namespace SampSharp.RakNet.Syncs
 
             BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+        }
+        private void Write(bool outcoming)
+        {
+            var arguments = new List<object>()
+            {
+                ParamType.UINT8, this.packetID,
+                ParamType.UINT16, this.lrKey,
+                ParamType.UINT16, this.udKey,
+                ParamType.UINT16, this.keys,
+                ParamType.FLOAT, this.position.X,
+                ParamType.FLOAT, this.position.Y,
+                ParamType.FLOAT, this.position.Z,
+                ParamType.FLOAT, this.quaternion.W,
+                ParamType.FLOAT, this.quaternion.X,
+                ParamType.FLOAT, this.quaternion.Y,
+                ParamType.FLOAT, this.quaternion.Z,
+                ParamType.UINT8, this.health,
+                ParamType.UINT8, this.armour,
+                ParamType.BITS, this.additionalKey, 2
+            };
+
+            if (outcoming)
+            {
+                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(3, this.fromPlayerID);
+            }
+
+            BS.WriteValue(arguments.ToArray());
+
+            arguments = new List<object>()
+            {
+                ParamType.BITS, this.weaponID, 6,
+                ParamType.UINT8, this.specialAction,
+                ParamType.FLOAT, this.velocity.X,
+                ParamType.FLOAT, this.velocity.Y,
+                ParamType.FLOAT, this.velocity.Z,
+                ParamType.FLOAT, this.surfingOffsets.X,
+                ParamType.FLOAT, this.surfingOffsets.Y,
+                ParamType.FLOAT, this.surfingOffsets.Z,
+                ParamType.UINT16, this.surfingVehicleID,
+                ParamType.INT16, this.animationID,
+                ParamType.INT16, this.animationFlags
+            };
+
+            BS.WriteValue(arguments.ToArray());
         }
     }
 }
