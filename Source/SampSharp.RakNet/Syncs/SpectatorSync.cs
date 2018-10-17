@@ -45,8 +45,6 @@ namespace SampSharp.RakNet.Syncs
         }
         private void Read(bool outcoming)
         {
-            //ReadSync() playerID;
-
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;

@@ -27,8 +27,8 @@ namespace TestMode
         {
             RakNet = Services.GetService<IRakNet>();
             RakNet.SetLogging(false, false, false, false, true, true);
-            //raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
-            //raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
+            RakNet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
+            RakNet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
             RakNet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
             RakNet.OutcomingPacket += (sender, args) => OnOutcomingPacket(args);
 
@@ -65,7 +65,6 @@ namespace TestMode
             BS.WriteValue(ParamType.UINT16, sender.Id, ParamType.UINT8, name.Length, ParamType.STRING, name);
 
             BS.SendRPC(11, sender.Id);
-            //Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
             sender.SendClientMessage("Changing name with RPC!");
         }
         [Command("setpos")]
@@ -215,30 +214,6 @@ namespace TestMode
                 };
 
                 BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");
-
-                /*
-                var type_ID = (int)ParamType.UINT16;
-                var type_nickname = (int)ParamType.STRING;
-                var type_nicknameLen = (int)ParamType.UINT8;
-                
-                var ID = 0;
-                var nickname = "";
-                var nicknameLen = 0;
-
-                var types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType()};
-                var values = new object[] { bs, type_ID, ID, type_nicknameLen, nicknameLen};
-                var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", null, types);
-                Read.Invoke(values);
-                nicknameLen = (int)values[4]+1;
-
-                types = new Type[] { typeof(int), typeof(int).MakeByRefType(), typeof(string).MakeByRefType(), typeof(int).MakeByRefType() };
-                values = new object[] { bs, type_nickname, nickname, nicknameLen };
-                Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
-                Read.Invoke(values);
-                *.
-                nickname = (string)values[2];
-
-                Console.WriteLine($"Read nickname: {nickname};"); */
             }
 
             if (rpcid == 86)
@@ -265,110 +240,6 @@ namespace TestMode
                 ParamType.BOOL, "freeze",
                 ParamType.UINT32, "dTime"
                 );
-
-                
-                /*var type_ID = (int)ParamType.UINT16;
-                var type_animLibLen = (int)ParamType.UINT8;
-                var type_animLib = (int)ParamType.STRING;
-                var type_animNameLen = (int)ParamType.UINT8;
-                var type_animName = (int)ParamType.STRING;
-                var type_fDelta = (int)ParamType.FLOAT;
-                var type_loop = (int)ParamType.BOOL;
-                var type_lockx = (int)ParamType.BOOL;
-                var type_locky = (int)ParamType.BOOL;
-                var type_freeze = (int)ParamType.BOOL;
-                var type_dTime = (int)ParamType.UINT32;
-
-                var pID = 0;
-                var animLibLen = 0;
-                var animLib = "";
-                var animNameLen = 0;
-                var animName = "";
-                var fDelta = 0.0f;
-                var loop = false;
-                var lockx = false;
-                var locky = false;
-                var freeze = false;
-                var dTime = 0;
-                
-                var types = new Type[] {
-                typeof(int),
-                typeof(int).MakeByRefType(), typeof(int).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(int).MakeByRefType()
-                };
-                var values = new object[] { bs,
-                type_ID, pID,
-                type_animLibLen, animLibLen };
-                var Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", null, types);
-                Read.Invoke(values);
-                animLibLen = (int)values[4];
-
-                var animLibInt = new int[0];
-                types = new Type[] {
-                typeof(int),
-                typeof(int).MakeByRefType(), typeof(int[]).MakeByRefType(), typeof(int).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(int).MakeByRefType()
-                };
-                values = new object[] { bs,
-                type_animLib, animLibInt, animLibLen,
-                type_animNameLen, animNameLen
-                };
-                Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
-                foreach (var t in values)
-                {
-                    Console.WriteLine(t);
-                }
-                Read.Invoke(values);
-
-                animLibInt = (int[])values[2];
-                var animLibChar = new char[animLibLen];
-                for (int i = 0; i < animLibLen; i++)
-                {
-                    animLibChar[i] = (char)animLibInt[i];
-                }
-                animLib = new string(animLibChar);
-                
-                animNameLen = (int)values[5];
-                foreach(var t in values)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Len: "+animNameLen);
-
-                var animNameInt = new int[0];
-
-                types = new Type[] {
-                typeof(int),
-                typeof(int).MakeByRefType(), typeof(int[]).MakeByRefType(), typeof(int).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(float).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(bool).MakeByRefType(),
-                typeof(int).MakeByRefType(), typeof(int).MakeByRefType(),
-                };
-                values = new object[] {
-                bs,
-                type_animName, animNameInt, animNameLen,
-                type_fDelta, fDelta,
-                type_loop, loop,
-                type_lockx, lockx,
-                type_locky, locky,
-                type_freeze, freeze,
-                type_dTime, dTime};
-                Read = (Instance as IHasClient).GameModeClient.NativeLoader.Load("BS_ReadValue", new uint[] { 3 }, types);
-                Read.Invoke(values);
-
-                animNameInt = (int[])values[2];
-                var animNameChar = new char[animNameLen];
-                for(int i = 0; i < animNameLen; i++)
-                {
-                    animNameChar[i] = (char)animNameInt[i];
-                }
-                animName = new string(animNameChar);
-
-                Console.WriteLine($"Read anim: LIB: {animLib}; NAME: {animName};");
-                */
             }
         }
 

@@ -186,35 +186,7 @@ namespace SampSharp.RakNet
                     }
                     nativeParamsSizes = newNativeParamsSizes;
                 }
-
-                Console.WriteLine("ParamTypes:");
-                Console.WriteLine($"Length: {nativeParamsTypes.Length}");
-                foreach (var t in nativeParamsTypes)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Params:");
-                Console.WriteLine($"Length: {nativeParams.Length}");
-                foreach (var t in nativeParams)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Real types of params:");
-                foreach (var t in nativeParams)
-                {
-                    Console.WriteLine(t.GetType());
-                }
-                Console.WriteLine("Params sizes:");
-                foreach (var t in nativeParamsSizes)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Returning Params Indexes:");
-                foreach (var t in returningParamsIndexes)
-                {
-                    Console.WriteLine(t);
-                }
-
+                
                 var NativeRead = loader.Load("BS_ReadValue", nativeParamsSizes, nativeParamsTypes);
                 NativeRead.Invoke(nativeParams);
                 foreach (KeyValuePair<string, int> keyValue in returningParamsIndexes)
@@ -234,12 +206,6 @@ namespace SampSharp.RakNet
                     {
                         returningParams.Add(keyValue.Key, nativeParams[keyValue.Value]);
                     }
-                }
-                Console.WriteLine("Returning Params:");
-                Console.WriteLine("Returning Params sizes:");
-                foreach (var t in returningParams)
-                {
-                    Console.WriteLine(t);
                 }
             }
         }

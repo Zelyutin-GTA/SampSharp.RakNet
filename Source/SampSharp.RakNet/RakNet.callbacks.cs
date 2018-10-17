@@ -17,8 +17,6 @@ namespace SampSharp.RakNet
         internal void OnIncomingRPC(int playerid, int rpcid, int bs)
         {
             IncomingRPC?.Invoke(this, new PacketRPCEventArgs(rpcid, playerid, bs));
-            //player == -1 => broadcast
-            //bs == 0 => no bs
             if(this.LoggingIncomingRPC) Console.WriteLine($"[SampSharp.RakNet] Hooking Incoming RPC {playerid}, {rpcid}, {bs}");   
         }
 

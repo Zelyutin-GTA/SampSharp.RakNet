@@ -8,7 +8,7 @@ namespace SampSharp.RakNet
 
         static RakNet()
         {
-            Internal = NativeObjectProxyFactory.CreateInstance<RakNetInternal>(); // TODO: change to class extension as in BaseModeInternal
+            Internal = NativeObjectProxyFactory.CreateInstance<RakNetInternal>();
         }
 
         public class RakNetInternal

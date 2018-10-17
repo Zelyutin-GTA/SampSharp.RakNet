@@ -132,32 +132,7 @@ namespace SampSharp.RakNet
                 var loader = RakNet.Client.NativeLoader;
                 var NativeRead = loader.Load("BS_WriteValue", nativeParamsSizes, nativeParamsTypes);
 
-                Console.WriteLine("ParamTypes:");
-                Console.WriteLine($"Length: {nativeParamsTypes.Length}");
-                foreach (var t in nativeParamsTypes)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Params:");
-                Console.WriteLine($"Length: {nativeParams.Length}");
-                foreach (var t in nativeParams)
-                {
-                    Console.WriteLine(t);
-                }
-                Console.WriteLine("Params sizes:");
-                foreach (var t in nativeParamsSizes)
-                {
-                    Console.WriteLine(t);
-                }
-
                 var result = NativeRead.Invoke(nativeParams);
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("WriteValue result: " + result);
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine();
             }
             public virtual Dictionary<string, object> BS_ReadValue(int bs, params object[] arguments)
             {
@@ -169,8 +144,6 @@ namespace SampSharp.RakNet
                 var returningParamsIndexes = (Dictionary<string, int>)@params[3];
 
                 var returningParams = new Dictionary<string, object>();
-
-                var count = nativeParamsSizes.Count; // Needed because real .Count will not be changed in the future
 
                 uint? processedParamSize = null;
                 bool processedParamSizeExists = false;
@@ -262,33 +235,6 @@ namespace SampSharp.RakNet
             }
             #endregion
             #endregion
-
-            // Raknet Natives:
-            /*
-            native BitStream:BS_New();
-            native BS_Delete(&BitStream:bs);
-
-            native BS_RPC(BitStream:bs, playerid, rpcid, PR_PacketPriority:priority = PR_HIGH_PRIORITY, PR_PacketReliability:reliability = PR_RELIABLE_ORDERED);
-            native BS_Send(BitStream:bs, playerid, PR_PacketPriority:priority = PR_HIGH_PRIORITY, PR_PacketReliability:reliability = PR_RELIABLE_ORDERED);
-
-            native BS_Reset(BitStream:bs);
-            native BS_ResetReadPointer(BitStream:bs);
-            native BS_ResetWritePointer(BitStream:bs);
-            native BS_IgnoreBits(BitStream:bs, number_of_bits);
-
-            native BS_SetWriteOffset(BitStream:bs, offset);
-            native BS_GetWriteOffset(BitStream:bs, &offset);
-            native BS_SetReadOffset(BitStream:bs, offset);
-            native BS_GetReadOffset(BitStream:bs, &offset);
-
-            native BS_GetNumberOfBitsUsed(BitStream:bs, &number);
-            native BS_GetNumberOfBytesUsed(BitStream:bs, &number);
-            native BS_GetNumberOfUnreadBits(BitStream:bs, &number);
-            native BS_GetNumberOfBitsAllocated(BitStream:bs, &number);
-
-            native BS_WriteValue(BitStream:bs, { PR_ValueType, Float, _}:...);
-            native BS_ReadValue(BitStream:bs, { PR_ValueType, Float, _}:...);
-            */
         }
         #endregion
     }

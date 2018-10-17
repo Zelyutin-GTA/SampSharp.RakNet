@@ -31,9 +31,6 @@ namespace SampSharp.RakNet
         /// <param name="gameMode">The game mode.</param>
         public override void LoadServices(BaseMode gameMode)
         {
-            // Add the raknet service to the service provider.
-            Console.WriteLine("SampSharp.RakNet is loading");
-
             if (!typeof(IHasClient).IsAssignableFrom(gameMode.GetType()))
             {
                 throw new RakNetException("[SampSharp.RakNet] Gamemode should implement IHasClient interface to use SampSharp.RakNet");
@@ -42,7 +39,6 @@ namespace SampSharp.RakNet
             this.GameMode = gameMode;
             RakNet.Mode = gameMode;
             gameMode.Services.AddService<IRakNet>(this);
-            
 
             base.LoadServices(gameMode);
         }
