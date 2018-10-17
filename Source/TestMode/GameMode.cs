@@ -398,6 +398,9 @@ namespace TestMode
                     driver.ReadCompleted += (sender, args) =>
                     {
                         Console.WriteLine($"Reading incoming DriverSync. Position: {driver.position};");
+                        BS.ResetWritePointer();
+                        driver.position = new Vector3(driver.position.X, driver.position.Y, driver.position.Z + 10);
+                        driver.WriteIncoming();
                     };
                     driver.ReadIncoming();
 
