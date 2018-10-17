@@ -302,7 +302,6 @@ namespace TestMode
                     };
                     bullet.ReadIncoming();
 
-                    
                     break;
                 }
                 case (int)PacketIdentifiers.PASSENGER_SYNC:
@@ -367,6 +366,9 @@ namespace TestMode
                     onFoot.ReadCompleted += (sender, args) =>
                     {
                         Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.position}; Health: {onFoot.health}; Armour: {onFoot.armour}; Velocity: {onFoot.velocity};");
+                        BS.ResetWritePointer();
+                        onFoot.position = new Vector3(onFoot.position.X, onFoot.position.Y, onFoot.position.Z + 10);
+                        onFoot.WriteOutcoming();
                     };
                     onFoot.ReadOutcoming();
 

@@ -1,4 +1,6 @@
-﻿namespace SampSharp.RakNet
+﻿using System;
+
+namespace SampSharp.RakNet
 {
     public class HealthArmour
     {
@@ -20,6 +22,30 @@
 
             health = byteHealth;
             armour = byteArmour;
+        }
+        public static byte SetInByte(int health, int armour)
+        {
+            byte healthArmour = 0;
+            byte byteHealth = Convert.ToByte(health), byteArmour = Convert.ToByte(armour);
+            if (byteHealth > 0 && byteHealth < 100)
+            {
+                healthArmour = (byte)(((byte)(byteHealth / 7)) << 4);
+            }
+            else if (byteHealth >= 100)
+            {
+                healthArmour = 0xF << 4;
+            }
+
+            if (byteArmour > 0 && byteArmour < 100)
+            {
+                healthArmour |= (byte)(byteArmour / 7);
+            }
+            else if (byteArmour >= 100)
+            {
+                healthArmour |= 0xF;
+            }
+
+            return healthArmour;
         }
     }
 }

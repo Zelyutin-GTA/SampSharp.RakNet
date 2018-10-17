@@ -175,14 +175,6 @@ namespace SampSharp.RakNet.Syncs
         }
         public void WriteIncoming()
         {
-            this.Write(false);
-        }
-        public void WriteOutcoming()
-        {
-            this.Write(true);
-        }
-        private void Write(bool outcoming)
-        {
             var arguments = new List<object>()
             {
                 ParamType.UINT8, this.packetID,
@@ -200,12 +192,6 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.UINT8, this.armour,
                 ParamType.BITS, this.additionalKey, 2
             };
-
-            if (outcoming)
-            {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, this.fromPlayerID);
-            }
 
             BS.WriteValue(arguments.ToArray());
 
@@ -225,6 +211,71 @@ namespace SampSharp.RakNet.Syncs
             };
 
             BS.WriteValue(arguments.ToArray());
+        }
+        public void WriteOutcoming()
+        {
+            BS.WriteUint8(this.packetID);
+            BS.WriteUint16(this.fromPlayerID);
+            if(this.lrKey != 0)
+            {
+                BS.WriteBool(true);
+                BS.WriteUint16(this.lrKey);
+            }
+            else
+            {
+                BS.WriteBool(false);
+            }
+
+            if (this.udKey != 0)
+            {
+                BS.WriteBool(true);
+                BS.WriteUint16(this.udKey);
+            }
+            else
+            {
+                BS.WriteBool(false);
+            }
+
+            BS.WriteValue(
+                ParamType.UINT16, this.keys,
+                ParamType.FLOAT, this.position.X,
+                ParamType.FLOAT, this.position.Y,
+                ParamType.FLOAT, this.position.Z
+            );
+        
+            BS.WriteNormQuat(this.quaternion);
+
+            byte healthArmourByte = HealthArmour.SetInByte(this.health, this.armour);
+            BS.WriteValue(
+                ParamType.UINT8, (int)healthArmourByte,
+                ParamType.UINT8, this.weaponID,
+                ParamType.UINT8, this.specialAction
+            );
+            BS.WriteVector(this.velocity);
+            if(this.surfingVehicleID != 0)
+            {
+                BS.WriteValue(
+                    ParamType.BOOL, true,
+                    ParamType.UINT8, this.surfingVehicleID,
+                    ParamType.FLOAT, this.surfingOffsets.X,
+                    ParamType.FLOAT, this.surfingOffsets.Y,
+                    ParamType.FLOAT, this.surfingOffsets.Z
+                );
+            }
+            else
+            {
+                BS.WriteBool(false);
+            }
+
+            if(this.animationID != 0)
+            {
+                BS.WriteBool(true);
+                BS.WriteInt32(this.animationID);
+            }
+            else
+            {
+                BS.WriteBool(false);
+            }
         }
     }
 }
