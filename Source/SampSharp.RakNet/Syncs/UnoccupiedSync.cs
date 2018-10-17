@@ -38,6 +38,14 @@ namespace SampSharp.RakNet.Syncs
         {
             this.Read(true);
         }
+        public void WriteIncoming()
+        {
+            this.Write(false);
+        }
+        public void WriteOutcoming()
+        {
+            this.Write(true);
+        }
         private void Read(bool outcoming)
         {
             //ReadSync() playerID;
@@ -104,6 +112,45 @@ namespace SampSharp.RakNet.Syncs
 
             BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+        }
+        private void Write(bool outcoming)
+        {
+            var arguments = new List<object>()
+            {
+                ParamType.UINT8, this.packetID,
+                ParamType.UINT16, this.vehicleID,
+                ParamType.UINT8, this.seatID,
+                ParamType.FLOAT, this.roll.X,
+                ParamType.FLOAT, this.roll.Y,
+                ParamType.FLOAT, this.roll.Z,
+                ParamType.FLOAT, this.direction.X,
+                ParamType.FLOAT, this.direction.Y,
+                ParamType.FLOAT, this.direction.Z,
+                ParamType.FLOAT, this.position.X,
+                ParamType.FLOAT, this.position.Y,
+                ParamType.FLOAT, this.position.Z,
+            };
+
+            if (outcoming)
+            {
+                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(3, this.fromPlayerID);
+            }
+
+            BS.WriteValue(arguments.ToArray());
+
+            arguments = new List<object>()
+            {
+                ParamType.FLOAT, this.velocity.X,
+                ParamType.FLOAT, this.velocity.Y,
+                ParamType.FLOAT, this.velocity.Z,
+                ParamType.FLOAT, this.angularVelocity.X,
+                ParamType.FLOAT, this.angularVelocity.Y,
+                ParamType.FLOAT, this.angularVelocity.Z,
+                ParamType.FLOAT, this.vehicleHealth,
+            };
+
+            BS.WriteValue(arguments.ToArray());
         }
     }
 }
