@@ -38,30 +38,10 @@ namespace SampSharp.RakNet.Syncs
         }
         public void ReadIncoming()
         {
-            this.Read(false);
-        }
-        public void ReadOutcoming()
-        {
-            this.Read(true);
-        }
-        public void WriteIncoming()
-        {
-            this.Write(false);
-        }
-        public void WriteOutcoming()
-        {
-            this.Write(true);
-        }
-        private void Read(bool outcoming)
-        {
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
                 this.packetID = (int)result["packetID"];
-                if (outcoming)
-                {
-                    this.fromPlayerID = (int)result["fromPlayerID"];
-                }
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
                 this.keys = (int)result["keys"];
@@ -118,14 +98,88 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.UINT8, "armour",
                 ParamType.BITS, "additionalKey", 2
             };
-            if(outcoming)
-            {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, "fromPlayerID");
-            }
 
             BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+        }
+        public void ReadOutcoming()
+        {
+            BS.ReadCompleted += (sender, args) =>
+            {
+                var result = args.Result;
+                this.keys = (int)result["keys"];
+                this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+                this.quaternion = BS.ReadNormQuat();
+
+                var BS2 = new BitStream(BS.ID);
+                BS2.ReadCompleted += (sender2, args2) =>
+                {
+                    result = args2.Result;
+
+                    byte healthArmour = Convert.ToByte(((int)result["healthArmourByte"]));
+                    HealthArmour.GetFromByte(healthArmour, ref this.health, ref this.armour);
+                    this.weaponID = (int)result["weaponID"];
+                    this.specialAction = (int)result["specialAction"];
+                    this.velocity = BS.ReadVector();
+
+                    bool hasSurfInfo = BS2.ReadBool();
+                    if(hasSurfInfo)
+                    {
+                        this.surfingVehicleID = BS2.ReadUint16();
+                        float offsetsX = BS2.ReadFloat();
+                        float offsetsY = BS2.ReadFloat();
+                        float offsetsZ = BS2.ReadFloat();
+                        this.surfingOffsets = new Vector3(offsetsX, offsetsY, offsetsZ);
+                    }
+                    else
+                    {
+                        this.surfingVehicleID = -1;
+                    }
+
+                    bool hasAnimation = BS2.ReadBool();
+                    if(hasAnimation)
+                    {
+                        this.animationID = BS2.ReadInt32();
+                    }
+                    
+                    this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                };
+
+                BS2.ReadValue(
+                    ParamType.UINT8, "healthArmourByte",
+                    ParamType.UINT8, "weaponID",
+                    ParamType.UINT8, "specialAction"
+                );
+            };
+
+            this.packetID = this.BS.ReadUint8();
+            this.fromPlayerID = this.BS.ReadUint16();
+
+            //LEFT/RIGHT KEYS
+            bool hasLR = this.BS.ReadBool();
+            if (hasLR) this.lrKey = this.BS.ReadUint16();
+
+            // UP/DOWN KEYS
+            bool hasUD = this.BS.ReadBool();
+            if (hasUD) this.udKey = this.BS.ReadUint16();
+
+            var arguments = new List<object>()
+            {
+                ParamType.UINT16, "keys",
+                ParamType.FLOAT, "position_0",
+                ParamType.FLOAT, "position_1",
+                ParamType.FLOAT, "position_2"
+            };
+
+            BS.ReadValue(arguments.ToArray());
+        }
+        public void WriteIncoming()
+        {
+            this.Write(false);
+        }
+        public void WriteOutcoming()
+        {
+            this.Write(true);
         }
         private void Write(bool outcoming)
         {
