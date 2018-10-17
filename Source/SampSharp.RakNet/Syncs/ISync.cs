@@ -9,5 +9,7 @@ namespace SampSharp.RakNet.Syncs
 
         void ReadIncoming();
         void ReadOutcoming();
+        void WriteIncoming();
+        void WriteOutcoming();
     }
 }

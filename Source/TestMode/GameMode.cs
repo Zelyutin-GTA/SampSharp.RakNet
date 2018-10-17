@@ -401,7 +401,6 @@ namespace TestMode
                     };
                     driver.ReadIncoming();
 
-                    RakNet.BlockPacket();
                     break;
                 }
                 case (int)PacketIdentifiers.AIM_SYNC:
@@ -421,9 +420,15 @@ namespace TestMode
                     bullet.ReadCompleted += (sender, args) =>
                     {
                         Console.WriteLine($"Reading incoming BulletSync. Bullet hit: {bullet.hitPosition};");
+                        BS.ResetWritePointer();
+                        bullet.origin = new Vector3(bullet.origin.X, bullet.origin.Y, bullet.origin.Z + 3);
+                        bullet.offsets = new Vector3(bullet.offsets.X, bullet.offsets.Y, bullet.offsets.Z + 3);
+                        bullet.hitPosition = new Vector3(bullet.hitPosition.X, bullet.hitPosition.Y, bullet.hitPosition.Z + 3);
+                        bullet.WriteIncoming();
                     };
                     bullet.ReadIncoming();
 
+                    
                     break;
                 }
                 case (int)PacketIdentifiers.PASSENGER_SYNC:

@@ -35,6 +35,14 @@ namespace SampSharp.RakNet.Syncs
         {
             this.Read(true);
         }
+        public void WriteIncoming()
+        {
+            this.Write(false);
+        }
+        public void WriteOutcoming()
+        {
+            this.Write(true);
+        }
         private void Read(bool outcoming)
         {
             //ReadSync() playerID;
@@ -82,6 +90,33 @@ namespace SampSharp.RakNet.Syncs
             }
 
             BS.ReadValue(arguments.ToArray());
+        }
+        private void Write(bool outcoming)
+        {
+            var arguments = new List<object>()
+            {
+                ParamType.UINT8, this.packetID,
+                ParamType.UINT8, this.hitType,
+                ParamType.UINT16, this.hitID,
+                ParamType.FLOAT, this.origin.X,
+                ParamType.FLOAT, this.origin.Y,
+                ParamType.FLOAT, this.origin.Z,
+                ParamType.FLOAT, this.hitPosition.X,
+                ParamType.FLOAT, this.hitPosition.Y,
+                ParamType.FLOAT, this.hitPosition.Z,
+                ParamType.FLOAT, this.offsets.X,
+                ParamType.FLOAT, this.offsets.Y,
+                ParamType.FLOAT, this.offsets.Z,
+                ParamType.UINT8, this.weaponID,
+            };
+
+            if (outcoming)
+            {
+                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(3, this.fromPlayerID);
+            }
+
+            BS.WriteValue(arguments.ToArray());
         }
     }
 }
