@@ -257,7 +257,7 @@ namespace TestMode
                     var onFoot = new OnFootSync(BS);
                     onFoot.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position};");
+                        Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position}; Health: {onFoot.health}; Armour: {onFoot.armour}; Velocity: {onFoot.velocity};");
                     };
                     onFoot.ReadIncoming();
                     
@@ -269,12 +269,9 @@ namespace TestMode
                     driver.ReadCompleted += (sender, args) =>
                     {
                         Console.WriteLine($"Reading incoming DriverSync. Position: {driver.position};");
-                        BS.ResetWritePointer();
-                        driver.position = new Vector3(driver.position.X, driver.position.Y, driver.position.Z + 10);
-                        driver.WriteIncoming();
+                        
                     };
                     driver.ReadIncoming();
-
                     break;
                 }
                 case (int)PacketIdentifiers.AIM_SYNC:
@@ -302,7 +299,6 @@ namespace TestMode
                     };
                     bullet.ReadIncoming();
 
-                    
                     break;
                 }
                 case (int)PacketIdentifiers.PASSENGER_SYNC:
@@ -366,7 +362,10 @@ namespace TestMode
                     var onFoot = new OnFootSync(BS);
                     onFoot.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.position};");
+                        Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.position}; Health: {onFoot.health}; Armour: {onFoot.armour}; Velocity: {onFoot.velocity};");
+                        BS.ResetWritePointer();
+                        onFoot.position = new Vector3(onFoot.position.X, onFoot.position.Y, onFoot.position.Z + 10);
+                        onFoot.WriteOutcoming();
                     };
                     onFoot.ReadOutcoming();
 
@@ -378,6 +377,9 @@ namespace TestMode
                     driver.ReadCompleted += (sender, args) =>
                     {
                         Console.WriteLine($"Reading outcoming DriverSync. Position: {driver.position};");
+                        BS.ResetWritePointer();
+                        driver.position = new Vector3(driver.position.X, driver.position.Y, driver.position.Z + 10);
+                        driver.WriteOutcoming();
                     };
                     driver.ReadOutcoming();
 

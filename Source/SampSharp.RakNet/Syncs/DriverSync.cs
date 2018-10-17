@@ -39,38 +39,18 @@ namespace SampSharp.RakNet.Syncs
         }
         public void ReadIncoming()
         {
-            this.Read(false);
-        }
-        public void ReadOutcoming()
-        {
-            this.Read(true);
-        }
-        public void WriteIncoming()
-        {
-            this.Write(false);
-        }
-        public void WriteOutcoming()
-        {
-            this.Write(true);
-        }
-        private void Read(bool outcoming)
-        {
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
                 this.packetID = (int)result["packetID"];
-                if (outcoming)
-                {
-                    this.fromPlayerID = (int)result["fromPlayerID"];
-                }
 
                 this.vehicleID = (int)result["vehicleID"];
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
                 this.keys = (int)result["keys"];
-                this.quaternion = new Vector4((float) result["quaternion_X"], (float) result["quaternion_Y"], (float) result["quaternion_Z"], (float) result["quaternion_W"]); // order is different from one in a bitstream
+                this.quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
                 this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-                
+
 
                 var BS2 = new BitStream(BS.ID);
                 BS2.ReadCompleted += (sender2, args2) =>
@@ -121,18 +101,67 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.FLOAT, "position_0",
                 ParamType.FLOAT, "position_1",
                 ParamType.FLOAT, "position_2",
-                
+
             };
-            if (outcoming)
-            {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, "fromPlayerID");
-            }
 
             BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
         }
-        private void Write(bool outcoming)
+        public void ReadOutcoming()
+        {
+            this.packetID = this.BS.ReadUint8();
+            this.fromPlayerID = this.BS.ReadUint16();
+            this.vehicleID = this.BS.ReadUint16();
+
+            // LEFT/RIGHT KEYS
+            this.lrKey = this.BS.ReadUint16();
+
+            // UP/DOWN KEYS
+            this.udKey = this.BS.ReadUint16();
+
+            // GENERAL KEYS
+            this.keys = this.BS.ReadUint16();
+            
+            // ROTATION
+            this.quaternion = BS.ReadNormQuat();
+
+            float x = BS.ReadFloat();
+            float y = BS.ReadFloat();
+            float z = BS.ReadFloat();
+            this.position = new Vector3(x, y, z);
+
+            this.velocity = BS.ReadVector();
+            this.vehicleHealth = (float)BS.ReadUint16();
+
+            byte healthArmour = Convert.ToByte(BS.ReadUint8());
+            HealthArmour.GetFromByte(healthArmour, ref this.playerHealth, ref this.playerArmour);
+
+            this.weaponID = BS.ReadUint8();
+
+            bool sirenState = BS.ReadCompressedBool();
+            if(sirenState)
+                this.sirenState = 1;
+
+            bool landingGear = BS.ReadCompressedBool();
+            if (landingGear)
+                this.landingGearState = 1;
+
+            // HYDRA THRUST ANGLE AND TRAILER ID
+            bool hydra = BS.ReadCompressedBool();
+            bool trailer = BS.ReadCompressedBool();
+
+            
+            int trailerID_or_thrustAngle = BS.ReadUint32();
+            bool train = BS.ReadCompressedBool();
+
+            if (train)
+            {
+                this.trainSpeed = (float)BS.ReadUint8();
+            }
+
+            this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+        }
+        public void WriteIncoming()
         {
             var arguments = new List<object>()
             {
@@ -148,13 +177,8 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.FLOAT, this.position.X,
                 ParamType.FLOAT, this.position.Y,
                 ParamType.FLOAT, this.position.Z,
+                ParamType.UINT16, this.fromPlayerID
             };
-
-            if (outcoming)
-            {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, this.fromPlayerID);
-            }
 
             BS.WriteValue(arguments.ToArray());
 
@@ -175,6 +199,52 @@ namespace SampSharp.RakNet.Syncs
             };
 
             BS.WriteValue(arguments.ToArray());
+        }
+        public void WriteOutcoming()
+        {
+            BS.WriteValue(
+                ParamType.UINT8, this.packetID,
+                ParamType.UINT16, this.fromPlayerID,
+                ParamType.UINT16, this.vehicleID,
+                ParamType.UINT16, this.lrKey,
+                ParamType.UINT16, this.udKey,
+                ParamType.UINT16, this.keys
+           );
+
+            BS.WriteNormQuat(this.quaternion);
+            
+            BS.WriteValue(
+               ParamType.FLOAT, this.position.X,
+               ParamType.FLOAT, this.position.Y,
+               ParamType.FLOAT, this.position.Z
+            );
+
+            BS.WriteVector(this.velocity);
+            BS.WriteUint16((int)this.vehicleHealth);
+
+            byte healthArmour = HealthArmour.SetInByte(this.playerHealth, this.playerArmour);
+            BS.WriteUint8((int)healthArmour);
+            BS.WriteUint8(this.weaponID);
+            
+            if (this.sirenState == 1)
+                BS.WriteBool(true);
+            else
+                BS.WriteBool(false);
+
+            if (this.landingGearState == 1)
+                BS.WriteBool(true);
+            else
+                BS.WriteBool(false);
+
+            // HYDRA THRUST ANGLE AND TRAILER ID
+            BS.WriteBool(false);
+            BS.WriteBool(false);
+
+            int trailerID_or_thrustAngle = 0;
+            BS.WriteUint32(trailerID_or_thrustAngle);
+
+            // TRAIN SPECIAL
+            BS.WriteBool(false);
         }
     }
 }
