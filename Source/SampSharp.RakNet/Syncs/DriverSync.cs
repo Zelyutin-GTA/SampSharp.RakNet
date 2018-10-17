@@ -62,7 +62,7 @@ namespace SampSharp.RakNet.Syncs
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
                 this.keys = (int)result["keys"];
-                this.quaternion = new Vector4((float) result["quaternion_0"], (float) result["quaternion_1"], (float) result["quaternion_2"], (float) result["quaternion_3"]);
+                this.quaternion = new Vector4((float) result["quaternion_X"], (float) result["quaternion_Y"], (float) result["quaternion_Z"], (float) result["quaternion_W"]); // order is different from one in a bitstream
                 this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
                 
 
@@ -108,10 +108,10 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.UINT16, "lrKey",
                 ParamType.UINT16, "udKey",
                 ParamType.UINT16, "keys",
-                ParamType.FLOAT, "quaternion_0",
-                ParamType.FLOAT, "quaternion_1",
-                ParamType.FLOAT, "quaternion_2",
-                ParamType.FLOAT, "quaternion_3",
+                ParamType.FLOAT, "quaternion_W",
+                ParamType.FLOAT, "quaternion_X",
+                ParamType.FLOAT, "quaternion_Y",
+                ParamType.FLOAT, "quaternion_Z",
                 ParamType.FLOAT, "position_0",
                 ParamType.FLOAT, "position_1",
                 ParamType.FLOAT, "position_2",
@@ -126,5 +126,6 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
         }
+   
     }
 }
