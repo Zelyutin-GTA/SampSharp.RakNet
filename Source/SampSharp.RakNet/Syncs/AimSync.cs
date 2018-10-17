@@ -18,7 +18,7 @@ namespace SampSharp.RakNet.Syncs
         public int fromPlayerID;
         public int cameraMode;
         public Vector3 cameraFrontVector;
-        public Vector3 cameraPos;
+        public Vector3 cameraPosition;
         public float aimZ;
         public int weaponState;
         public int cameraZoom;
@@ -36,6 +36,14 @@ namespace SampSharp.RakNet.Syncs
         {
             this.Read(true);
         }
+        public void WriteIncoming()
+        {
+            this.Write(false);
+        }
+        public void WriteOutcoming()
+        {
+            this.Write(true);
+        }
         private void Read(bool outcoming)
         {
             //ReadSync() playerID;
@@ -51,7 +59,7 @@ namespace SampSharp.RakNet.Syncs
 
                 cameraMode = (int)result["cameraMode"];
                 cameraFrontVector = new Vector3((float) result["cameraFrontVector_0"], (float) result["cameraFrontVector_1"], (float) result["cameraFrontVector_2"]);
-                cameraPos = new Vector3((float) result["cameraPos_0"], (float) result["cameraPos_2"], (float) result["cameraPos_2"]);
+                cameraPosition = new Vector3((float) result["cameraPosition_0"], (float) result["cameraPosition_2"], (float) result["cameraPosition_2"]);
                 aimZ = (float) result["aimZ"];
 
                 weaponState = (int)result["weaponState"];
@@ -68,9 +76,9 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.FLOAT, "cameraFrontVector_0",
                 ParamType.FLOAT, "cameraFrontVector_1",
                 ParamType.FLOAT, "cameraFrontVector_2",
-                ParamType.FLOAT, "cameraPos_0",
-                ParamType.FLOAT, "cameraPos_1",
-                ParamType.FLOAT, "cameraPos_2",
+                ParamType.FLOAT, "cameraPosition_0",
+                ParamType.FLOAT, "cameraPosition_1",
+                ParamType.FLOAT, "cameraPosition_2",
                 ParamType.FLOAT, "aimZ",
                 ParamType.BITS, "weaponState", 2,
                 ParamType.BITS, "cameraZoom", 6,
@@ -84,6 +92,32 @@ namespace SampSharp.RakNet.Syncs
             }
 
             BS.ReadValue(arguments.ToArray());
+        }
+        private void Write(bool outcoming)
+        {
+            var arguments = new List<object>()
+            {
+                ParamType.UINT8, this.packetID,
+                ParamType.UINT8, this.cameraMode,
+                ParamType.FLOAT, this.cameraFrontVector.X,
+                ParamType.FLOAT, this.cameraFrontVector.Y,
+                ParamType.FLOAT, this.cameraFrontVector.Z,
+                ParamType.FLOAT, this.cameraPosition.X,
+                ParamType.FLOAT, this.cameraPosition.Y,
+                ParamType.FLOAT, this.cameraPosition.Z,
+                ParamType.FLOAT, this.aimZ,
+                ParamType.BITS, this.weaponState, 2,
+                ParamType.BITS, this.cameraZoom, 6,
+                ParamType.UINT8, this.aspectRatio
+            };
+
+            if (outcoming)
+            {
+                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(3, this.fromPlayerID);
+            }
+
+            BS.WriteValue(arguments.ToArray());
         }
     }
 }
