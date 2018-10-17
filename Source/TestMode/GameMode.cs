@@ -17,6 +17,7 @@ namespace TestMode
 {
     public class GameMode : BaseMode, IHasClient
     {
+        IRakNet RakNet;
         #region Implementation of IHasClient
         public IGameModeClient GameModeClient => Client;
         #endregion
@@ -24,11 +25,12 @@ namespace TestMode
         #region Overrides of BaseMode
         protected override void OnInitialized(EventArgs e)
         {
-            var raknet = Services.GetService<IRakNet>();
+            RakNet = Services.GetService<IRakNet>();
+            RakNet.SetLogging(false, false, false, false, true, true);
             //raknet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
             //raknet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
-            raknet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
-            raknet.OutcomingPacket += (sender, args) => OnOutcomingPacket(args);
+            RakNet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
+            RakNet.OutcomingPacket += (sender, args) => OnOutcomingPacket(args);
 
             BaseVehicle.Create((VehicleModelType)429, new Vector3(5, 0, 5), 0, 0, 0);
             BaseVehicle.Create((VehicleModelType)461, new Vector3(10, 0, 5), 0, 0, 0);
@@ -387,7 +389,7 @@ namespace TestMode
                         Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position};");
                     };
                     onFoot.ReadIncoming();
-
+                    
                     break;
                 }
                 case (int)PacketIdentifiers.DRIVER_SYNC:
@@ -399,6 +401,7 @@ namespace TestMode
                     };
                     driver.ReadIncoming();
 
+                    RakNet.BlockPacket();
                     break;
                 }
                 case (int)PacketIdentifiers.AIM_SYNC:
@@ -409,7 +412,7 @@ namespace TestMode
                         Console.WriteLine($"Reading incoming AimSync. Camera looks at: {aim.cameraFrontVector};");
                     };
                     aim.ReadIncoming();
-
+                    
                     break;
                 }
                 case (int)PacketIdentifiers.BULLET_SYNC:

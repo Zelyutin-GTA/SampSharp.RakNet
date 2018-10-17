@@ -53,13 +53,29 @@ namespace SampSharp.RakNet
         bool LoggingOutcomingRPC = false;
         bool LoggingIncomingPacket = false;
         bool LoggingOutcomingPacket = false;
+        bool LoggingBlockingRPC = false;
+        bool LoggingBlockingPacket = false;
 
-        public void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket)
+        public void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket, bool blockingRPC, bool blockingPacket)
         {
             this.LoggingIncomingRPC = incomingRPC;
             this.LoggingOutcomingRPC = outcomingRPC;
             this.LoggingIncomingPacket = incomingPacket;
             this.LoggingOutcomingPacket = outcomingPacket;
+            this.LoggingBlockingRPC = blockingRPC;
+            this.LoggingBlockingPacket = blockingPacket;
         }
+
+        public void BlockRPC()
+        {
+            if (this.LoggingBlockingRPC) Console.WriteLine($"[S#] Blocking next RPC");
+            Internal.CallRemoteFunction("BlockNextRPC", "");
+        }
+        public void BlockPacket()
+        {
+            if (this.LoggingBlockingPacket) Console.WriteLine($"[S#] Blocking next Packet");
+            Internal.CallRemoteFunction("BlockNextPacket", "");
+        }
+
     }
 }

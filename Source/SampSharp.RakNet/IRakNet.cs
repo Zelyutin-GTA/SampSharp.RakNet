@@ -11,7 +11,9 @@ namespace SampSharp.RakNet
         event EventHandler<PacketRPCEventArgs> IncomingPacket;
         event EventHandler<PacketRPCEventArgs> OutcomingPacket;
 
-        void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket);
+        void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket, bool blockingRPC, bool blockingPacket);
+        void BlockRPC();
+        void BlockPacket();
         void PostLoad(BaseMode gameMode);
     }
 }
