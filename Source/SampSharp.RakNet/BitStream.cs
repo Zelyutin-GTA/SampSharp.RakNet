@@ -7,12 +7,14 @@ namespace SampSharp.RakNet
     public partial class BitStream : IDisposable
     {
         public int ID { get; private set; }
-        public BitStream(int id)
+        public bool IsHandMade{ get; private set; }
+        public BitStream(int id, bool isHandMade = false)
         {
             if(id == 0)
             {
                 Console.WriteLine("[SampSharp.RakNet][Warning] Trying to create BitStream with id(handle) = 0");
             }
+            this.IsHandMade = isHandMade;
             this.ID = id;
         }
         public bool IsEmptyHandle()
@@ -117,13 +119,13 @@ namespace SampSharp.RakNet
         public void Dispose()
         {
             int id = this.ID; // Added to let this.ID stay readonly (or with private setter)
-            Internal.BS_Delete(out id);
+            if(this.IsHandMade) Internal.BS_Delete(out id);
             this.ID = id;
         }
         public static BitStream New()
         {
             int id = Internal.BS_New();
-            return new BitStream(id);
+            return new BitStream(id, true);
         }
 
         public event EventHandler<BitStreamReadEventArgs> ReadCompleted;
