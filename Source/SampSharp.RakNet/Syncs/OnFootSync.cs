@@ -38,49 +38,6 @@ namespace SampSharp.RakNet.Syncs
         }
         public void ReadIncoming()
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                PacketId = (int)result["packetId"];
-                LRKey = (int)result["lrKey"];
-                UDKey = (int)result["udKey"];
-                Keys = (int)result["keys"];
-                Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-                Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
-                Health = (int)result["health"];
-                Armour = (int)result["armour"];
-                AdditionalKey = (int)result["additionalKey"];
-
-                var BS2 = new BitStream(BS.Id);
-                BS2.ReadCompleted += (sender2, args2) =>
-                {
-                    result = args2.Result;
-                    WeaponId = (int)result["weaponId"];
-                    SpecialAction = (int)result["specialAction"];
-                    Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
-                    SurfingOffsets = new Vector3((float)result["surfingOffsets_0"], (float)result["surfingOffsets_1"], (float)result["surfingOffsets_2"]);
-                    SurfingVehicleId = (int)result["surfingVehicleId"];
-                    AnimationId = (int)result["animationId"];
-                    AnimationFlags = (int)result["animationFlags"];
-
-                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-                };
-
-                BS2.ReadValue(
-                    ParamType.Bits, "weaponId", 6,
-                    ParamType.UInt8, "specialAction",
-                    ParamType.Float, "velocity_0",
-                    ParamType.Float, "velocity_1",
-                    ParamType.Float, "velocity_2",
-                    ParamType.Float, "surfingOffsets_0",
-                    ParamType.Float, "surfingOffsets_1",
-                    ParamType.Float, "surfingOffsets_2",
-                    ParamType.UInt16, "surfingVehicleId",
-                    ParamType.Int16, "animationId",
-                    ParamType.Int16, "animationFlags"
-                );
-            };
-
             var arguments = new List<object>()
             {
                 ParamType.UInt8, "packetId",
@@ -99,61 +56,45 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Bits, "additionalKey", 2
             };
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+
+            PacketId = (int)result["packetId"];
+            LRKey = (int)result["lrKey"];
+            UDKey = (int)result["udKey"];
+            Keys = (int)result["keys"];
+            Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+            Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
+            Health = (int)result["health"];
+            Armour = (int)result["armour"];
+            AdditionalKey = (int)result["additionalKey"];
+
+            result = BS.ReadValue(
+                ParamType.Bits, "weaponId", 6,
+                ParamType.UInt8, "specialAction",
+                ParamType.Float, "velocity_0",
+                ParamType.Float, "velocity_1",
+                ParamType.Float, "velocity_2",
+                ParamType.Float, "surfingOffsets_0",
+                ParamType.Float, "surfingOffsets_1",
+                ParamType.Float, "surfingOffsets_2",
+                ParamType.UInt16, "surfingVehicleId",
+                ParamType.Int16, "animationId",
+                ParamType.Int16, "animationFlags"
+            );
+
+            WeaponId = (int)result["weaponId"];
+            SpecialAction = (int)result["specialAction"];
+            Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
+            SurfingOffsets = new Vector3((float)result["surfingOffsets_0"], (float)result["surfingOffsets_1"], (float)result["surfingOffsets_2"]);
+            SurfingVehicleId = (int)result["surfingVehicleId"];
+            AnimationId = (int)result["animationId"];
+            AnimationFlags = (int)result["animationFlags"];
+
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void ReadOutcoming()
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                Keys = (int)result["keys"];
-                Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-                Quaternion = BS.ReadNormQuat();
-
-                var BS2 = new BitStream(BS.Id);
-                BS2.ReadCompleted += (sender2, args2) =>
-                {
-                    result = args2.Result;
-
-                    byte healthArmour = Convert.ToByte(((int)result["healthArmourByte"]));
-                    HealthArmour.GetFromByte(healthArmour, out int health, out int armour);
-                    Health = health;
-                    Armour = armour;
-                    WeaponId = (int)result["weaponId"];
-                    SpecialAction = (int)result["specialAction"];
-                    Velocity = BS.ReadVector();
-
-                    bool hasSurfInfo = BS2.ReadBool();
-                    if(hasSurfInfo)
-                    {
-                        SurfingVehicleId = BS2.ReadUInt16();
-                        float offsetsX = BS2.ReadFloat();
-                        float offsetsY = BS2.ReadFloat();
-                        float offsetsZ = BS2.ReadFloat();
-                        SurfingOffsets = new Vector3(offsetsX, offsetsY, offsetsZ);
-                    }
-                    else
-                    {
-                        SurfingVehicleId = -1;
-                    }
-
-                    bool hasAnimation = BS2.ReadBool();
-                    if(hasAnimation)
-                    {
-                        AnimationId = BS2.ReadInt32();
-                    }
-                    
-                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-                };
-
-                BS2.ReadValue(
-                    ParamType.UInt8, "healthArmourByte",
-                    ParamType.UInt8, "weaponId",
-                    ParamType.UInt8, "specialAction"
-                );
-            };
-
             PacketId = BS.ReadUInt8();
             FromPlayerId = BS.ReadUInt16();
 
@@ -173,7 +114,47 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, "position_2"
             };
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
+
+            Keys = (int)result["keys"];
+            Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+            Quaternion = BS.ReadNormQuat();
+
+            result = BS.ReadValue(
+                ParamType.UInt8, "healthArmourByte",
+                ParamType.UInt8, "weaponId",
+                ParamType.UInt8, "specialAction"
+            );
+
+            byte healthArmour = Convert.ToByte(((int)result["healthArmourByte"]));
+            HealthArmour.GetFromByte(healthArmour, out int health, out int armour);
+            Health = health;
+            Armour = armour;
+            WeaponId = (int)result["weaponId"];
+            SpecialAction = (int)result["specialAction"];
+            Velocity = BS.ReadVector();
+
+            bool hasSurfInfo = BS.ReadBool();
+            if (hasSurfInfo)
+            {
+                SurfingVehicleId = BS.ReadUInt16();
+                float offsetsX = BS.ReadFloat();
+                float offsetsY = BS.ReadFloat();
+                float offsetsZ = BS.ReadFloat();
+                SurfingOffsets = new Vector3(offsetsX, offsetsY, offsetsZ);
+            }
+            else
+            {
+                SurfingVehicleId = -1;
+            }
+
+            bool hasAnimation = BS.ReadBool();
+            if (hasAnimation)
+            {
+                AnimationId = BS.ReadInt32();
+            }
+
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void WriteIncoming()
         {

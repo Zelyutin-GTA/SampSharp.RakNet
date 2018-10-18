@@ -48,44 +48,6 @@ namespace SampSharp.RakNet.Syncs
         }
         private void Read(bool outcoming)
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                PacketId = (int)result["packetId"];
-                if (outcoming)
-                {
-                    FromPlayerId = (int)result["fromPlayerId"];
-                }
-
-                VehicleId = (int)result["vehicleId"];
-                SeatId = (int)result["seatId"];
-                Roll = new Vector3((float)result["roll_0"], (float)result["roll_1"], (float)result["roll_2"]);
-                Direction = new Vector3((float)result["direction_0"], (float)result["direction_1"], (float)result["direction_2"]);
-                Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-
-
-                var BS2 = new BitStream(BS.Id);
-                BS2.ReadCompleted += (sender2, args2) =>
-                {
-                    result = args2.Result;
-
-                    Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
-                    AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
-                    VehicleHealth = (float)result["vehicleHealth"];
-                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-                };
-
-                BS2.ReadValue(
-                    ParamType.Float, "velocity_0",
-                    ParamType.Float, "velocity_1",
-                    ParamType.Float, "velocity_2",
-                    ParamType.Float, "angularVelocity_0",
-                    ParamType.Float, "angularVelocity_1",
-                    ParamType.Float, "angularVelocity_2",
-                    ParamType.Float, "vehicleHealth"
-                );
-            };
-
             var arguments = new List<object>()
             {
                 ParamType.UInt8, "packetId",
@@ -108,8 +70,35 @@ namespace SampSharp.RakNet.Syncs
                 arguments.Insert(3, "fromPlayerId");
             }
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+
+            PacketId = (int)result["packetId"];
+            if (outcoming)
+            {
+                FromPlayerId = (int)result["fromPlayerId"];
+            }
+
+            VehicleId = (int)result["vehicleId"];
+            SeatId = (int)result["seatId"];
+            Roll = new Vector3((float)result["roll_0"], (float)result["roll_1"], (float)result["roll_2"]);
+            Direction = new Vector3((float)result["direction_0"], (float)result["direction_1"], (float)result["direction_2"]);
+            Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+
+            result = BS.ReadValue(
+                ParamType.Float, "velocity_0",
+                ParamType.Float, "velocity_1",
+                ParamType.Float, "velocity_2",
+                ParamType.Float, "angularVelocity_0",
+                ParamType.Float, "angularVelocity_1",
+                ParamType.Float, "angularVelocity_2",
+                ParamType.Float, "vehicleHealth"
+            );
+
+            Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
+            AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
+            VehicleHealth = (float)result["vehicleHealth"];
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

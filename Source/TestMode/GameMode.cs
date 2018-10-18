@@ -149,41 +149,28 @@ namespace TestMode
             sender.SendClientMessage("Spectating player!");
         }
         #endregion
-        
+
         #region Rpc/Packet handlers
         void OnIncomingRpc(PacketRpcEventArgs e)
         {
             var bs = e.BitStreamId;
             var rpcid = e.Id;
             var playerId = e.PlayerId;
-
+            
             if (rpcid == 119)
             {
                 var BS = new BitStream(bs);
-                BS.ReadCompleted += (sender, args) =>
-                {
-                    float x = (float)args.Result["x"];
-                    float y = (float)args.Result["y"];
-                    float z = (float)args.Result["z"];
-
-                    Console.WriteLine($"Map Clicked X: {x}; Y: {y}; Z: {z};");
-                };
                 
-                BS.ReadValue(ParamType.Float, "x", ParamType.Float, "y", ParamType.Float, "z");
+                var result = BS.ReadValue(ParamType.Float, "x", ParamType.Float, "y", ParamType.Float, "z");
+                float x = (float)result["x"];
+                float y = (float)result["y"];
+                float z = (float)result["z"];
+                Console.WriteLine($"Map Clicked X: {x}; Y: {y}; Z: {z};");
             }
             if (rpcid == 25)
             {
                 var BS = new BitStream(bs);
-                BS.ReadCompleted += (sender, args) =>
-                {
-                    var nickname = (string) args.Result["nickname"];
-                    var clientVersion = (string)args.Result["clientVersion"];
-                    var authKey = (string)args.Result["authKey"];
-
-                    Console.WriteLine($"Client joined. Version: {clientVersion}; Auth Key: {authKey}; Nickname: {nickname};");
-                };
-
-                BS.ReadValue(
+                var result = BS.ReadValue(
                     ParamType.Int32, "version",
                     ParamType.UInt8, "mod",
                     ParamType.UInt8, "nicknameLen",
@@ -194,6 +181,11 @@ namespace TestMode
                     ParamType.UInt8, "clientVersionLen",
                     ParamType.String, "clientVersion"
                 );
+                var nickname = (string)result["nickname"];
+                var clientVersion = (string)result["clientVersion"];
+                var authKey = (string)result["authKey"];
+
+                Console.WriteLine($"Client joined. Version: {clientVersion}; Auth Key: {authKey}; Nickname: {nickname};");
             }
         }
 
@@ -206,42 +198,37 @@ namespace TestMode
             if (rpcid == 11)
             {
                 var BS = new BitStream(bs);
-                BS.ReadCompleted += (sender, args) =>
-                {
-                    var Id = (int)args.Result["playerId"];
-                    var nicknameLen = (string)args.Result["nickname"];
-                    var nickname = (int)args.Result["nicknameLen"];
+                var result = BS.ReadValue(ParamType.UInt16, "playerId", ParamType.UInt8, "nicknameLen", ParamType.String, "nickname");
 
-                    Console.WriteLine($"Nickname changed. Id: {Id}, Nickname: {nickname}; Len: {nicknameLen}");
-                };
+                var Id = (int)result["playerId"];
+                var nicknameLen = (string)result["nickname"];
+                var nickname = (int)result["nicknameLen"];
 
-                BS.ReadValue(ParamType.UInt16, "playerId", ParamType.UInt8, "nicknameLen", ParamType.String, "nickname");
+                Console.WriteLine($"Nickname changed. Id: {Id}, Nickname: {nickname}; Len: {nicknameLen}");
             }
 
             if (rpcid == 86)
             {
                 var BS = new BitStream(bs);
-                BS.ReadCompleted += (sender, args) =>
-                {
-                    var Id = (int)args.Result["playerId"];
-                    var AnimLib = (string)args.Result["AnimLib"];
-                    var AnimName = (string)args.Result["AnimName"];
-
-                    Console.WriteLine($"Animation applied. Id: {Id}; Anim Lib: {AnimLib}; Anim Name: {AnimName}");
-                };
-                BS.ReadValue(
-                ParamType.UInt16, "playerId",
-                ParamType.UInt8, "AnimLibLength",
-                ParamType.String, "AnimLib",
-                ParamType.UInt8, "AnimNameLength",
-                ParamType.String, "AnimName",
-                ParamType.Float, "fDelta",
-                ParamType.Bool, "loop",
-                ParamType.Bool, "lockx",
-                ParamType.Bool, "locky",
-                ParamType.Bool, "freeze",
-                ParamType.UInt32, "dTime"
+                var result = BS.ReadValue(
+                    ParamType.UInt16, "playerId",
+                    ParamType.UInt8, "AnimLibLength",
+                    ParamType.String, "AnimLib",
+                    ParamType.UInt8, "AnimNameLength",
+                    ParamType.String, "AnimName",
+                    ParamType.Float, "fDelta",
+                    ParamType.Bool, "loop",
+                    ParamType.Bool, "lockx",
+                    ParamType.Bool, "locky",
+                    ParamType.Bool, "freeze",
+                    ParamType.UInt32, "dTime"
                 );
+
+                var Id = (int)result["playerId"];
+                var AnimLib = (string)result["AnimLib"];
+                var AnimName = (string)result["AnimName"];
+
+                Console.WriteLine($"Animation applied. Id: {Id}; Anim Lib: {AnimLib}; Anim Name: {AnimName}");
             }
         }
 

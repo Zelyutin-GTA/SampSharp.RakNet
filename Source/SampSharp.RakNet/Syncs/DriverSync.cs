@@ -39,54 +39,6 @@ namespace SampSharp.RakNet.Syncs
         }
         public void ReadIncoming()
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                PacketId = (int)result["packetId"];
-
-                VehicleId = (int)result["vehicleId"];
-                LRKey = (int)result["lrKey"];
-                UDKey = (int)result["udKey"];
-                Keys = (int)result["keys"];
-                Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
-                Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-
-
-                var BS2 = new BitStream(BS.Id);
-                BS2.ReadCompleted += (sender2, args2) =>
-                {
-                    result = args2.Result;
-
-                    Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
-                    VehicleHealth = (float)result["vehicleHealth"];
-                    PlayerHealth = (int)result["playerHealth"];
-                    PlayerArmour = (int)result["playerArmour"];
-                    AdditionalKey = (int)result["additionalKey"];
-                    WeaponId = (int)result["weaponId"];
-                    SirenState = (int)result["sirenState"];
-                    LandingGearState = (int)result["landingGearState"];
-                    TrailerId = (int)result["trailerId"];
-                    TrainSpeed = (float)result["trainSpeed"];
-
-                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-                };
-
-                BS2.ReadValue(
-                    ParamType.Float, "velocity_0",
-                    ParamType.Float, "velocity_1",
-                    ParamType.Float, "velocity_2",
-                    ParamType.Float, "vehicleHealth",
-                    ParamType.UInt8, "playerHealth",
-                    ParamType.UInt8, "playerArmour",
-                    ParamType.Bits, "additionalKey", 2,
-                    ParamType.Bits, "weaponId", 6,
-                    ParamType.UInt8, "sirenState",
-                    ParamType.UInt8, "landingGearState",
-                    ParamType.UInt16, "trailerId",
-                    ParamType.Float, "trainSpeed"
-                );
-            };
-
             var arguments = new List<object>()
             {
                 ParamType.UInt8, "packetId",
@@ -104,8 +56,45 @@ namespace SampSharp.RakNet.Syncs
 
             };
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+
+            PacketId = (int)result["packetId"];
+
+            VehicleId = (int)result["vehicleId"];
+            LRKey = (int)result["lrKey"];
+            UDKey = (int)result["udKey"];
+            Keys = (int)result["keys"];
+            Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
+            Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+
+            result = BS.ReadValue(
+                ParamType.Float, "velocity_0",
+                ParamType.Float, "velocity_1",
+                ParamType.Float, "velocity_2",
+                ParamType.Float, "vehicleHealth",
+                ParamType.UInt8, "playerHealth",
+                ParamType.UInt8, "playerArmour",
+                ParamType.Bits, "additionalKey", 2,
+                ParamType.Bits, "weaponId", 6,
+                ParamType.UInt8, "sirenState",
+                ParamType.UInt8, "landingGearState",
+                ParamType.UInt16, "trailerId",
+                ParamType.Float, "trainSpeed"
+            );
+
+            Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
+            VehicleHealth = (float)result["vehicleHealth"];
+            PlayerHealth = (int)result["playerHealth"];
+            PlayerArmour = (int)result["playerArmour"];
+            AdditionalKey = (int)result["additionalKey"];
+            WeaponId = (int)result["weaponId"];
+            SirenState = (int)result["sirenState"];
+            LandingGearState = (int)result["landingGearState"];
+            TrailerId = (int)result["trailerId"];
+            TrainSpeed = (float)result["trainSpeed"];
+
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void ReadOutcoming()
         {

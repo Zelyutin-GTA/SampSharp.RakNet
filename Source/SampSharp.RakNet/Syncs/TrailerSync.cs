@@ -45,36 +45,6 @@ namespace SampSharp.RakNet.Syncs
         }
         private void Read(bool outcoming)
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                PacketId = (int)result["packetId"];
-                if (outcoming)
-                {
-                    FromPlayerId = (int)result["fromPlayerId"];
-                }
-
-                TrailerId = (int)result["trailerId"];
-                Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
-                Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-                Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
-
-                var BS2 = new BitStream(BS.Id);
-                BS2.ReadCompleted += (sender2, args2) =>
-                {
-                    result = args2.Result;
-
-                    AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
-                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-                };
-
-                BS2.ReadValue(
-                    ParamType.Float, "angularVelocity_0",
-                    ParamType.Float, "angularVelocity_1",
-                    ParamType.Float, "angularVelocity_2"
-                );
-            };
-            
             var arguments = new List<object>()
             {
                 ParamType.UInt8, "packetId",
@@ -97,8 +67,28 @@ namespace SampSharp.RakNet.Syncs
                 arguments.Insert(3, "fromPlayerId");
             }
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+
+            PacketId = (int)result["packetId"];
+            if (outcoming)
+            {
+                FromPlayerId = (int)result["fromPlayerId"];
+            }
+
+            TrailerId = (int)result["trailerId"];
+            Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
+            Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+            Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
+            
+            result = BS.ReadValue(
+                ParamType.Float, "angularVelocity_0",
+                ParamType.Float, "angularVelocity_1",
+                ParamType.Float, "angularVelocity_2"
+            );
+
+            AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

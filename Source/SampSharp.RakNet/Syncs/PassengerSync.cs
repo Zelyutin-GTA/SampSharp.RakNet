@@ -50,42 +50,6 @@ namespace SampSharp.RakNet.Syncs
         }
         private void Read(bool outcoming)
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                PacketId = (int)result["packetId"];
-                if (outcoming)
-                {
-                    FromPlayerId = (int)result["fromPlayerId"];
-                }
-
-                VehicleId = (int)result["vehicleId"];
-                DriveBy = (int)result["driveBy"];
-                SeatId = (int)result["seatId"];
-                AdditionalKey = (int)result["additionalKey"];
-                WeaponId = (int)result["weaponId"];
-                PlayerHealth = (int)result["playerHealth"];
-                PlayerArmour = (int)result["playerArmour"];
-                LRKey = (int)result["lrKey"];
-                UDKey = (int)result["udKey"];
-                Keys = (int)result["keys"];
-
-                var BS2 = new BitStream(BS.Id);
-                BS2.ReadCompleted += (sender2, args2) =>
-                {
-                    result = args2.Result;
-                    Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-
-                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-                };
-
-                BS2.ReadValue(
-                    ParamType.Float, "position_0",
-                    ParamType.Float, "position_1",
-                    ParamType.Float, "position_2"
-                );
-            };
-
             var arguments = new List<object>()
             {
                 ParamType.UInt8, "packetId",
@@ -106,8 +70,35 @@ namespace SampSharp.RakNet.Syncs
                 arguments.Insert(3, "fromPlayerId");
             }
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
             //Need to divide up the reading cause of native arguments limit(32) in SampSharp.
+
+            PacketId = (int)result["packetId"];
+            if (outcoming)
+            {
+                FromPlayerId = (int)result["fromPlayerId"];
+            }
+
+            VehicleId = (int)result["vehicleId"];
+            DriveBy = (int)result["driveBy"];
+            SeatId = (int)result["seatId"];
+            AdditionalKey = (int)result["additionalKey"];
+            WeaponId = (int)result["weaponId"];
+            PlayerHealth = (int)result["playerHealth"];
+            PlayerArmour = (int)result["playerArmour"];
+            LRKey = (int)result["lrKey"];
+            UDKey = (int)result["udKey"];
+            Keys = (int)result["keys"];
+
+            result = BS.ReadValue(
+                ParamType.Float, "position_0",
+                ParamType.Float, "position_1",
+                ParamType.Float, "position_2"
+            );
+
+            Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

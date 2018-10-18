@@ -45,26 +45,6 @@ namespace SampSharp.RakNet.Syncs
         }
         private void Read(bool outcoming)
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                PacketId = (int)result["packetId"];
-                if (outcoming)
-                {
-                    FromPlayerId = (int)result["fromPlayerId"];
-                }
-
-                HitType = (int)result["hitType"];
-                HitId = (int)result["hitId"];
-                Origin = new Vector3((float)result["origin_0"], (float)result["origin_1"], (float)result["origin_2"]);
-                HitPosition = new Vector3((float)result["hitPosition_0"], (float)result["hitPosition_1"], (float)result["hitPosition_2"]);
-                Offsets = new Vector3((float)result["offsets_0"], (float)result["offsets_1"], (float)result["offsets_2"]);
-
-                WeaponId = (int)result["weaponId"];
-
-                ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-            };
-
             var arguments = new List<object>()
             {
                 ParamType.UInt8, "packetId",
@@ -87,7 +67,23 @@ namespace SampSharp.RakNet.Syncs
                 arguments.Insert(3, "fromPlayerId");
             }
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
+
+            PacketId = (int)result["packetId"];
+            if (outcoming)
+            {
+                FromPlayerId = (int)result["fromPlayerId"];
+            }
+
+            HitType = (int)result["hitType"];
+            HitId = (int)result["hitId"];
+            Origin = new Vector3((float)result["origin_0"], (float)result["origin_1"], (float)result["origin_2"]);
+            HitPosition = new Vector3((float)result["hitPosition_0"], (float)result["hitPosition_1"], (float)result["hitPosition_2"]);
+            Offsets = new Vector3((float)result["offsets_0"], (float)result["offsets_1"], (float)result["offsets_2"]);
+
+            WeaponId = (int)result["weaponId"];
+
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {
