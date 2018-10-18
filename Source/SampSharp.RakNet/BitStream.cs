@@ -119,7 +119,8 @@ namespace SampSharp.RakNet
         {
             if (IsHandMade)
             {
-                Internal.BS_Delete(out int id);
+                int id = Id;
+                Internal.BS_Delete(ref id);
                 Id = id;
             }
         }
