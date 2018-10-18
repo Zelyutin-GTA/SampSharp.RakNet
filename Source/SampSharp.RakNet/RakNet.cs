@@ -36,7 +36,7 @@ namespace SampSharp.RakNet
                 throw new RakNetException("[SampSharp.RakNet] Gamemode should implement IHasClient interface to use SampSharp.RakNet");
             }
 
-            this.GameMode = gameMode;
+            GameMode = gameMode;
             RakNet.Mode = gameMode;
             gameMode.Services.AddService<IRakNet>(this);
 
@@ -54,22 +54,22 @@ namespace SampSharp.RakNet
 
         public void SetLogging(bool incomingRpc, bool outcomingRpc, bool incomingPacket, bool outcomingPacket, bool blockingRpc, bool blockingPacket)
         {
-            this.LoggingIncomingRpc = incomingRpc;
-            this.LoggingOutcomingRpc = outcomingRpc;
-            this.LoggingIncomingPacket = incomingPacket;
-            this.LoggingOutcomingPacket = outcomingPacket;
-            this.LoggingBlockingRpc = blockingRpc;
-            this.LoggingBlockingPacket = blockingPacket;
+            LoggingIncomingRpc = incomingRpc;
+            LoggingOutcomingRpc = outcomingRpc;
+            LoggingIncomingPacket = incomingPacket;
+            LoggingOutcomingPacket = outcomingPacket;
+            LoggingBlockingRpc = blockingRpc;
+            LoggingBlockingPacket = blockingPacket;
         }
 
         public void BlockRpc()
         {
-            if (this.LoggingBlockingRpc) Console.WriteLine($"[S#] Blocking next Rpc");
+            if (LoggingBlockingRpc) Console.WriteLine($"[S#] Blocking next Rpc");
             Internal.CallRemoteFunction("BlockNextRpc", "");
         }
         public void BlockPacket()
         {
-            if (this.LoggingBlockingPacket) Console.WriteLine($"[S#] Blocking next Packet");
+            if (LoggingBlockingPacket) Console.WriteLine($"[S#] Blocking next Packet");
             Internal.CallRemoteFunction("BlockNextPacket", "");
         }
 

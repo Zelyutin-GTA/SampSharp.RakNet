@@ -35,21 +35,21 @@ namespace SampSharp.RakNet.Syncs
 
         public DriverSync(BitStream bs)
         {
-            this.BS = bs;
+            BS = bs;
         }
         public void ReadIncoming()
         {
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.PacketId = (int)result["packetId"];
+                PacketId = (int)result["packetId"];
 
-                this.VehicleId = (int)result["vehicleId"];
-                this.LRKey = (int)result["lrKey"];
-                this.UDKey = (int)result["udKey"];
-                this.Keys = (int)result["keys"];
-                this.Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
-                this.Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+                VehicleId = (int)result["vehicleId"];
+                LRKey = (int)result["lrKey"];
+                UDKey = (int)result["udKey"];
+                Keys = (int)result["keys"];
+                Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
+                Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
 
 
                 var BS2 = new BitStream(BS.Id);
@@ -57,18 +57,18 @@ namespace SampSharp.RakNet.Syncs
                 {
                     result = args2.Result;
 
-                    this.Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
-                    this.VehicleHealth = (float)result["vehicleHealth"];
-                    this.PlayerHealth = (int)result["playerHealth"];
-                    this.PlayerArmour = (int)result["playerArmour"];
-                    this.AdditionalKey = (int)result["additionalKey"];
-                    this.WeaponId = (int)result["weaponId"];
-                    this.SirenState = (int)result["sirenState"];
-                    this.LandingGearState = (int)result["landingGearState"];
-                    this.TrailerId = (int)result["trailerId"];
-                    this.TrainSpeed = (float)result["trainSpeed"];
+                    Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
+                    VehicleHealth = (float)result["vehicleHealth"];
+                    PlayerHealth = (int)result["playerHealth"];
+                    PlayerArmour = (int)result["playerArmour"];
+                    AdditionalKey = (int)result["additionalKey"];
+                    WeaponId = (int)result["weaponId"];
+                    SirenState = (int)result["sirenState"];
+                    LandingGearState = (int)result["landingGearState"];
+                    TrailerId = (int)result["trailerId"];
+                    TrainSpeed = (float)result["trainSpeed"];
 
-                    this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
                 };
 
                 BS2.ReadValue(
@@ -109,45 +109,45 @@ namespace SampSharp.RakNet.Syncs
         }
         public void ReadOutcoming()
         {
-            this.PacketId = this.BS.ReadUInt8();
-            this.FromPlayerId = this.BS.ReadUInt16();
-            this.VehicleId = this.BS.ReadUInt16();
+            PacketId = BS.ReadUInt8();
+            FromPlayerId = BS.ReadUInt16();
+            VehicleId = BS.ReadUInt16();
 
             // LEFT/RIGHT KEYS
-            this.LRKey = this.BS.ReadUInt16();
+            LRKey = BS.ReadUInt16();
 
             // UP/DOWN KEYS
-            this.UDKey = this.BS.ReadUInt16();
+            UDKey = BS.ReadUInt16();
 
             // GENERAL KEYS
-            this.Keys = this.BS.ReadUInt16();
+            Keys = BS.ReadUInt16();
             
             // ROTATION
-            this.Quaternion = BS.ReadNormQuat();
+            Quaternion = BS.ReadNormQuat();
 
             float x = BS.ReadFloat();
             float y = BS.ReadFloat();
             float z = BS.ReadFloat();
-            this.Position = new Vector3(x, y, z);
+            Position = new Vector3(x, y, z);
 
-            this.Velocity = BS.ReadVector();
-            this.VehicleHealth = (float)BS.ReadUInt16();
+            Velocity = BS.ReadVector();
+            VehicleHealth = (float)BS.ReadUInt16();
 
             byte healthArmour = Convert.ToByte(BS.ReadUInt8());
 
             HealthArmour.GetFromByte(healthArmour, out int health, out int armour);
-            this.PlayerHealth = health;
-            this.PlayerArmour = armour;
+            PlayerHealth = health;
+            PlayerArmour = armour;
 
-            this.WeaponId = BS.ReadUInt8();
+            WeaponId = BS.ReadUInt8();
 
             bool sirenState = BS.ReadCompressedBool();
             if(sirenState)
-                this.SirenState = 1;
+                SirenState = 1;
 
             bool landingGear = BS.ReadCompressedBool();
             if (landingGear)
-                this.LandingGearState = 1;
+                LandingGearState = 1;
 
             // HYDRA THRUST ANGLE AND TRAILER Id
             bool hydra = BS.ReadCompressedBool();
@@ -159,45 +159,45 @@ namespace SampSharp.RakNet.Syncs
 
             if (train)
             {
-                this.TrainSpeed = (float)BS.ReadUInt8();
+                TrainSpeed = (float)BS.ReadUInt8();
             }
 
-            this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void WriteIncoming()
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.PacketId,
-                ParamType.UInt16, this.VehicleId,
-                ParamType.UInt16, this.LRKey,
-                ParamType.UInt16, this.UDKey,
-                ParamType.UInt16, this.Keys,
-                ParamType.Float, this.Quaternion.W,
-                ParamType.Float, this.Quaternion.Y,
-                ParamType.Float, this.Quaternion.Z,
-                ParamType.Float, this.Position.X,
-                ParamType.Float, this.Position.Y,
-                ParamType.Float, this.Position.Z,
-                ParamType.UInt16, this.FromPlayerId
+                ParamType.UInt8, PacketId,
+                ParamType.UInt16, VehicleId,
+                ParamType.UInt16, LRKey,
+                ParamType.UInt16, UDKey,
+                ParamType.UInt16, Keys,
+                ParamType.Float, Quaternion.W,
+                ParamType.Float, Quaternion.Y,
+                ParamType.Float, Quaternion.Z,
+                ParamType.Float, Position.X,
+                ParamType.Float, Position.Y,
+                ParamType.Float, Position.Z,
+                ParamType.UInt16, FromPlayerId
             };
 
             BS.WriteValue(arguments.ToArray());
 
             arguments = new List<object>()
             {
-                ParamType.Float, this.Velocity.X,
-                ParamType.Float, this.Velocity.Y,
-                ParamType.Float, this.Velocity.Z,
-                ParamType.Float, this.VehicleHealth,
-                ParamType.UInt8, this.PlayerHealth,
-                ParamType.UInt8, this.PlayerArmour,
-                ParamType.Bits, this.AdditionalKey, 2,
-                ParamType.Bits, this.WeaponId, 6,
-                ParamType.UInt8, this.SirenState,
-                ParamType.UInt8, this.LandingGearState,
-                ParamType.UInt16, this.TrailerId,
-                ParamType.Float, this.TrainSpeed
+                ParamType.Float, Velocity.X,
+                ParamType.Float, Velocity.Y,
+                ParamType.Float, Velocity.Z,
+                ParamType.Float, VehicleHealth,
+                ParamType.UInt8, PlayerHealth,
+                ParamType.UInt8, PlayerArmour,
+                ParamType.Bits, AdditionalKey, 2,
+                ParamType.Bits, WeaponId, 6,
+                ParamType.UInt8, SirenState,
+                ParamType.UInt8, LandingGearState,
+                ParamType.UInt16, TrailerId,
+                ParamType.Float, TrainSpeed
             };
 
             BS.WriteValue(arguments.ToArray());
@@ -205,35 +205,35 @@ namespace SampSharp.RakNet.Syncs
         public void WriteOutcoming()
         {
             BS.WriteValue(
-                ParamType.UInt8, this.PacketId,
-                ParamType.UInt16, this.FromPlayerId,
-                ParamType.UInt16, this.VehicleId,
-                ParamType.UInt16, this.LRKey,
-                ParamType.UInt16, this.UDKey,
-                ParamType.UInt16, this.Keys
+                ParamType.UInt8, PacketId,
+                ParamType.UInt16, FromPlayerId,
+                ParamType.UInt16, VehicleId,
+                ParamType.UInt16, LRKey,
+                ParamType.UInt16, UDKey,
+                ParamType.UInt16, Keys
            );
 
-            BS.WriteNormQuat(this.Quaternion);
+            BS.WriteNormQuat(Quaternion);
             
             BS.WriteValue(
-               ParamType.Float, this.Position.X,
-               ParamType.Float, this.Position.Y,
-               ParamType.Float, this.Position.Z
+               ParamType.Float, Position.X,
+               ParamType.Float, Position.Y,
+               ParamType.Float, Position.Z
             );
 
-            BS.WriteVector(this.Velocity);
-            BS.WriteUInt16((int)this.VehicleHealth);
+            BS.WriteVector(Velocity);
+            BS.WriteUInt16((int)VehicleHealth);
 
-            byte healthArmour = HealthArmour.SetInByte(this.PlayerHealth, this.PlayerArmour);
+            byte healthArmour = HealthArmour.SetInByte(PlayerHealth, PlayerArmour);
             BS.WriteUInt8((int)healthArmour);
-            BS.WriteUInt8(this.WeaponId);
+            BS.WriteUInt8(WeaponId);
             
-            if (this.SirenState == 1)
+            if (SirenState == 1)
                 BS.WriteBool(true);
             else
                 BS.WriteBool(false);
 
-            if (this.LandingGearState == 1)
+            if (LandingGearState == 1)
                 BS.WriteBool(true);
             else
                 BS.WriteBool(false);

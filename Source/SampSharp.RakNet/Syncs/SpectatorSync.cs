@@ -23,11 +23,11 @@ namespace SampSharp.RakNet.Syncs
 
         public SpectatorSync(BitStream bs)
         {
-            this.BS = bs;
+            BS = bs;
         }
         public void ReadIncoming()
         {
-            this.Read(false);
+            Read(false);
         }
         public void ReadOutcoming()
         {
@@ -36,7 +36,7 @@ namespace SampSharp.RakNet.Syncs
         }
         public void WriteIncoming()
         {
-            this.Write(false);
+            Write(false);
         }
         public void WriteOutcoming()
         {
@@ -48,18 +48,18 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.PacketId = (int)result["packetId"];
+                PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.FromPlayerId = (int)result["fromPlayerId"];
+                    FromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.LRKey = (int)result["lrKey"];
-                this.UDKey = (int)result["udKey"];
-                this.Keys = (int)result["keys"];
-                this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+                LRKey = (int)result["lrKey"];
+                UDKey = (int)result["udKey"];
+                Keys = (int)result["keys"];
+                position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
 
-                this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
             };
 
             var arguments = new List<object>()
@@ -85,19 +85,19 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.PacketId,
-                ParamType.UInt16, this.LRKey,
-                ParamType.UInt16, this.UDKey,
-                ParamType.UInt16, this.Keys,
-                ParamType.Float, this.position.X,
-                ParamType.Float, this.position.Y,
-                ParamType.Float, this.position.Z
+                ParamType.UInt8, PacketId,
+                ParamType.UInt16, LRKey,
+                ParamType.UInt16, UDKey,
+                ParamType.UInt16, Keys,
+                ParamType.Float, position.X,
+                ParamType.Float, position.Y,
+                ParamType.Float, position.Z
             };
 
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.UInt16);
-                arguments.Insert(3, this.FromPlayerId);
+                arguments.Insert(3, FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());

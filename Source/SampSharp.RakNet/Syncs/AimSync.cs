@@ -26,33 +26,33 @@ namespace SampSharp.RakNet.Syncs
 
         public AimSync(BitStream bs)
         {
-            this.BS = bs;
+            BS = bs;
         }
         public void ReadIncoming()
         {
-            this.Read(false);
+            Read(false);
         }
         public void ReadOutcoming()
         {
-            this.Read(true);
+            Read(true);
         }
         public void WriteIncoming()
         {
-            this.Write(false);
+            Write(false);
         }
         public void WriteOutcoming()
         {
-            this.Write(true);
+            Write(true);
         }
         private void Read(bool outcoming)
         {
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.PacketId = (int)result["packetId"];
+                PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.FromPlayerId = (int)result["fromPlayerId"];
+                    FromPlayerId = (int)result["fromPlayerId"];
                 }
 
                 CameraMode = (int)result["cameraMode"];
@@ -64,7 +64,7 @@ namespace SampSharp.RakNet.Syncs
                 CameraZoom = (int)result["cameraZoom"];
                 AspectRatio = (int)result["aspectRatio"];
 
-                this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
             };
 
             var arguments = new List<object>()
@@ -95,24 +95,24 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.PacketId,
-                ParamType.UInt8, this.CameraMode,
-                ParamType.Float, this.CameraFrontVector.X,
-                ParamType.Float, this.CameraFrontVector.Y,
-                ParamType.Float, this.CameraFrontVector.Z,
-                ParamType.Float, this.CameraPosition.X,
-                ParamType.Float, this.CameraPosition.Y,
-                ParamType.Float, this.CameraPosition.Z,
-                ParamType.Float, this.AimZ,
-                ParamType.Bits, this.WeaponState, 2,
-                ParamType.Bits, this.CameraZoom, 6,
-                ParamType.UInt8, this.AspectRatio
+                ParamType.UInt8, PacketId,
+                ParamType.UInt8, CameraMode,
+                ParamType.Float, CameraFrontVector.X,
+                ParamType.Float, CameraFrontVector.Y,
+                ParamType.Float, CameraFrontVector.Z,
+                ParamType.Float, CameraPosition.X,
+                ParamType.Float, CameraPosition.Y,
+                ParamType.Float, CameraPosition.Z,
+                ParamType.Float, AimZ,
+                ParamType.Bits, WeaponState, 2,
+                ParamType.Bits, CameraZoom, 6,
+                ParamType.UInt8, AspectRatio
             };
 
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.UInt16);
-                arguments.Insert(3, this.FromPlayerId);
+                arguments.Insert(3, FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());

@@ -25,33 +25,33 @@ namespace SampSharp.RakNet.Syncs
 
         public BulletSync(BitStream bs)
         {
-            this.BS = bs;
+            BS = bs;
         }
         public void ReadIncoming()
         {
-            this.Read(false);
+            Read(false);
         }
         public void ReadOutcoming()
         {
-            this.Read(true);
+            Read(true);
         }
         public void WriteIncoming()
         {
-            this.Write(false);
+            Write(false);
         }
         public void WriteOutcoming()
         {
-            this.Write(true);
+            Write(true);
         }
         private void Read(bool outcoming)
         {
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.PacketId = (int)result["packetId"];
+                PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.FromPlayerId = (int)result["fromPlayerId"];
+                    FromPlayerId = (int)result["fromPlayerId"];
                 }
 
                 HitType = (int)result["hitType"];
@@ -62,7 +62,7 @@ namespace SampSharp.RakNet.Syncs
 
                 WeaponId = (int)result["weaponId"];
 
-                this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
             };
 
             var arguments = new List<object>()
@@ -93,25 +93,25 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.PacketId,
-                ParamType.UInt8, this.HitType,
-                ParamType.UInt16, this.HitId,
-                ParamType.Float, this.Origin.X,
-                ParamType.Float, this.Origin.Y,
-                ParamType.Float, this.Origin.Z,
-                ParamType.Float, this.HitPosition.X,
-                ParamType.Float, this.HitPosition.Y,
-                ParamType.Float, this.HitPosition.Z,
-                ParamType.Float, this.Offsets.X,
-                ParamType.Float, this.Offsets.Y,
-                ParamType.Float, this.Offsets.Z,
-                ParamType.UInt8, this.WeaponId,
+                ParamType.UInt8, PacketId,
+                ParamType.UInt8, HitType,
+                ParamType.UInt16, HitId,
+                ParamType.Float, Origin.X,
+                ParamType.Float, Origin.Y,
+                ParamType.Float, Origin.Z,
+                ParamType.Float, HitPosition.X,
+                ParamType.Float, HitPosition.Y,
+                ParamType.Float, HitPosition.Z,
+                ParamType.Float, Offsets.X,
+                ParamType.Float, Offsets.Y,
+                ParamType.Float, Offsets.Z,
+                ParamType.UInt8, WeaponId,
             };
 
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.UInt16);
-                arguments.Insert(3, this.FromPlayerId);
+                arguments.Insert(3, FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());

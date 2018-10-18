@@ -28,40 +28,40 @@ namespace SampSharp.RakNet.Syncs
 
         public UnoccupiedSync(BitStream bs)
         {
-            this.BS = bs;
+            BS = bs;
         }
         public void ReadIncoming()
         {
-            this.Read(false);
+            Read(false);
         }
         public void ReadOutcoming()
         {
-            this.Read(true);
+            Read(true);
         }
         public void WriteIncoming()
         {
-            this.Write(false);
+            Write(false);
         }
         public void WriteOutcoming()
         {
-            this.Write(true);
+            Write(true);
         }
         private void Read(bool outcoming)
         {
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.PacketId = (int)result["packetId"];
+                PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.FromPlayerId = (int)result["fromPlayerId"];
+                    FromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.VehicleId = (int)result["vehicleId"];
-                this.SeatId = (int)result["seatId"];
-                this.Roll = new Vector3((float)result["roll_0"], (float)result["roll_1"], (float)result["roll_2"]);
-                this.Direction = new Vector3((float)result["direction_0"], (float)result["direction_1"], (float)result["direction_2"]);
-                this.Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+                VehicleId = (int)result["vehicleId"];
+                SeatId = (int)result["seatId"];
+                Roll = new Vector3((float)result["roll_0"], (float)result["roll_1"], (float)result["roll_2"]);
+                Direction = new Vector3((float)result["direction_0"], (float)result["direction_1"], (float)result["direction_2"]);
+                Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
 
 
                 var BS2 = new BitStream(BS.Id);
@@ -69,10 +69,10 @@ namespace SampSharp.RakNet.Syncs
                 {
                     result = args2.Result;
 
-                    this.Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
-                    this.AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
-                    this.VehicleHealth = (float)result["vehicleHealth"];
-                    this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                    Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
+                    AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
+                    VehicleHealth = (float)result["vehicleHealth"];
+                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
                 };
 
                 BS2.ReadValue(
@@ -115,37 +115,37 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.PacketId,
-                ParamType.UInt16, this.VehicleId,
-                ParamType.UInt8, this.SeatId,
-                ParamType.Float, this.Roll.X,
-                ParamType.Float, this.Roll.Y,
-                ParamType.Float, this.Roll.Z,
-                ParamType.Float, this.Direction.X,
-                ParamType.Float, this.Direction.Y,
-                ParamType.Float, this.Direction.Z,
-                ParamType.Float, this.Position.X,
-                ParamType.Float, this.Position.Y,
-                ParamType.Float, this.Position.Z,
+                ParamType.UInt8, PacketId,
+                ParamType.UInt16, VehicleId,
+                ParamType.UInt8, SeatId,
+                ParamType.Float, Roll.X,
+                ParamType.Float, Roll.Y,
+                ParamType.Float, Roll.Z,
+                ParamType.Float, Direction.X,
+                ParamType.Float, Direction.Y,
+                ParamType.Float, Direction.Z,
+                ParamType.Float, Position.X,
+                ParamType.Float, Position.Y,
+                ParamType.Float, Position.Z,
             };
 
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.UInt16);
-                arguments.Insert(3, this.FromPlayerId);
+                arguments.Insert(3, FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());
 
             arguments = new List<object>()
             {
-                ParamType.Float, this.Velocity.X,
-                ParamType.Float, this.Velocity.Y,
-                ParamType.Float, this.Velocity.Z,
-                ParamType.Float, this.AngularVelocity.X,
-                ParamType.Float, this.AngularVelocity.Y,
-                ParamType.Float, this.AngularVelocity.Z,
-                ParamType.Float, this.VehicleHealth,
+                ParamType.Float, Velocity.X,
+                ParamType.Float, Velocity.Y,
+                ParamType.Float, Velocity.Z,
+                ParamType.Float, AngularVelocity.X,
+                ParamType.Float, AngularVelocity.Y,
+                ParamType.Float, AngularVelocity.Z,
+                ParamType.Float, VehicleHealth,
             };
 
             BS.WriteValue(arguments.ToArray());

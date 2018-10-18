@@ -12,9 +12,9 @@ namespace SampSharp.RakNet.Events
 
         public PacketRpcEventArgs(int id, int playerId, int bitStreamId)
         {
-            this.Id = id;
-            this.PlayerId = playerId;
-            this.BitStreamId = bitStreamId;
+            Id = id;
+            PlayerId = playerId;
+            BitStreamId = bitStreamId;
         }
     }
 }

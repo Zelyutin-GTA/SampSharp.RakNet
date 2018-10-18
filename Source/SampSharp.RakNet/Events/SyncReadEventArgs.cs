@@ -9,7 +9,7 @@ namespace SampSharp.RakNet.Events
         public ISync Sync { get; private set; }
         public SyncReadEventArgs(ISync sync)
         {
-            this.Sync = sync;
+            Sync = sync;
         }
     }
 }

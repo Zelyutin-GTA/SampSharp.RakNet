@@ -8,7 +8,7 @@ namespace SampSharp.RakNet.Events
         public Dictionary<string, object> Result { get; private set; }
         public BitStreamReadEventArgs(Dictionary<string, object> result)
         {
-            this.Result = result;
+            Result = result;
         }
     }
 }
