@@ -117,9 +117,9 @@ namespace SampSharp.RakNet.Syncs
                     result = args2.Result;
 
                     byte healthArmour = Convert.ToByte(((int)result["healthArmourByte"]));
-                    HealthArmour.GetFromByte(healthArmour, out int _health, out int _armour);
-                    this.health = _health;
-                    this.armour = _armour;
+                    HealthArmour.GetFromByte(healthArmour, out int health, out int armour);
+                    this.health = health;
+                    this.armour = armour;
                     this.weaponId = (int)result["weaponId"];
                     this.specialAction = (int)result["specialAction"];
                     this.velocity = BS.ReadVector();
