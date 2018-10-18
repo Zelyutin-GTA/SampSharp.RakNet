@@ -14,14 +14,14 @@ namespace SampSharp.RakNet.Syncs
 
         public BitStream BS { get; set; }
 
-        public int packetId { get; set; }
-        public int fromPlayerId { get; set; }
+        public int PacketId { get; set; }
+        public int FromPlayerId { get; set; }
     
-        public int trailerId { get; set; }
-        public Vector3 position { get; set; }
-        public Vector4 quaternion { get; set; }
-        public Vector3 velocity { get; set; }
-        public Vector3 angularVelocity { get; set; }
+        public int TrailerId { get; set; }
+        public Vector3 Position { get; set; }
+        public Vector4 Quaternion { get; set; }
+        public Vector3 Velocity { get; set; }
+        public Vector3 AngularVelocity { get; set; }
 
         public TrailerSync(BitStream bs)
         {
@@ -48,23 +48,23 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetId = (int)result["packetId"];
+                this.PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerId = (int)result["fromPlayerId"];
+                    this.FromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.trailerId = (int)result["trailerId"];
-                this.quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
-                this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-                this.velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
+                this.TrailerId = (int)result["trailerId"];
+                this.Quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
+                this.Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+                this.Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
 
                 var BS2 = new BitStream(BS.Id);
                 BS2.ReadCompleted += (sender2, args2) =>
                 {
                     result = args2.Result;
 
-                    this.angularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
+                    this.AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
                     this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
                 };
 
@@ -104,33 +104,33 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.packetId,
-                ParamType.UInt16, this.trailerId,
-                ParamType.Float, this.position.X,
-                ParamType.Float, this.position.Y,
-                ParamType.Float, this.position.Z,
-                ParamType.Float, this.quaternion.W,
-                ParamType.Float, this.quaternion.X,
-                ParamType.Float, this.quaternion.Y,
-                ParamType.Float, this.quaternion.Z,
-                ParamType.Float, this.velocity.X,
-                ParamType.Float, this.velocity.Y,
-                ParamType.Float, this.velocity.Z,
+                ParamType.UInt8, this.PacketId,
+                ParamType.UInt16, this.TrailerId,
+                ParamType.Float, this.Position.X,
+                ParamType.Float, this.Position.Y,
+                ParamType.Float, this.Position.Z,
+                ParamType.Float, this.Quaternion.W,
+                ParamType.Float, this.Quaternion.X,
+                ParamType.Float, this.Quaternion.Y,
+                ParamType.Float, this.Quaternion.Z,
+                ParamType.Float, this.Velocity.X,
+                ParamType.Float, this.Velocity.Y,
+                ParamType.Float, this.Velocity.Z,
             };
 
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.UInt16);
-                arguments.Insert(3, this.fromPlayerId);
+                arguments.Insert(3, this.FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());
 
             arguments = new List<object>()
             {
-                ParamType.Float, this.angularVelocity.X,
-                ParamType.Float, this.angularVelocity.Y,
-                ParamType.Float, this.angularVelocity.Z,
+                ParamType.Float, this.AngularVelocity.X,
+                ParamType.Float, this.AngularVelocity.Y,
+                ParamType.Float, this.AngularVelocity.Z,
             };
 
             BS.WriteValue(arguments.ToArray());

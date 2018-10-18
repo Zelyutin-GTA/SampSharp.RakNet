@@ -14,14 +14,14 @@ namespace SampSharp.RakNet.Syncs
 
         public BitStream BS { get; set; }
 
-        public int packetId { get; set; }
-        public int fromPlayerId { get; set; }
-        public int hitType { get; set; }
-        public int hitId { get; set; }
-        public Vector3 origin { get; set; }
-        public Vector3 hitPosition { get; set; }
-        public Vector3 offsets { get; set; }
-        public int weaponId { get; set; }
+        public int PacketId { get; set; }
+        public int FromPlayerId { get; set; }
+        public int HitType { get; set; }
+        public int HitId { get; set; }
+        public Vector3 Origin { get; set; }
+        public Vector3 HitPosition { get; set; }
+        public Vector3 Offsets { get; set; }
+        public int WeaponId { get; set; }
 
         public BulletSync(BitStream bs)
         {
@@ -48,19 +48,19 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetId = (int)result["packetId"];
+                this.PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerId = (int)result["fromPlayerId"];
+                    this.FromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                hitType = (int)result["hitType"];
-                hitId = (int)result["hitId"];
-                origin = new Vector3((float)result["origin_0"], (float)result["origin_1"], (float)result["origin_2"]);
-                hitPosition = new Vector3((float)result["hitPosition_0"], (float)result["hitPosition_1"], (float)result["hitPosition_2"]);
-                offsets = new Vector3((float)result["offsets_0"], (float)result["offsets_1"], (float)result["offsets_2"]);
+                HitType = (int)result["hitType"];
+                HitId = (int)result["hitId"];
+                Origin = new Vector3((float)result["origin_0"], (float)result["origin_1"], (float)result["origin_2"]);
+                HitPosition = new Vector3((float)result["hitPosition_0"], (float)result["hitPosition_1"], (float)result["hitPosition_2"]);
+                Offsets = new Vector3((float)result["offsets_0"], (float)result["offsets_1"], (float)result["offsets_2"]);
 
-                weaponId = (int)result["weaponId"];
+                WeaponId = (int)result["weaponId"];
 
                 this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
             };
@@ -93,25 +93,25 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.packetId,
-                ParamType.UInt8, this.hitType,
-                ParamType.UInt16, this.hitId,
-                ParamType.Float, this.origin.X,
-                ParamType.Float, this.origin.Y,
-                ParamType.Float, this.origin.Z,
-                ParamType.Float, this.hitPosition.X,
-                ParamType.Float, this.hitPosition.Y,
-                ParamType.Float, this.hitPosition.Z,
-                ParamType.Float, this.offsets.X,
-                ParamType.Float, this.offsets.Y,
-                ParamType.Float, this.offsets.Z,
-                ParamType.UInt8, this.weaponId,
+                ParamType.UInt8, this.PacketId,
+                ParamType.UInt8, this.HitType,
+                ParamType.UInt16, this.HitId,
+                ParamType.Float, this.Origin.X,
+                ParamType.Float, this.Origin.Y,
+                ParamType.Float, this.Origin.Z,
+                ParamType.Float, this.HitPosition.X,
+                ParamType.Float, this.HitPosition.Y,
+                ParamType.Float, this.HitPosition.Z,
+                ParamType.Float, this.Offsets.X,
+                ParamType.Float, this.Offsets.Y,
+                ParamType.Float, this.Offsets.Z,
+                ParamType.UInt8, this.WeaponId,
             };
 
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.UInt16);
-                arguments.Insert(3, this.fromPlayerId);
+                arguments.Insert(3, this.FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());

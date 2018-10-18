@@ -14,11 +14,11 @@ namespace SampSharp.RakNet.Syncs
 
         public BitStream BS { get; set; }
 
-        public int packetId { get; set; }
-        public int fromPlayerId { get; set; }
-        public int lrKey { get; set; }
-        public int udKey { get; set; }
-        public int keys { get; set; }
+        public int PacketId { get; set; }
+        public int FromPlayerId { get; set; }
+        public int LRKey { get; set; }
+        public int UDKey { get; set; }
+        public int Keys { get; set; }
         public Vector3 position { get; set; }
 
         public SpectatorSync(BitStream bs)
@@ -48,15 +48,15 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetId = (int)result["packetId"];
+                this.PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerId = (int)result["fromPlayerId"];
+                    this.FromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.lrKey = (int)result["lrKey"];
-                this.udKey = (int)result["udKey"];
-                this.keys = (int)result["keys"];
+                this.LRKey = (int)result["lrKey"];
+                this.UDKey = (int)result["udKey"];
+                this.Keys = (int)result["keys"];
                 this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
 
                 this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
@@ -85,10 +85,10 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UInt8, this.packetId,
-                ParamType.UInt16, this.lrKey,
-                ParamType.UInt16, this.udKey,
-                ParamType.UInt16, this.keys,
+                ParamType.UInt8, this.PacketId,
+                ParamType.UInt16, this.LRKey,
+                ParamType.UInt16, this.UDKey,
+                ParamType.UInt16, this.Keys,
                 ParamType.Float, this.position.X,
                 ParamType.Float, this.position.Y,
                 ParamType.Float, this.position.Z
@@ -97,7 +97,7 @@ namespace SampSharp.RakNet.Syncs
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.UInt16);
-                arguments.Insert(3, this.fromPlayerId);
+                arguments.Insert(3, this.FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());

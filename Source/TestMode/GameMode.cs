@@ -259,7 +259,7 @@ namespace TestMode
                     var onFoot = new OnFootSync(BS);
                     onFoot.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.position}; Health: {onFoot.health}; Armour: {onFoot.armour}; Velocity: {onFoot.velocity};");
+                        Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.Position}; Health: {onFoot.Health}; Armour: {onFoot.Armour}; Velocity: {onFoot.Velocity};");
                     };
                     onFoot.ReadIncoming();
                     
@@ -270,7 +270,7 @@ namespace TestMode
                     var driver = new DriverSync(BS);
                     driver.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming DriverSync. Position: {driver.position};");
+                        Console.WriteLine($"Reading incoming DriverSync. Position: {driver.Position};");
                         
                     };
                     driver.ReadIncoming();
@@ -281,7 +281,7 @@ namespace TestMode
                     var aim = new AimSync(BS);
                     aim.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming AimSync. Camera looks at: {aim.cameraFrontVector};");
+                        Console.WriteLine($"Reading incoming AimSync. Camera looks at: {aim.CameraFrontVector};");
                     };
                     aim.ReadIncoming();
                     
@@ -292,11 +292,11 @@ namespace TestMode
                     var bullet = new BulletSync(BS);
                     bullet.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming BulletSync. Bullet hit: {bullet.hitPosition};");
+                        Console.WriteLine($"Reading incoming BulletSync. Bullet hit: {bullet.HitPosition};");
                         BS.ResetWritePointer();
-                        bullet.origin = new Vector3(bullet.origin.X, bullet.origin.Y, bullet.origin.Z + 3);
-                        bullet.offsets = new Vector3(bullet.offsets.X, bullet.offsets.Y, bullet.offsets.Z + 3);
-                        bullet.hitPosition = new Vector3(bullet.hitPosition.X, bullet.hitPosition.Y, bullet.hitPosition.Z + 3);
+                        bullet.Origin = new Vector3(bullet.Origin.X, bullet.Origin.Y, bullet.Origin.Z + 3);
+                        bullet.Offsets = new Vector3(bullet.Offsets.X, bullet.Offsets.Y, bullet.Offsets.Z + 3);
+                        bullet.HitPosition = new Vector3(bullet.HitPosition.X, bullet.HitPosition.Y, bullet.HitPosition.Z + 3);
                         bullet.WriteIncoming();
                     };
                     bullet.ReadIncoming();
@@ -308,7 +308,7 @@ namespace TestMode
                     var passenger = new PassengerSync(BS);
                     passenger.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming PassengerSync. VehicleId: {passenger.vehicleId}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
+                        Console.WriteLine($"Reading incoming PassengerSync. VehicleId: {passenger.VehicleId}; Position: {passenger.Position}; DriveBy: {passenger.DriveBy};");
                     };
                     passenger.ReadIncoming();
 
@@ -330,7 +330,7 @@ namespace TestMode
                     var trailer = new TrailerSync(BS);
                     trailer.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming TrailerSync. Position: {trailer.position};");
+                        Console.WriteLine($"Reading incoming TrailerSync. Position: {trailer.Position};");
                     };
                     trailer.ReadIncoming();
 
@@ -341,7 +341,7 @@ namespace TestMode
                     var unoccupied = new UnoccupiedSync(BS);
                     unoccupied.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming UnoccupiedSync. Position: {unoccupied.position}; Health: {unoccupied.vehicleHealth};");
+                        Console.WriteLine($"Reading incoming UnoccupiedSync. Position: {unoccupied.Position}; Health: {unoccupied.VehicleHealth};");
                     };
                     unoccupied.ReadIncoming();
 
@@ -364,9 +364,9 @@ namespace TestMode
                     var onFoot = new OnFootSync(BS);
                     onFoot.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.position}; Health: {onFoot.health}; Armour: {onFoot.armour}; Velocity: {onFoot.velocity};");
+                        Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.Position}; Health: {onFoot.Health}; Armour: {onFoot.Armour}; Velocity: {onFoot.Velocity};");
                         BS.ResetWritePointer();
-                        onFoot.position = new Vector3(onFoot.position.X, onFoot.position.Y, onFoot.position.Z + 10);
+                        onFoot.Position = new Vector3(onFoot.Position.X, onFoot.Position.Y, onFoot.Position.Z + 10);
                         onFoot.WriteOutcoming();
                     };
                     onFoot.ReadOutcoming();
@@ -378,9 +378,9 @@ namespace TestMode
                     var driver = new DriverSync(BS);
                     driver.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming DriverSync. Position: {driver.position};");
+                        Console.WriteLine($"Reading outcoming DriverSync. Position: {driver.Position};");
                         BS.ResetWritePointer();
-                        driver.position = new Vector3(driver.position.X, driver.position.Y, driver.position.Z + 10);
+                        driver.Position = new Vector3(driver.Position.X, driver.Position.Y, driver.Position.Z + 10);
                         driver.WriteOutcoming();
                     };
                     driver.ReadOutcoming();
@@ -392,7 +392,7 @@ namespace TestMode
                     var aim = new AimSync(BS);
                     aim.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming AimSync. Camera looks at: {aim.cameraFrontVector};");
+                        Console.WriteLine($"Reading outcoming AimSync. Camera looks at: {aim.CameraFrontVector};");
                     };
                     aim.ReadOutcoming();
 
@@ -403,7 +403,7 @@ namespace TestMode
                     var bullet = new BulletSync(BS);
                     bullet.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming BulletSync. Bullet hit: {bullet.hitPosition};");
+                        Console.WriteLine($"Reading outcoming BulletSync. Bullet hit: {bullet.HitPosition};");
                     };
                     bullet.ReadOutcoming();
 
@@ -414,7 +414,7 @@ namespace TestMode
                     var passenger = new PassengerSync(BS);
                     passenger.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming PassengerSync. VehicleId: {passenger.vehicleId}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
+                        Console.WriteLine($"Reading outcoming PassengerSync. VehicleId: {passenger.VehicleId}; Position: {passenger.Position}; DriveBy: {passenger.DriveBy};");
                     };
                     passenger.ReadOutcoming();
 
@@ -431,7 +431,7 @@ namespace TestMode
                     var trailer = new TrailerSync(BS);
                     trailer.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming TrailerSync. Position: {trailer.position};");
+                        Console.WriteLine($"Reading outcoming TrailerSync. Position: {trailer.Position};");
                     };
                     trailer.ReadOutcoming();
 
@@ -442,7 +442,7 @@ namespace TestMode
                     var unoccupied = new UnoccupiedSync(BS);
                     unoccupied.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming UnoccupiedSync. Position: {unoccupied.position}; Health: {unoccupied.vehicleHealth};");
+                        Console.WriteLine($"Reading outcoming UnoccupiedSync. Position: {unoccupied.Position}; Health: {unoccupied.VehicleHealth};");
                     };
                     unoccupied.ReadOutcoming();
 
