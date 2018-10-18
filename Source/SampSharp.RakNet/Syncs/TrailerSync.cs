@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class TrailerSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -88,7 +86,6 @@ namespace SampSharp.RakNet.Syncs
             );
 
             AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

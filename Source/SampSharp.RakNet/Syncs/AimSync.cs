@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class AimSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -84,8 +82,6 @@ namespace SampSharp.RakNet.Syncs
             WeaponState = (int)result["weaponState"];
             CameraZoom = (int)result["cameraZoom"];
             AspectRatio = (int)result["aspectRatio"];
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

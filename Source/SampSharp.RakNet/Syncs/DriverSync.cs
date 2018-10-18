@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class DriverSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -93,8 +91,6 @@ namespace SampSharp.RakNet.Syncs
             LandingGearState = (int)result["landingGearState"];
             TrailerId = (int)result["trailerId"];
             TrainSpeed = (float)result["trainSpeed"];
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void ReadOutcoming()
         {
@@ -150,8 +146,6 @@ namespace SampSharp.RakNet.Syncs
             {
                 TrainSpeed = (float)BS.ReadUInt8();
             }
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void WriteIncoming()
         {

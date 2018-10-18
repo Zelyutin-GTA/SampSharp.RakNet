@@ -244,93 +244,77 @@ namespace TestMode
                 case (int)PacketIdentifiers.OnFootSync: 
                 {
                     var onFoot = new OnFootSync(BS);
-                    onFoot.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.Position}; Health: {onFoot.Health}; Armour: {onFoot.Armour}; Velocity: {onFoot.Velocity};");
-                    };
+
                     onFoot.ReadIncoming();
-                    
+                    Console.WriteLine($"Reading incoming OnFootSync. Position: {onFoot.Position}; Health: {onFoot.Health}; Armour: {onFoot.Armour}; Velocity: {onFoot.Velocity};");
+
                     break;
                 }
                 case (int)PacketIdentifiers.DriverSync:
                 {
                     var driver = new DriverSync(BS);
-                    driver.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming DriverSync. Position: {driver.Position};");
-                        
-                    };
+
                     driver.ReadIncoming();
+                    Console.WriteLine($"Reading incoming DriverSync. Position: {driver.Position};");
+
                     break;
                 }
                 case (int)PacketIdentifiers.AimSync:
                 {
                     var aim = new AimSync(BS);
-                    aim.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming AimSync. Camera looks at: {aim.CameraFrontVector};");
-                    };
+
                     aim.ReadIncoming();
-                    
+                    Console.WriteLine($"Reading incoming AimSync. Camera looks at: {aim.CameraFrontVector};");
+
                     break;
                 }
                 case (int)PacketIdentifiers.BulletSync:
                 {
                     var bullet = new BulletSync(BS);
-                    bullet.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming BulletSync. Bullet hit: {bullet.HitPosition};");
-                        BS.ResetWritePointer();
-                        bullet.Origin = new Vector3(bullet.Origin.X, bullet.Origin.Y, bullet.Origin.Z + 3);
-                        bullet.Offsets = new Vector3(bullet.Offsets.X, bullet.Offsets.Y, bullet.Offsets.Z + 3);
-                        bullet.HitPosition = new Vector3(bullet.HitPosition.X, bullet.HitPosition.Y, bullet.HitPosition.Z + 3);
-                        bullet.WriteIncoming();
-                    };
                     bullet.ReadIncoming();
+
+                    Console.WriteLine($"Reading incoming BulletSync. Bullet hit: {bullet.HitPosition};");
+                    BS.ResetWritePointer();
+                    bullet.Origin = new Vector3(bullet.Origin.X, bullet.Origin.Y, bullet.Origin.Z + 3);
+                    bullet.Offsets = new Vector3(bullet.Offsets.X, bullet.Offsets.Y, bullet.Offsets.Z + 3);
+                    bullet.HitPosition = new Vector3(bullet.HitPosition.X, bullet.HitPosition.Y, bullet.HitPosition.Z + 3);
+                    bullet.WriteIncoming();
 
                     break;
                 }
                 case (int)PacketIdentifiers.PassengerSync:
                 {
                     var passenger = new PassengerSync(BS);
-                    passenger.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming PassengerSync. VehicleId: {passenger.VehicleId}; Position: {passenger.Position}; DriveBy: {passenger.DriveBy};");
-                    };
+
                     passenger.ReadIncoming();
+                    Console.WriteLine($"Reading incoming PassengerSync. VehicleId: {passenger.VehicleId}; Position: {passenger.Position}; DriveBy: {passenger.DriveBy};");
 
                     break;
                 }
                 case (int)PacketIdentifiers.SpectatorSync:
                 {
                     var spectator = new SpectatorSync(BS);
-                    spectator.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming SpectatorSync. Position: {spectator.position};");
-                    };
+
                     spectator.ReadIncoming();
+                    Console.WriteLine($"Reading incoming SpectatorSync. Position: {spectator.position};");
 
                     break;
                 }
                 case (int)PacketIdentifiers.TrailerSync:
                 {
                     var trailer = new TrailerSync(BS);
-                    trailer.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming TrailerSync. Position: {trailer.Position};");
-                    };
+
                     trailer.ReadIncoming();
+                    Console.WriteLine($"Reading incoming TrailerSync. Position: {trailer.Position};");
 
                     break;
                 }
                 case (int)PacketIdentifiers.UnoccupiedSync:
                 {
                     var unoccupied = new UnoccupiedSync(BS);
-                    unoccupied.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading incoming UnoccupiedSync. Position: {unoccupied.Position}; Health: {unoccupied.VehicleHealth};");
-                    };
+
                     unoccupied.ReadIncoming();
+                    Console.WriteLine($"Reading incoming UnoccupiedSync. Position: {unoccupied.Position}; Health: {unoccupied.VehicleHealth};");
 
                     break;
                 }
@@ -349,61 +333,53 @@ namespace TestMode
                 case (int)PacketIdentifiers.OnFootSync:
                 {
                     var onFoot = new OnFootSync(BS);
-                    onFoot.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.Position}; Health: {onFoot.Health}; Armour: {onFoot.Armour}; Velocity: {onFoot.Velocity};");
-                        BS.ResetWritePointer();
-                        onFoot.Position = new Vector3(onFoot.Position.X, onFoot.Position.Y, onFoot.Position.Z + 10);
-                        onFoot.WriteOutcoming();
-                    };
+
                     onFoot.ReadOutcoming();
+                    Console.WriteLine($"Reading outcoming OnFootSync. Position: {onFoot.Position}; Health: {onFoot.Health}; Armour: {onFoot.Armour}; Velocity: {onFoot.Velocity};");
+
+                    BS.ResetWritePointer();
+                    onFoot.Position = new Vector3(onFoot.Position.X, onFoot.Position.Y, onFoot.Position.Z + 10);
+                    onFoot.WriteOutcoming();
 
                     break;
                 }
                 case (int)PacketIdentifiers.DriverSync:
                 {
                     var driver = new DriverSync(BS);
-                    driver.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading outcoming DriverSync. Position: {driver.Position};");
-                        BS.ResetWritePointer();
-                        driver.Position = new Vector3(driver.Position.X, driver.Position.Y, driver.Position.Z + 10);
-                        driver.WriteOutcoming();
-                    };
+
                     driver.ReadOutcoming();
+                    Console.WriteLine($"Reading outcoming DriverSync. Position: {driver.Position};");
+
+                    BS.ResetWritePointer();
+                    driver.Position = new Vector3(driver.Position.X, driver.Position.Y, driver.Position.Z + 10);
+                    driver.WriteOutcoming();
 
                     break;
                 }
                 case (int)PacketIdentifiers.AimSync:
                 {
                     var aim = new AimSync(BS);
-                    aim.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading outcoming AimSync. Camera looks at: {aim.CameraFrontVector};");
-                    };
+
                     aim.ReadOutcoming();
+                    Console.WriteLine($"Reading outcoming AimSync. Camera looks at: {aim.CameraFrontVector};");
 
                     break;
                 }
                 case (int)PacketIdentifiers.BulletSync:
                 {
                     var bullet = new BulletSync(BS);
-                    bullet.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading outcoming BulletSync. Bullet hit: {bullet.HitPosition};");
-                    };
+
                     bullet.ReadOutcoming();
+                    Console.WriteLine($"Reading outcoming BulletSync. Bullet hit: {bullet.HitPosition};");
 
                     break;
                 }
                 case (int)PacketIdentifiers.PassengerSync:
                 {
                     var passenger = new PassengerSync(BS);
-                    passenger.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading outcoming PassengerSync. VehicleId: {passenger.VehicleId}; Position: {passenger.Position}; DriveBy: {passenger.DriveBy};");
-                    };
+
                     passenger.ReadOutcoming();
+                    Console.WriteLine($"Reading outcoming PassengerSync. VehicleId: {passenger.VehicleId}; Position: {passenger.Position}; DriveBy: {passenger.DriveBy};");
 
                     break;
                 }
@@ -416,22 +392,18 @@ namespace TestMode
                 case (int)PacketIdentifiers.TrailerSync:
                 {
                     var trailer = new TrailerSync(BS);
-                    trailer.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading outcoming TrailerSync. Position: {trailer.Position};");
-                    };
+
                     trailer.ReadOutcoming();
+                    Console.WriteLine($"Reading outcoming TrailerSync. Position: {trailer.Position};");
 
                     break;
                 }
                 case (int)PacketIdentifiers.UnoccupiedSync:
                 {
                     var unoccupied = new UnoccupiedSync(BS);
-                    unoccupied.ReadCompleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Reading outcoming UnoccupiedSync. Position: {unoccupied.Position}; Health: {unoccupied.VehicleHealth};");
-                    };
+
                     unoccupied.ReadOutcoming();
+                    Console.WriteLine($"Reading outcoming UnoccupiedSync. Position: {unoccupied.Position}; Health: {unoccupied.VehicleHealth};");
 
                     break;
                 }

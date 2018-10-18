@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class UnoccupiedSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -98,7 +96,6 @@ namespace SampSharp.RakNet.Syncs
             Velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
             AngularVelocity = new Vector3((float)result["angularVelocity_0"], (float)result["angularVelocity_1"], (float)result["angularVelocity_2"]);
             VehicleHealth = (float)result["vehicleHealth"];
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

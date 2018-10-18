@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class OnFootSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -90,8 +88,6 @@ namespace SampSharp.RakNet.Syncs
             SurfingVehicleId = (int)result["surfingVehicleId"];
             AnimationId = (int)result["animationId"];
             AnimationFlags = (int)result["animationFlags"];
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void ReadOutcoming()
         {
@@ -153,8 +149,6 @@ namespace SampSharp.RakNet.Syncs
             {
                 AnimationId = BS.ReadInt32();
             }
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         public void WriteIncoming()
         {

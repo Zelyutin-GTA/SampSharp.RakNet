@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class PassengerSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -97,8 +95,6 @@ namespace SampSharp.RakNet.Syncs
             );
 
             Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

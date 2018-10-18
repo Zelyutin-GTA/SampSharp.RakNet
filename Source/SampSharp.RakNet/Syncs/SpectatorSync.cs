@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class SpectatorSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -74,8 +72,6 @@ namespace SampSharp.RakNet.Syncs
             UDKey = (int)result["udKey"];
             Keys = (int)result["keys"];
             position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {

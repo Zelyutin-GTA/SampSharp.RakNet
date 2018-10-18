@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class BulletSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -82,8 +80,6 @@ namespace SampSharp.RakNet.Syncs
             Offsets = new Vector3((float)result["offsets_0"], (float)result["offsets_1"], (float)result["offsets_2"]);
 
             WeaponId = (int)result["weaponId"];
-
-            ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
         }
         private void Write(bool outcoming)
         {
