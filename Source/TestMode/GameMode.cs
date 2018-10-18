@@ -97,10 +97,10 @@ namespace TestMode
         }
 
         [Command("createplayer")]
-        public static void CreatePlayerCommand(BasePlayer sender, int playerID, string name, int skin)
+        public static void CreatePlayerCommand(BasePlayer sender, int playerId, string name, int skin)
         {
             var bs = BitStream.New();
-            bs.WriteValue(ParamType.Uint16, playerID, ParamType.Int32, 0, ParamType.Uint8, 0, ParamType.Uint8, name.Length, ParamType.String, name);
+            bs.WriteValue(ParamType.Uint16, playerId, ParamType.Int32, 0, ParamType.Uint8, 0, ParamType.Uint8, name.Length, ParamType.String, name);
 
             int serverJoin = 137;
             bs.SendRPC(serverJoin, sender.Id);
@@ -115,7 +115,7 @@ namespace TestMode
             float angle = 0;
             int color = Color.Aqua;
             int fight = 0;
-            bs.WriteValue(ParamType.Uint16, playerID, ParamType.Uint8, team, ParamType.Uint32, skin, ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Float, angle, ParamType.Uint32, color, ParamType.Uint8, fight);
+            bs.WriteValue(ParamType.Uint16, playerId, ParamType.Uint8, team, ParamType.Uint32, skin, ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Float, angle, ParamType.Uint32, color, ParamType.Uint8, fight);
 
             int worldPlayerAdd = 32;
             bs.SendRPC(worldPlayerAdd, sender.Id);
@@ -130,9 +130,9 @@ namespace TestMode
         }
 
         [Command("spectate")]
-        public static void SpectateCommand(BasePlayer sender, int specPlayerID)
+        public static void SpectateCommand(BasePlayer sender, int specPlayerId)
         {
-            var specPlayer = BasePlayer.Find(specPlayerID);
+            var specPlayer = BasePlayer.Find(specPlayerId);
             if(specPlayer == null)
             {
                 sender.SendClientMessage("Player not found!");
@@ -153,9 +153,9 @@ namespace TestMode
         #region RPC/Packet handlers
         void OnIncomingRPC(PacketRPCEventArgs e)
         {
-            var bs = e.BitStreamID;
-            var rpcid = e.ID;
-            var playerID = e.PlayerID;
+            var bs = e.BitStreamId;
+            var rpcid = e.Id;
+            var playerId = e.PlayerId;
 
             if (rpcid == 119)
             {
@@ -199,23 +199,23 @@ namespace TestMode
 
         void OnOutcomingRPC(PacketRPCEventArgs e)
         {
-            var bs = e.BitStreamID;
-            var rpcid = e.ID;
-            var playerID = e.PlayerID;
+            var bs = e.BitStreamId;
+            var rpcid = e.Id;
+            var playerId = e.PlayerId;
 
             if (rpcid == 11)
             {
                 var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
-                    var ID = (int)args.Result["playerID"];
+                    var Id = (int)args.Result["playerId"];
                     var nicknameLen = (string)args.Result["nickname"];
                     var nickname = (int)args.Result["nicknameLen"];
 
-                    Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
+                    Console.WriteLine($"Nickname changed. Id: {Id}, Nickname: {nickname}; Len: {nicknameLen}");
                 };
 
-                BS.ReadValue(ParamType.Uint16, "playerID", ParamType.Uint8, "nicknameLen", ParamType.String, "nickname");
+                BS.ReadValue(ParamType.Uint16, "playerId", ParamType.Uint8, "nicknameLen", ParamType.String, "nickname");
             }
 
             if (rpcid == 86)
@@ -223,14 +223,14 @@ namespace TestMode
                 var BS = new BitStream(bs);
                 BS.ReadCompleted += (sender, args) =>
                 {
-                    var ID = (int)args.Result["playerID"];
+                    var Id = (int)args.Result["playerId"];
                     var AnimLib = (string)args.Result["AnimLib"];
                     var AnimName = (string)args.Result["AnimName"];
 
-                    Console.WriteLine($"Animation applied. ID: {ID}; Anim Lib: {AnimLib}; Anim Name: {AnimName}");
+                    Console.WriteLine($"Animation applied. Id: {Id}; Anim Lib: {AnimLib}; Anim Name: {AnimName}");
                 };
                 BS.ReadValue(
-                ParamType.Uint16, "playerID",
+                ParamType.Uint16, "playerId",
                 ParamType.Uint8, "AnimLibLength",
                 ParamType.String, "AnimLib",
                 ParamType.Uint8, "AnimNameLength",
@@ -247,9 +247,9 @@ namespace TestMode
 
         void OnIncomingPacket(PacketRPCEventArgs e)
         {
-            var bs = e.BitStreamID;
-            var packetid = e.ID;
-            var playerID = e.PlayerID;
+            var bs = e.BitStreamId;
+            var packetid = e.Id;
+            var playerId = e.PlayerId;
 
             var BS = new BitStream(bs);
             switch (packetid)
@@ -308,7 +308,7 @@ namespace TestMode
                     var passenger = new PassengerSync(BS);
                     passenger.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading incoming PassengerSync. VehicleID: {passenger.vehicleID}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
+                        Console.WriteLine($"Reading incoming PassengerSync. VehicleId: {passenger.vehicleId}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
                     };
                     passenger.ReadIncoming();
 
@@ -352,9 +352,9 @@ namespace TestMode
 
         void OnOutcomingPacket(PacketRPCEventArgs e)
         {
-            var bs = e.BitStreamID;
-            var packetid = e.ID;
-            var playerID = e.PlayerID;
+            var bs = e.BitStreamId;
+            var packetid = e.Id;
+            var playerId = e.PlayerId;
 
             var BS = new BitStream(bs);
             switch (packetid)
@@ -414,7 +414,7 @@ namespace TestMode
                     var passenger = new PassengerSync(BS);
                     passenger.ReadCompleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Reading outcoming PassengerSync. VehicleID: {passenger.vehicleID}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
+                        Console.WriteLine($"Reading outcoming PassengerSync. VehicleId: {passenger.vehicleId}; Position: {passenger.position}; DriveBy: {passenger.driveBy};");
                     };
                     passenger.ReadOutcoming();
 

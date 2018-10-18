@@ -14,8 +14,8 @@ namespace SampSharp.RakNet.Syncs
 
         public BitStream BS;
 
-        public int packetID;
-        public int fromPlayerID;
+        public int packetId;
+        public int fromPlayerId;
         public int lrKey;
         public int udKey;
         public int keys;
@@ -24,12 +24,12 @@ namespace SampSharp.RakNet.Syncs
         public int health;
         public int armour;
         public int additionalKey;
-        public int weaponID;
+        public int weaponId;
         public int specialAction;
         public Vector3 velocity;
         public Vector3 surfingOffsets;
-        public int surfingVehicleID;
-        public int animationID;
+        public int surfingVehicleId;
+        public int animationId;
         public int animationFlags;
 
         public OnFootSync(BitStream bs)
@@ -41,7 +41,7 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetID = (int)result["packetID"];
+                this.packetId = (int)result["packetId"];
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
                 this.keys = (int)result["keys"];
@@ -51,23 +51,23 @@ namespace SampSharp.RakNet.Syncs
                 this.armour = (int)result["armour"];
                 this.additionalKey = (int)result["additionalKey"];
 
-                var BS2 = new BitStream(BS.ID);
+                var BS2 = new BitStream(BS.Id);
                 BS2.ReadCompleted += (sender2, args2) =>
                 {
                     result = args2.Result;
-                    this.weaponID = (int)result["weaponID"];
+                    this.weaponId = (int)result["weaponId"];
                     this.specialAction = (int)result["specialAction"];
                     this.velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
                     this.surfingOffsets = new Vector3((float)result["surfingOffsets_0"], (float)result["surfingOffsets_1"], (float)result["surfingOffsets_2"]);
-                    this.surfingVehicleID = (int)result["surfingVehicleID"];
-                    this.animationID = (int)result["animationID"];
+                    this.surfingVehicleId = (int)result["surfingVehicleId"];
+                    this.animationId = (int)result["animationId"];
                     this.animationFlags = (int)result["animationFlags"];
 
                     this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
                 };
 
                 BS2.ReadValue(
-                    ParamType.Bits, "weaponID", 6,
+                    ParamType.Bits, "weaponId", 6,
                     ParamType.Uint8, "specialAction",
                     ParamType.Float, "velocity_0",
                     ParamType.Float, "velocity_1",
@@ -75,15 +75,15 @@ namespace SampSharp.RakNet.Syncs
                     ParamType.Float, "surfingOffsets_0",
                     ParamType.Float, "surfingOffsets_1",
                     ParamType.Float, "surfingOffsets_2",
-                    ParamType.Uint16, "surfingVehicleID",
-                    ParamType.Int16, "animationID",
+                    ParamType.Uint16, "surfingVehicleId",
+                    ParamType.Int16, "animationId",
                     ParamType.Int16, "animationFlags"
                 );
             };
 
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetID",
+                ParamType.Uint8, "packetId",
                 ParamType.Uint16, "lrKey",
                 ParamType.Uint16, "udKey",
                 ParamType.Uint16, "keys",
@@ -111,21 +111,21 @@ namespace SampSharp.RakNet.Syncs
                 this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
                 this.quaternion = BS.ReadNormQuat();
 
-                var BS2 = new BitStream(BS.ID);
+                var BS2 = new BitStream(BS.Id);
                 BS2.ReadCompleted += (sender2, args2) =>
                 {
                     result = args2.Result;
 
                     byte healthArmour = Convert.ToByte(((int)result["healthArmourByte"]));
                     HealthArmour.GetFromByte(healthArmour, ref this.health, ref this.armour);
-                    this.weaponID = (int)result["weaponID"];
+                    this.weaponId = (int)result["weaponId"];
                     this.specialAction = (int)result["specialAction"];
                     this.velocity = BS.ReadVector();
 
                     bool hasSurfInfo = BS2.ReadBool();
                     if(hasSurfInfo)
                     {
-                        this.surfingVehicleID = BS2.ReadUint16();
+                        this.surfingVehicleId = BS2.ReadUint16();
                         float offsetsX = BS2.ReadFloat();
                         float offsetsY = BS2.ReadFloat();
                         float offsetsZ = BS2.ReadFloat();
@@ -133,13 +133,13 @@ namespace SampSharp.RakNet.Syncs
                     }
                     else
                     {
-                        this.surfingVehicleID = -1;
+                        this.surfingVehicleId = -1;
                     }
 
                     bool hasAnimation = BS2.ReadBool();
                     if(hasAnimation)
                     {
-                        this.animationID = BS2.ReadInt32();
+                        this.animationId = BS2.ReadInt32();
                     }
                     
                     this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
@@ -147,13 +147,13 @@ namespace SampSharp.RakNet.Syncs
 
                 BS2.ReadValue(
                     ParamType.Uint8, "healthArmourByte",
-                    ParamType.Uint8, "weaponID",
+                    ParamType.Uint8, "weaponId",
                     ParamType.Uint8, "specialAction"
                 );
             };
 
-            this.packetID = this.BS.ReadUint8();
-            this.fromPlayerID = this.BS.ReadUint16();
+            this.packetId = this.BS.ReadUint8();
+            this.fromPlayerId = this.BS.ReadUint16();
 
             //LEFT/RIGHT KEYS
             bool hasLR = this.BS.ReadBool();
@@ -177,7 +177,7 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetID,
+                ParamType.Uint8, this.packetId,
                 ParamType.Uint16, this.lrKey,
                 ParamType.Uint16, this.udKey,
                 ParamType.Uint16, this.keys,
@@ -197,7 +197,7 @@ namespace SampSharp.RakNet.Syncs
 
             arguments = new List<object>()
             {
-                ParamType.Bits, this.weaponID, 6,
+                ParamType.Bits, this.weaponId, 6,
                 ParamType.Uint8, this.specialAction,
                 ParamType.Float, this.velocity.X,
                 ParamType.Float, this.velocity.Y,
@@ -205,8 +205,8 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, this.surfingOffsets.X,
                 ParamType.Float, this.surfingOffsets.Y,
                 ParamType.Float, this.surfingOffsets.Z,
-                ParamType.Uint16, this.surfingVehicleID,
-                ParamType.Int16, this.animationID,
+                ParamType.Uint16, this.surfingVehicleId,
+                ParamType.Int16, this.animationId,
                 ParamType.Int16, this.animationFlags
             };
 
@@ -214,8 +214,8 @@ namespace SampSharp.RakNet.Syncs
         }
         public void WriteOutcoming()
         {
-            BS.WriteUint8(this.packetID);
-            BS.WriteUint16(this.fromPlayerID);
+            BS.WriteUint8(this.packetId);
+            BS.WriteUint16(this.fromPlayerId);
             if(this.lrKey != 0)
             {
                 BS.WriteBool(true);
@@ -248,15 +248,15 @@ namespace SampSharp.RakNet.Syncs
             byte healthArmourByte = HealthArmour.SetInByte(this.health, this.armour);
             BS.WriteValue(
                 ParamType.Uint8, (int)healthArmourByte,
-                ParamType.Uint8, this.weaponID,
+                ParamType.Uint8, this.weaponId,
                 ParamType.Uint8, this.specialAction
             );
             BS.WriteVector(this.velocity);
-            if(this.surfingVehicleID != 0)
+            if(this.surfingVehicleId != 0)
             {
                 BS.WriteValue(
                     ParamType.Bool, true,
-                    ParamType.Uint8, this.surfingVehicleID,
+                    ParamType.Uint8, this.surfingVehicleId,
                     ParamType.Float, this.surfingOffsets.X,
                     ParamType.Float, this.surfingOffsets.Y,
                     ParamType.Float, this.surfingOffsets.Z
@@ -267,10 +267,10 @@ namespace SampSharp.RakNet.Syncs
                 BS.WriteBool(false);
             }
 
-            if(this.animationID != 0)
+            if(this.animationId != 0)
             {
                 BS.WriteBool(true);
-                BS.WriteInt32(this.animationID);
+                BS.WriteInt32(this.animationId);
             }
             else
             {

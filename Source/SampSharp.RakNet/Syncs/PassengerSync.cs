@@ -14,13 +14,13 @@ namespace SampSharp.RakNet.Syncs
 
         public BitStream BS;
 
-        public int packetID;
-        public int fromPlayerID;
+        public int packetId;
+        public int fromPlayerId;
         public int driveBy;
-        public int seatID;
-        public int vehicleID;
+        public int seatId;
+        public int vehicleId;
         public int additionalKey;
-        public int weaponID;
+        public int weaponId;
         public int playerHealth;
         public int playerArmour;
         public int lrKey;
@@ -53,24 +53,24 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetID = (int)result["packetID"];
+                this.packetId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerID = (int)result["fromPlayerID"];
+                    this.fromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.vehicleID = (int)result["vehicleID"];
+                this.vehicleId = (int)result["vehicleId"];
                 this.driveBy = (int)result["driveBy"];
-                this.seatID = (int)result["seatID"];
+                this.seatId = (int)result["seatId"];
                 this.additionalKey = (int)result["additionalKey"];
-                this.weaponID = (int)result["weaponID"];
+                this.weaponId = (int)result["weaponId"];
                 this.playerHealth = (int)result["playerHealth"];
                 this.playerArmour = (int)result["playerArmour"];
                 this.lrKey = (int)result["lrKey"];
                 this.udKey = (int)result["udKey"];
                 this.keys = (int)result["keys"];
 
-                var BS2 = new BitStream(BS.ID);
+                var BS2 = new BitStream(BS.Id);
                 BS2.ReadCompleted += (sender2, args2) =>
                 {
                     result = args2.Result;
@@ -88,12 +88,12 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetID",
-                ParamType.Uint16, "vehicleID",
+                ParamType.Uint8, "packetId",
+                ParamType.Uint16, "vehicleId",
                 ParamType.Bits, "driveBy", 2,
-                ParamType.Bits, "seatID", 6,
+                ParamType.Bits, "seatId", 6,
                 ParamType.Bits, "additionalKey", 2,
-                ParamType.Bits, "weaponID", 6,
+                ParamType.Bits, "weaponId", 6,
                 ParamType.Uint8, "playerHealth",
                 ParamType.Uint8, "playerArmour",
                 ParamType.Uint16, "lrKey",
@@ -103,7 +103,7 @@ namespace SampSharp.RakNet.Syncs
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.Uint16);
-                arguments.Insert(3, "fromPlayerID");
+                arguments.Insert(3, "fromPlayerId");
             }
 
             BS.ReadValue(arguments.ToArray());
@@ -113,12 +113,12 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetID,
-                ParamType.Uint16, this.vehicleID,
+                ParamType.Uint8, this.packetId,
+                ParamType.Uint16, this.vehicleId,
                 ParamType.Bits, this.driveBy, 2,
-                ParamType.Bits, this.seatID, 6,
+                ParamType.Bits, this.seatId, 6,
                 ParamType.Bits, this.additionalKey, 2,
-                ParamType.Bits, this.weaponID, 6,
+                ParamType.Bits, this.weaponId, 6,
                 ParamType.Uint8, this.playerHealth,
                 ParamType.Uint8, this.playerArmour,
                 ParamType.Uint16, this.lrKey,
@@ -129,7 +129,7 @@ namespace SampSharp.RakNet.Syncs
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.Uint16);
-                arguments.Insert(3, this.fromPlayerID);
+                arguments.Insert(3, this.fromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());

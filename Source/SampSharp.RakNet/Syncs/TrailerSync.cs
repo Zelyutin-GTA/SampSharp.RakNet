@@ -14,10 +14,10 @@ namespace SampSharp.RakNet.Syncs
 
         public BitStream BS;
 
-        public int packetID;
-        public int fromPlayerID;
+        public int packetId;
+        public int fromPlayerId;
 
-        public int trailerID;
+        public int trailerId;
         public Vector3 position;
         public Vector4 quaternion;
         public Vector3 velocity;
@@ -48,18 +48,18 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetID = (int)result["packetID"];
+                this.packetId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerID = (int)result["fromPlayerID"];
+                    this.fromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.trailerID = (int)result["trailerID"];
+                this.trailerId = (int)result["trailerId"];
                 this.quaternion = new Vector4((float)result["quaternion_X"], (float)result["quaternion_Y"], (float)result["quaternion_Z"], (float)result["quaternion_W"]); // order is different from one in a bitstream
                 this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
                 this.velocity = new Vector3((float)result["velocity_0"], (float)result["velocity_1"], (float)result["velocity_2"]);
 
-                var BS2 = new BitStream(BS.ID);
+                var BS2 = new BitStream(BS.Id);
                 BS2.ReadCompleted += (sender2, args2) =>
                 {
                     result = args2.Result;
@@ -77,8 +77,8 @@ namespace SampSharp.RakNet.Syncs
             
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetID",
-                ParamType.Uint16, "trailerID",
+                ParamType.Uint8, "packetId",
+                ParamType.Uint16, "trailerId",
                 ParamType.Float, "position_0",
                 ParamType.Float, "position_1",
                 ParamType.Float, "position_2",
@@ -94,7 +94,7 @@ namespace SampSharp.RakNet.Syncs
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.Uint16);
-                arguments.Insert(3, "fromPlayerID");
+                arguments.Insert(3, "fromPlayerId");
             }
 
             BS.ReadValue(arguments.ToArray());
@@ -104,8 +104,8 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetID,
-                ParamType.Uint16, this.trailerID,
+                ParamType.Uint8, this.packetId,
+                ParamType.Uint16, this.trailerId,
                 ParamType.Float, this.position.X,
                 ParamType.Float, this.position.Y,
                 ParamType.Float, this.position.Z,
@@ -121,7 +121,7 @@ namespace SampSharp.RakNet.Syncs
             if (outcoming)
             {
                 arguments.Insert(2, ParamType.Uint16);
-                arguments.Insert(3, this.fromPlayerID);
+                arguments.Insert(3, this.fromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());
