@@ -17,7 +17,8 @@ namespace TestMode
 {
     public class GameMode : BaseMode, IHasClient
     {
-        IRakNet RakNet;
+        static IRakNet RakNet;
+
         #region Implementation of IHasClient
         public IGameModeClient GameModeClient => Client;
         #endregion
@@ -60,22 +61,23 @@ namespace TestMode
         [Command("setname")]
         public static void SetNameCommand(BasePlayer sender, string name)
         {
-            var BS = BitStream.Create();
+            var bs = BitStream.Create();
 
-            BS.WriteValue(ParamType.UInt16, sender.Id, ParamType.UInt8, name.Length, ParamType.String, name);
+            bs.WriteValue(ParamType.UInt16, sender.Id, ParamType.UInt8, name.Length, ParamType.String, name);
 
-            BS.SendRpc(11, sender.Id);
+            int setNameRpc = 11;
+            RakNet.SendRpc(bs, setNameRpc, sender.Id);
             sender.SendClientMessage("Changing name with Rpc!");
         }
         [Command("setpos")]
         public static void SetPosCommand(BasePlayer sender, float x, float y, float z)
         {
-            var BS = BitStream.Create();
+            var bs = BitStream.Create();
 
-            BS.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z);
+            bs.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z);
 
             int setPosRpc = 12;
-            BS.SendRpc(setPosRpc, sender.Id);
+            RakNet.SendRpc(bs, setPosRpc, sender.Id);
             sender.SendClientMessage("Setting position with Rpc!");
         }
 
@@ -92,7 +94,7 @@ namespace TestMode
             bs.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.UInt16, type, ParamType.Float, radius);
 
             int createExplosionRpc = 79;
-            bs.SendRpc(createExplosionRpc, sender.Id);
+            RakNet.SendRpc(bs, createExplosionRpc, sender.Id);
             sender.SendClientMessage("Creating Explosion with Rpc!");
         }
 
@@ -103,7 +105,7 @@ namespace TestMode
             bs.WriteValue(ParamType.UInt16, playerId, ParamType.Int32, 0, ParamType.UInt8, 0, ParamType.UInt8, name.Length, ParamType.String, name);
 
             int serverJoin = 137;
-            bs.SendRpc(serverJoin, sender.Id);
+            RakNet.SendRpc(bs, serverJoin, sender.Id);
 
             
             bs = BitStream.Create();
@@ -118,7 +120,7 @@ namespace TestMode
             bs.WriteValue(ParamType.UInt16, playerId, ParamType.UInt8, team, ParamType.UInt32, skin, ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Float, angle, ParamType.UInt32, color, ParamType.UInt8, fight);
 
             int worldPlayerAdd = 32;
-            bs.SendRpc(worldPlayerAdd, sender.Id);
+            RakNet.SendRpc(bs, worldPlayerAdd, sender.Id);
             sender.SendClientMessage("Creating Player with Rpc!");
         }
 

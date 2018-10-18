@@ -1,10 +1,13 @@
 ﻿using System;
+
 using SampSharp.GameMode;
 using SampSharp.GameMode.API;
+using SampSharp.Core;
 
 using SampSharp.RakNet;
+using SampSharp.RakNet.Definitions;
 
-using SampSharp.Core;
+
 [assembly: SampSharpExtension(typeof(RakNet))]
 
 namespace SampSharp.RakNet
@@ -73,5 +76,27 @@ namespace SampSharp.RakNet
             Internal.CallRemoteFunction("BlockNextPacket", "");
         }
 
+        #region Sending RPCs and Packets
+        public bool SendRpc(BitStream bs, int rpcId, int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
+        {
+            bool result = Internal.BS_RPC(bs.Id, playerId, rpcId, (int)priority, (int)reliability);
+            return result;
+        }
+        public bool SendRpc(int rpcId, int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
+        {
+            bool result = Internal.BS_RPC(0, playerId, rpcId, (int)priority, (int)reliability);
+            return result;
+        }
+        public bool SendPacket(BitStream bs, int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
+        {
+            bool result = Internal.BS_Send(bs.Id, playerId, (int)priority, (int)reliability);
+            return result;
+        }
+        public bool SendPacket(int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
+        {
+            bool result = Internal.BS_Send(0, playerId, (int)priority, (int)reliability);
+            return result;
+        }
+        #endregion
     }
 }

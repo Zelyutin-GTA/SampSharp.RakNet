@@ -1,6 +1,5 @@
 ﻿using System;
 using SampSharp.RakNet.Events;
-using SampSharp.RakNet.Definitions;
 
 namespace SampSharp.RakNet
 {
@@ -104,16 +103,7 @@ namespace SampSharp.RakNet
             var e = new BitStreamReadEventArgs(values);
             ReadCompleted?.Invoke(this, e);
         }
-
-        public void SendRpc(int rpcId, int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
-        {
-            var result = Internal.BS_RPC(Id, playerId, rpcId, (int)priority, (int)reliability);
-        }
-        public void SendPacket(int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
-        {
-            var result = Internal.BS_Send(Id, playerId, (int)priority, (int)reliability);
-        }
-
+        
         public void Dispose()
         {
             if (IsHandMade)

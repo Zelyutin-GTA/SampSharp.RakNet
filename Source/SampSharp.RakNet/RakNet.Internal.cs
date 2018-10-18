@@ -23,6 +23,18 @@ namespace SampSharp.RakNet
             {
                 throw new NativeNotImplementedException();
             }
+
+            [NativeMethod]
+            public virtual bool BS_RPC(int bs, int playerid, int rpcid, int priority, int reliability)
+            {
+                throw new NativeNotImplementedException();
+            }
+
+            [NativeMethod]
+            public virtual bool BS_Send(int bs, int playerid, int priority, int reliability)
+            {
+                throw new NativeNotImplementedException();
+            }
         }
     }
 }
