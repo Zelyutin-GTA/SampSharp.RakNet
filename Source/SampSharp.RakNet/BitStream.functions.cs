@@ -110,27 +110,27 @@ namespace SampSharp.RakNet
                     ParamType.Uint8,
                     ParamType.Uint16,
                     ParamType.Uint32,
-                    ParamType.CInt8,
-                    ParamType.CInt16,
-                    ParamType.CInt32,
-                    ParamType.CUint8,
-                    ParamType.CUint16,
-                    ParamType.CUint32
+                    ParamType.CompressedInt8,
+                    ParamType.CompressedInt16,
+                    ParamType.CompressedInt32,
+                    ParamType.CompressedUInt8,
+                    ParamType.CompressedUInt16,
+                    ParamType.CompressedUInt32
                 };
                 var boolType = new ParamType[]
                 {
                     ParamType.Bool,
-                    ParamType.CBool
+                    ParamType.CompressedBool
                 };
                 var floatType = new ParamType[]
                 {
                     ParamType.Float,
-                    ParamType.CFloat
+                    ParamType.CompressedFloat
                 };
                 var stringType = new ParamType[]
                 {
                     ParamType.String,
-                    ParamType.CString
+                    ParamType.CompressedString
                 };
                 var bitsType = new ParamType[]
                 {

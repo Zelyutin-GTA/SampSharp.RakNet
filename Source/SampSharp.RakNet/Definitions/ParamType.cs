@@ -17,15 +17,15 @@ namespace SampSharp.RakNet.Definitions
         String,
 
         // compressed
-        CInt8,
-        CInt16,
-        CInt32,
-        CUint8,
-        CUint16,
-        CUint32,
-        CFloat,
-        CBool,
-        CString,
+        CompressedInt8,
+        CompressedInt16,
+        CompressedInt32,
+        CompressedUInt8,
+        CompressedUInt16,
+        CompressedUInt32,
+        CompressedFloat,
+        CompressedBool,
+        CompressedString,
 
         Bits
     }

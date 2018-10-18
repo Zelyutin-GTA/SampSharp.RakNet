@@ -104,86 +104,86 @@ namespace SampSharp.RakNet
         #region Compressed readings
         public int ReadCompressedInt8()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CInt8, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedInt8, "param");
             return (int)result["param"];
         }
         public int ReadCompressedInt16()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CInt16, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedInt16, "param");
             return (int)result["param"];
         }
         public int ReadCompressedInt32()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CInt32, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedInt32, "param");
             return (int)result["param"];
         }
         public int ReadCompressedUint8()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CUint8, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedUInt8, "param");
             return (int)result["param"];
         }
         public int ReadCompressedUint16()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CUint16, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedUInt16, "param");
             return (int)result["param"];
         }
         public int ReadCompressedUint32()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CUint32, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedUInt32, "param");
             return (int)result["param"];
         }
         public float ReadCompressedFloat()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CFloat, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedFloat, "param");
             return (float)result["param"];
         }
         public bool ReadCompressedBool()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CBool, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedBool, "param");
             return (bool)result["param"];
         }
         public string ReadCompressedString(int length)
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.CString, "param", length);
+            var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedString, "param", length);
             return (string)result["param"];
         }
         #endregion
         #region Compressed writings
         public void WriteCompressedInt8(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CInt8, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedInt8, param);
         }
         public void WriteCompressedInt16(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CInt16, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedInt16, param);
         }
         public void WriteCompressedInt32(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CInt32, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedInt32, param);
         }
         public void WriteCompressedUint8(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CUint8, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedUInt8, param);
         }
         public void WriteCompressedUint16(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CUint16, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedUInt16, param);
         }
         public void WriteCompressedUint32(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CUint32, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedUInt32, param);
         }
         public void WriteCompressedFloat(float param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CFloat, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedFloat, param);
         }
         public void WriteCompressedBool(bool param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CBool, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedBool, param);
         }
         public void WriteCompressedString(string param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.CString, param);
+            Internal.BS_WriteValue(this.Id, ParamType.CompressedString, param);
         }
         #endregion
 
