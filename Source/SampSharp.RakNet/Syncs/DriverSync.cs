@@ -12,26 +12,26 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetId;
-        public int fromPlayerId;
-        public int vehicleId;
-        public int lrKey;
-        public int udKey;
-        public int keys;
-        public Vector4 quaternion;
-        public Vector3 position;
-        public Vector3 velocity;
-        public float vehicleHealth;
-        public int playerHealth;
-        public int playerArmour;
-        public int additionalKey;
-        public int weaponId;
-        public int sirenState;
-        public int landingGearState;
-        public int trailerId;
-        public float trainSpeed;
+        public int packetId { get; set; }
+        public int fromPlayerId { get; set; }
+        public int vehicleId { get; set; }
+        public int lrKey { get; set; }
+        public int udKey { get; set; }
+        public int keys { get; set; }
+        public Vector4 quaternion { get; set; }
+        public Vector3 position { get; set; }
+        public Vector3 velocity { get; set; }
+        public float vehicleHealth { get; set; }
+        public int playerHealth { get; set; }
+        public int playerArmour { get; set; }
+        public int additionalKey { get; set; }
+        public int weaponId { get; set; }
+        public int sirenState { get; set; }
+        public int landingGearState { get; set; }
+        public int trailerId { get; set; }
+        public float trainSpeed { get; set; }
 
         public DriverSync(BitStream bs)
         {

@@ -12,16 +12,16 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetId;
-        public int fromPlayerId;
-        public int hitType;
-        public int hitId;
-        public Vector3 origin;
-        public Vector3 hitPosition;
-        public Vector3 offsets;
-        public int weaponId;
+        public int packetId { get; set; }
+        public int fromPlayerId { get; set; }
+        public int hitType { get; set; }
+        public int hitId { get; set; }
+        public Vector3 origin { get; set; }
+        public Vector3 hitPosition { get; set; }
+        public Vector3 offsets { get; set; }
+        public int weaponId { get; set; }
 
         public BulletSync(BitStream bs)
         {

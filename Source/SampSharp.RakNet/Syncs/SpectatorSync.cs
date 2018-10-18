@@ -12,14 +12,14 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetId;
-        public int fromPlayerId;
-        public int lrKey;
-        public int udKey;
-        public int keys;
-        public Vector3 position;
+        public int packetId { get; set; }
+        public int fromPlayerId { get; set; }
+        public int lrKey { get; set; }
+        public int udKey { get; set; }
+        public int keys { get; set; }
+        public Vector3 position { get; set; }
 
         public SpectatorSync(BitStream bs)
         {

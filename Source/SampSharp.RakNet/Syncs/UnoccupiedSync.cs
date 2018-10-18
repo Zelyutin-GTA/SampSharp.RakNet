@@ -12,19 +12,19 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetId;
-        public int fromPlayerId;
+        public int packetId { get; set; }
+        public int fromPlayerId { get; set; }
 
-        public int vehicleId;
-        public int seatId;
-        public Vector3 roll;
-        public Vector3 direction;
-        public Vector3 position;
-        public Vector3 velocity;
-        public Vector3 angularVelocity;
-        public float vehicleHealth;
+        public int vehicleId { get; set; }
+        public int seatId { get; set; }
+        public Vector3 roll { get; set; }
+        public Vector3 direction { get; set; }
+        public Vector3 position { get; set; }
+        public Vector3 velocity { get; set; }
+        public Vector3 angularVelocity { get; set; }
+        public float vehicleHealth { get; set; }
 
         public UnoccupiedSync(BitStream bs)
         {

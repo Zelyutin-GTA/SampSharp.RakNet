@@ -12,17 +12,17 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetId;
-        public int fromPlayerId;
-        public int cameraMode;
-        public Vector3 cameraFrontVector;
-        public Vector3 cameraPosition;
-        public float aimZ;
-        public int weaponState;
-        public int cameraZoom;
-        public int aspectRatio;
+        public int packetId { get; set; }
+        public int fromPlayerId { get; set; }
+        public int cameraMode { get; set; }
+        public Vector3 cameraFrontVector { get; set; }
+        public Vector3 cameraPosition { get; set; }
+        public float aimZ { get; set; }
+        public int weaponState { get; set; }
+        public int cameraZoom { get; set; }
+        public int aspectRatio { get; set; }
 
         public AimSync(BitStream bs)
         {

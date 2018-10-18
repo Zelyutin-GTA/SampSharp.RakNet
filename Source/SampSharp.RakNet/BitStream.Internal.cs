@@ -10,7 +10,7 @@ namespace SampSharp.RakNet
     public partial class BitStream
     {
         #region BitStreamInternal
-        protected static BitStreamInternal Internal;
+        protected static BitStreamInternal Internal { get; set; }
 
         static BitStream()
         {
