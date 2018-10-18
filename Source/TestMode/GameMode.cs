@@ -62,7 +62,7 @@ namespace TestMode
         {
             var BS = BitStream.New();
 
-            BS.WriteValue(ParamType.Uint16, sender.Id, ParamType.Uint8, name.Length, ParamType.String, name);
+            BS.WriteValue(ParamType.UInt16, sender.Id, ParamType.UInt8, name.Length, ParamType.String, name);
 
             BS.SendRPC(11, sender.Id);
             sender.SendClientMessage("Changing name with RPC!");
@@ -89,7 +89,7 @@ namespace TestMode
             int type = 1;
             float radius = 100.0f;
 
-            bs.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Uint16, type, ParamType.Float, radius);
+            bs.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.UInt16, type, ParamType.Float, radius);
 
             int createExplosionRPC = 79;
             bs.SendRPC(createExplosionRPC, sender.Id);
@@ -100,7 +100,7 @@ namespace TestMode
         public static void CreatePlayerCommand(BasePlayer sender, int playerId, string name, int skin)
         {
             var bs = BitStream.New();
-            bs.WriteValue(ParamType.Uint16, playerId, ParamType.Int32, 0, ParamType.Uint8, 0, ParamType.Uint8, name.Length, ParamType.String, name);
+            bs.WriteValue(ParamType.UInt16, playerId, ParamType.Int32, 0, ParamType.UInt8, 0, ParamType.UInt8, name.Length, ParamType.String, name);
 
             int serverJoin = 137;
             bs.SendRPC(serverJoin, sender.Id);
@@ -115,7 +115,7 @@ namespace TestMode
             float angle = 0;
             int color = Color.Aqua;
             int fight = 0;
-            bs.WriteValue(ParamType.Uint16, playerId, ParamType.Uint8, team, ParamType.Uint32, skin, ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Float, angle, ParamType.Uint32, color, ParamType.Uint8, fight);
+            bs.WriteValue(ParamType.UInt16, playerId, ParamType.UInt8, team, ParamType.UInt32, skin, ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Float, angle, ParamType.UInt32, color, ParamType.UInt8, fight);
 
             int worldPlayerAdd = 32;
             bs.SendRPC(worldPlayerAdd, sender.Id);
@@ -185,13 +185,13 @@ namespace TestMode
 
                 BS.ReadValue(
                     ParamType.Int32, "version",
-                    ParamType.Uint8, "mod",
-                    ParamType.Uint8, "nicknameLen",
+                    ParamType.UInt8, "mod",
+                    ParamType.UInt8, "nicknameLen",
                     ParamType.String, "nickname",
-                    ParamType.Uint32, "challengeResponse",
-                    ParamType.Uint8, "authKeyLen",
+                    ParamType.UInt32, "challengeResponse",
+                    ParamType.UInt8, "authKeyLen",
                     ParamType.String, "authKey",
-                    ParamType.Uint8, "clientVersionLen",
+                    ParamType.UInt8, "clientVersionLen",
                     ParamType.String, "clientVersion"
                 );
             }
@@ -215,7 +215,7 @@ namespace TestMode
                     Console.WriteLine($"Nickname changed. Id: {Id}, Nickname: {nickname}; Len: {nicknameLen}");
                 };
 
-                BS.ReadValue(ParamType.Uint16, "playerId", ParamType.Uint8, "nicknameLen", ParamType.String, "nickname");
+                BS.ReadValue(ParamType.UInt16, "playerId", ParamType.UInt8, "nicknameLen", ParamType.String, "nickname");
             }
 
             if (rpcid == 86)
@@ -230,17 +230,17 @@ namespace TestMode
                     Console.WriteLine($"Animation applied. Id: {Id}; Anim Lib: {AnimLib}; Anim Name: {AnimName}");
                 };
                 BS.ReadValue(
-                ParamType.Uint16, "playerId",
-                ParamType.Uint8, "AnimLibLength",
+                ParamType.UInt16, "playerId",
+                ParamType.UInt8, "AnimLibLength",
                 ParamType.String, "AnimLib",
-                ParamType.Uint8, "AnimNameLength",
+                ParamType.UInt8, "AnimNameLength",
                 ParamType.String, "AnimName",
                 ParamType.Float, "fDelta",
                 ParamType.Bool, "loop",
                 ParamType.Bool, "lockx",
                 ParamType.Bool, "locky",
                 ParamType.Bool, "freeze",
-                ParamType.Uint32, "dTime"
+                ParamType.UInt32, "dTime"
                 );
             }
         }

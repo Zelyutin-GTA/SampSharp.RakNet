@@ -23,19 +23,19 @@ namespace SampSharp.RakNet
             var result = Internal.BS_ReadValue(this.Id, ParamType.Int32, "param");
             return (int)result["param"];
         }
-        public int ReadUint8()
+        public int ReadUInt8()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.Uint8, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.UInt8, "param");
             return (int)result["param"];
         }
-        public int ReadUint16()
+        public int ReadUInt16()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.Uint16, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.UInt16, "param");
             return (int)result["param"];
         }
-        public int ReadUint32()
+        public int ReadUInt32()
         {
-            var result = Internal.BS_ReadValue(this.Id, ParamType.Uint32, "param");
+            var result = Internal.BS_ReadValue(this.Id, ParamType.UInt32, "param");
             return (int)result["param"];
         }
         public float ReadFloat()
@@ -72,17 +72,17 @@ namespace SampSharp.RakNet
         {
             Internal.BS_WriteValue(this.Id, ParamType.Int32, param);
         }
-        public void WriteUint8(int param)
+        public void WriteUInt8(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.Uint8, param);
+            Internal.BS_WriteValue(this.Id, ParamType.UInt8, param);
         }
-        public void WriteUint16(int param)
+        public void WriteUInt16(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.Uint16, param);
+            Internal.BS_WriteValue(this.Id, ParamType.UInt16, param);
         }
-        public void WriteUint32(int param)
+        public void WriteUInt32(int param)
         {
-            Internal.BS_WriteValue(this.Id, ParamType.Uint32, param);
+            Internal.BS_WriteValue(this.Id, ParamType.UInt32, param);
         }
         public void WriteFloat(float param)
         {
@@ -117,17 +117,17 @@ namespace SampSharp.RakNet
             var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedInt32, "param");
             return (int)result["param"];
         }
-        public int ReadCompressedUint8()
+        public int ReadCompressedUInt8()
         {
             var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedUInt8, "param");
             return (int)result["param"];
         }
-        public int ReadCompressedUint16()
+        public int ReadCompressedUInt16()
         {
             var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedUInt16, "param");
             return (int)result["param"];
         }
-        public int ReadCompressedUint32()
+        public int ReadCompressedUInt32()
         {
             var result = Internal.BS_ReadValue(this.Id, ParamType.CompressedUInt32, "param");
             return (int)result["param"];
@@ -161,15 +161,15 @@ namespace SampSharp.RakNet
         {
             Internal.BS_WriteValue(this.Id, ParamType.CompressedInt32, param);
         }
-        public void WriteCompressedUint8(int param)
+        public void WriteCompressedUInt8(int param)
         {
             Internal.BS_WriteValue(this.Id, ParamType.CompressedUInt8, param);
         }
-        public void WriteCompressedUint16(int param)
+        public void WriteCompressedUInt16(int param)
         {
             Internal.BS_WriteValue(this.Id, ParamType.CompressedUInt16, param);
         }
-        public void WriteCompressedUint32(int param)
+        public void WriteCompressedUInt32(int param)
         {
             Internal.BS_WriteValue(this.Id, ParamType.CompressedUInt32, param);
         }
@@ -198,9 +198,9 @@ namespace SampSharp.RakNet
 
             if (magnitude > 0.0f)
             {
-                this.WriteUint16((int)((x / magnitude + 1.0f) * 32767.5f));
-                this.WriteUint16((int)((y / magnitude + 1.0f) * 32767.5f));
-                this.WriteUint16((int)((z / magnitude + 1.0f) * 32767.5f));
+                this.WriteUInt16((int)((x / magnitude + 1.0f) * 32767.5f));
+                this.WriteUInt16((int)((y / magnitude + 1.0f) * 32767.5f));
+                this.WriteUInt16((int)((z / magnitude + 1.0f) * 32767.5f));
             }
         }
         public void WriteNormQuat(Vector4 quat)
@@ -214,9 +214,9 @@ namespace SampSharp.RakNet
             this.WriteBool((bool)(x < 0.0f));
             this.WriteBool((bool)(y < 0.0f));
             this.WriteBool((bool)(z < 0.0f));
-            this.WriteUint16((int)(Math.Abs(x) * 65535.0));
-            this.WriteUint16((int)(Math.Abs(y) * 65535.0));
-            this.WriteUint16((int)(Math.Abs(z) * 65535.0));
+            this.WriteUInt16((int)(Math.Abs(x) * 65535.0));
+            this.WriteUInt16((int)(Math.Abs(y) * 65535.0));
+            this.WriteUInt16((int)(Math.Abs(z) * 65535.0));
             // Leave out w and calcuate it on the target
         }
         public Vector3 ReadVector()
@@ -231,9 +231,9 @@ namespace SampSharp.RakNet
 
             if (magnitude != 0.0f)
             {
-                sx = ReadUint16();
-                sy = ReadUint16();
-                sz = ReadUint16();
+                sx = ReadUInt16();
+                sy = ReadUInt16();
+                sz = ReadUInt16();
 
                 x = ((float)sx / 32767.5f - 1.0f) * magnitude;
                 y = ((float)sy / 32767.5f - 1.0f) * magnitude;
@@ -260,9 +260,9 @@ namespace SampSharp.RakNet
             cxNeg = this.ReadBool();
             cyNeg = this.ReadBool();
             czNeg = this.ReadBool();
-            cx = this.ReadUint16();
-            cy = this.ReadUint16();
-            cz = this.ReadUint16();
+            cx = this.ReadUInt16();
+            cy = this.ReadUInt16();
+            cz = this.ReadUInt16();
 
             // Calculate w from x,y,z
             x = cx / 65535.0f;

@@ -88,21 +88,21 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetId",
-                ParamType.Uint16, "vehicleId",
+                ParamType.UInt8, "packetId",
+                ParamType.UInt16, "vehicleId",
                 ParamType.Bits, "driveBy", 2,
                 ParamType.Bits, "seatId", 6,
                 ParamType.Bits, "additionalKey", 2,
                 ParamType.Bits, "weaponId", 6,
-                ParamType.Uint8, "playerHealth",
-                ParamType.Uint8, "playerArmour",
-                ParamType.Uint16, "lrKey",
-                ParamType.Uint16, "udKey",
-                ParamType.Uint16, "keys"
+                ParamType.UInt8, "playerHealth",
+                ParamType.UInt8, "playerArmour",
+                ParamType.UInt16, "lrKey",
+                ParamType.UInt16, "udKey",
+                ParamType.UInt16, "keys"
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, "fromPlayerId");
             }
 
@@ -113,22 +113,22 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetId,
-                ParamType.Uint16, this.vehicleId,
+                ParamType.UInt8, this.packetId,
+                ParamType.UInt16, this.vehicleId,
                 ParamType.Bits, this.driveBy, 2,
                 ParamType.Bits, this.seatId, 6,
                 ParamType.Bits, this.additionalKey, 2,
                 ParamType.Bits, this.weaponId, 6,
-                ParamType.Uint8, this.playerHealth,
-                ParamType.Uint8, this.playerArmour,
-                ParamType.Uint16, this.lrKey,
-                ParamType.Uint16, this.udKey,
-                ParamType.Uint16, this.keys,
+                ParamType.UInt8, this.playerHealth,
+                ParamType.UInt8, this.playerArmour,
+                ParamType.UInt16, this.lrKey,
+                ParamType.UInt16, this.udKey,
+                ParamType.UInt16, this.keys,
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, this.fromPlayerId);
             }
 

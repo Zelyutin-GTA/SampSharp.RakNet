@@ -77,8 +77,8 @@ namespace SampSharp.RakNet.Syncs
             
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetId",
-                ParamType.Uint16, "trailerId",
+                ParamType.UInt8, "packetId",
+                ParamType.UInt16, "trailerId",
                 ParamType.Float, "position_0",
                 ParamType.Float, "position_1",
                 ParamType.Float, "position_2",
@@ -93,7 +93,7 @@ namespace SampSharp.RakNet.Syncs
             
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, "fromPlayerId");
             }
 
@@ -104,8 +104,8 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetId,
-                ParamType.Uint16, this.trailerId,
+                ParamType.UInt8, this.packetId,
+                ParamType.UInt16, this.trailerId,
                 ParamType.Float, this.position.X,
                 ParamType.Float, this.position.Y,
                 ParamType.Float, this.position.Z,
@@ -120,7 +120,7 @@ namespace SampSharp.RakNet.Syncs
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, this.fromPlayerId);
             }
 

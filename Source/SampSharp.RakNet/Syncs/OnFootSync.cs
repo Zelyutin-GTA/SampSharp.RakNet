@@ -68,14 +68,14 @@ namespace SampSharp.RakNet.Syncs
 
                 BS2.ReadValue(
                     ParamType.Bits, "weaponId", 6,
-                    ParamType.Uint8, "specialAction",
+                    ParamType.UInt8, "specialAction",
                     ParamType.Float, "velocity_0",
                     ParamType.Float, "velocity_1",
                     ParamType.Float, "velocity_2",
                     ParamType.Float, "surfingOffsets_0",
                     ParamType.Float, "surfingOffsets_1",
                     ParamType.Float, "surfingOffsets_2",
-                    ParamType.Uint16, "surfingVehicleId",
+                    ParamType.UInt16, "surfingVehicleId",
                     ParamType.Int16, "animationId",
                     ParamType.Int16, "animationFlags"
                 );
@@ -83,10 +83,10 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetId",
-                ParamType.Uint16, "lrKey",
-                ParamType.Uint16, "udKey",
-                ParamType.Uint16, "keys",
+                ParamType.UInt8, "packetId",
+                ParamType.UInt16, "lrKey",
+                ParamType.UInt16, "udKey",
+                ParamType.UInt16, "keys",
                 ParamType.Float, "position_0",
                 ParamType.Float, "position_1",
                 ParamType.Float, "position_2",
@@ -94,8 +94,8 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, "quaternion_X",
                 ParamType.Float, "quaternion_Y",
                 ParamType.Float, "quaternion_Z",
-                ParamType.Uint8, "health",
-                ParamType.Uint8, "armour",
+                ParamType.UInt8, "health",
+                ParamType.UInt8, "armour",
                 ParamType.Bits, "additionalKey", 2
             };
 
@@ -125,7 +125,7 @@ namespace SampSharp.RakNet.Syncs
                     bool hasSurfInfo = BS2.ReadBool();
                     if(hasSurfInfo)
                     {
-                        this.surfingVehicleId = BS2.ReadUint16();
+                        this.surfingVehicleId = BS2.ReadUInt16();
                         float offsetsX = BS2.ReadFloat();
                         float offsetsY = BS2.ReadFloat();
                         float offsetsZ = BS2.ReadFloat();
@@ -146,26 +146,26 @@ namespace SampSharp.RakNet.Syncs
                 };
 
                 BS2.ReadValue(
-                    ParamType.Uint8, "healthArmourByte",
-                    ParamType.Uint8, "weaponId",
-                    ParamType.Uint8, "specialAction"
+                    ParamType.UInt8, "healthArmourByte",
+                    ParamType.UInt8, "weaponId",
+                    ParamType.UInt8, "specialAction"
                 );
             };
 
-            this.packetId = this.BS.ReadUint8();
-            this.fromPlayerId = this.BS.ReadUint16();
+            this.packetId = this.BS.ReadUInt8();
+            this.fromPlayerId = this.BS.ReadUInt16();
 
             //LEFT/RIGHT KEYS
             bool hasLR = this.BS.ReadBool();
-            if (hasLR) this.lrKey = this.BS.ReadUint16();
+            if (hasLR) this.lrKey = this.BS.ReadUInt16();
 
             // UP/DOWN KEYS
             bool hasUD = this.BS.ReadBool();
-            if (hasUD) this.udKey = this.BS.ReadUint16();
+            if (hasUD) this.udKey = this.BS.ReadUInt16();
 
             var arguments = new List<object>()
             {
-                ParamType.Uint16, "keys",
+                ParamType.UInt16, "keys",
                 ParamType.Float, "position_0",
                 ParamType.Float, "position_1",
                 ParamType.Float, "position_2"
@@ -177,10 +177,10 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetId,
-                ParamType.Uint16, this.lrKey,
-                ParamType.Uint16, this.udKey,
-                ParamType.Uint16, this.keys,
+                ParamType.UInt8, this.packetId,
+                ParamType.UInt16, this.lrKey,
+                ParamType.UInt16, this.udKey,
+                ParamType.UInt16, this.keys,
                 ParamType.Float, this.position.X,
                 ParamType.Float, this.position.Y,
                 ParamType.Float, this.position.Z,
@@ -188,8 +188,8 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, this.quaternion.X,
                 ParamType.Float, this.quaternion.Y,
                 ParamType.Float, this.quaternion.Z,
-                ParamType.Uint8, this.health,
-                ParamType.Uint8, this.armour,
+                ParamType.UInt8, this.health,
+                ParamType.UInt8, this.armour,
                 ParamType.Bits, this.additionalKey, 2
             };
 
@@ -198,14 +198,14 @@ namespace SampSharp.RakNet.Syncs
             arguments = new List<object>()
             {
                 ParamType.Bits, this.weaponId, 6,
-                ParamType.Uint8, this.specialAction,
+                ParamType.UInt8, this.specialAction,
                 ParamType.Float, this.velocity.X,
                 ParamType.Float, this.velocity.Y,
                 ParamType.Float, this.velocity.Z,
                 ParamType.Float, this.surfingOffsets.X,
                 ParamType.Float, this.surfingOffsets.Y,
                 ParamType.Float, this.surfingOffsets.Z,
-                ParamType.Uint16, this.surfingVehicleId,
+                ParamType.UInt16, this.surfingVehicleId,
                 ParamType.Int16, this.animationId,
                 ParamType.Int16, this.animationFlags
             };
@@ -214,12 +214,12 @@ namespace SampSharp.RakNet.Syncs
         }
         public void WriteOutcoming()
         {
-            BS.WriteUint8(this.packetId);
-            BS.WriteUint16(this.fromPlayerId);
+            BS.WriteUInt8(this.packetId);
+            BS.WriteUInt16(this.fromPlayerId);
             if(this.lrKey != 0)
             {
                 BS.WriteBool(true);
-                BS.WriteUint16(this.lrKey);
+                BS.WriteUInt16(this.lrKey);
             }
             else
             {
@@ -229,7 +229,7 @@ namespace SampSharp.RakNet.Syncs
             if (this.udKey != 0)
             {
                 BS.WriteBool(true);
-                BS.WriteUint16(this.udKey);
+                BS.WriteUInt16(this.udKey);
             }
             else
             {
@@ -237,7 +237,7 @@ namespace SampSharp.RakNet.Syncs
             }
 
             BS.WriteValue(
-                ParamType.Uint16, this.keys,
+                ParamType.UInt16, this.keys,
                 ParamType.Float, this.position.X,
                 ParamType.Float, this.position.Y,
                 ParamType.Float, this.position.Z
@@ -247,16 +247,16 @@ namespace SampSharp.RakNet.Syncs
 
             byte healthArmourByte = HealthArmour.SetInByte(this.health, this.armour);
             BS.WriteValue(
-                ParamType.Uint8, (int)healthArmourByte,
-                ParamType.Uint8, this.weaponId,
-                ParamType.Uint8, this.specialAction
+                ParamType.UInt8, (int)healthArmourByte,
+                ParamType.UInt8, this.weaponId,
+                ParamType.UInt8, this.specialAction
             );
             BS.WriteVector(this.velocity);
             if(this.surfingVehicleId != 0)
             {
                 BS.WriteValue(
                     ParamType.Bool, true,
-                    ParamType.Uint8, this.surfingVehicleId,
+                    ParamType.UInt8, this.surfingVehicleId,
                     ParamType.Float, this.surfingOffsets.X,
                     ParamType.Float, this.surfingOffsets.Y,
                     ParamType.Float, this.surfingOffsets.Z

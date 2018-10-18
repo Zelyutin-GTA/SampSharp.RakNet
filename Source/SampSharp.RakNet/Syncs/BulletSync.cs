@@ -67,9 +67,9 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetId",
-                ParamType.Uint8, "hitType",
-                ParamType.Uint16, "hitId",
+                ParamType.UInt8, "packetId",
+                ParamType.UInt8, "hitType",
+                ParamType.UInt16, "hitId",
                 ParamType.Float, "origin_0",
                 ParamType.Float, "origin_1",
                 ParamType.Float, "origin_2",
@@ -79,11 +79,11 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, "offsets_0",
                 ParamType.Float, "offsets_1",
                 ParamType.Float, "offsets_2",
-                ParamType.Uint8, "weaponId",
+                ParamType.UInt8, "weaponId",
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, "fromPlayerId");
             }
 
@@ -93,9 +93,9 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetId,
-                ParamType.Uint8, this.hitType,
-                ParamType.Uint16, this.hitId,
+                ParamType.UInt8, this.packetId,
+                ParamType.UInt8, this.hitType,
+                ParamType.UInt16, this.hitId,
                 ParamType.Float, this.origin.X,
                 ParamType.Float, this.origin.Y,
                 ParamType.Float, this.origin.Z,
@@ -105,12 +105,12 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, this.offsets.X,
                 ParamType.Float, this.offsets.Y,
                 ParamType.Float, this.offsets.Z,
-                ParamType.Uint8, this.weaponId,
+                ParamType.UInt8, this.weaponId,
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, this.fromPlayerId);
             }
 

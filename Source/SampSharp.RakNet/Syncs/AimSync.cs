@@ -69,8 +69,8 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.Uint8, "packetId",
-                ParamType.Uint8, "cameraMode",
+                ParamType.UInt8, "packetId",
+                ParamType.UInt8, "cameraMode",
                 ParamType.Float, "cameraFrontVector_0",
                 ParamType.Float, "cameraFrontVector_1",
                 ParamType.Float, "cameraFrontVector_2",
@@ -80,12 +80,12 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, "aimZ",
                 ParamType.Bits, "weaponState", 2,
                 ParamType.Bits, "cameraZoom", 6,
-                ParamType.Uint8, "aspectRatio",
+                ParamType.UInt8, "aspectRatio",
 
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, "fromPlayerId");
             }
 
@@ -95,8 +95,8 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.Uint8, this.packetId,
-                ParamType.Uint8, this.cameraMode,
+                ParamType.UInt8, this.packetId,
+                ParamType.UInt8, this.cameraMode,
                 ParamType.Float, this.cameraFrontVector.X,
                 ParamType.Float, this.cameraFrontVector.Y,
                 ParamType.Float, this.cameraFrontVector.Z,
@@ -106,12 +106,12 @@ namespace SampSharp.RakNet.Syncs
                 ParamType.Float, this.aimZ,
                 ParamType.Bits, this.weaponState, 2,
                 ParamType.Bits, this.cameraZoom, 6,
-                ParamType.Uint8, this.aspectRatio
+                ParamType.UInt8, this.aspectRatio
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.Uint16);
+                arguments.Insert(2, ParamType.UInt16);
                 arguments.Insert(3, this.fromPlayerId);
             }
 
