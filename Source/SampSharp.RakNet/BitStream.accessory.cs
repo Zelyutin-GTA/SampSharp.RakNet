@@ -59,6 +59,7 @@ namespace SampSharp.RakNet
             return (int)result["param"];
         }
         #endregion
+        
         #region Writings
         public void WriteInt8(int param)
         {
@@ -101,6 +102,7 @@ namespace SampSharp.RakNet
             WriteValue(ParamType.Bits, param, count);
         }
         #endregion
+        
         #region Compressed readings
         public int ReadCompressedInt8()
         {
@@ -148,6 +150,7 @@ namespace SampSharp.RakNet
             return (string)result["param"];
         }
         #endregion
+        
         #region Compressed writings
         public void WriteCompressedInt8(int param)
         {
@@ -187,6 +190,7 @@ namespace SampSharp.RakNet
         }
         #endregion
 
+        #region Vector and Quat
         public void WriteVector(Vector3 vector)
         {
             float x = vector.X;
@@ -276,5 +280,6 @@ namespace SampSharp.RakNet
                 w = -w;
             return new Vector4(x, y, z, w);
         }
+        #endregion
     }
 }
