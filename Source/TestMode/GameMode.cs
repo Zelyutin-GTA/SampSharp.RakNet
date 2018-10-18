@@ -60,7 +60,7 @@ namespace TestMode
         [Command("setname")]
         public static void SetNameCommand(BasePlayer sender, string name)
         {
-            var BS = BitStream.New();
+            var BS = BitStream.Create();
 
             BS.WriteValue(ParamType.UInt16, sender.Id, ParamType.UInt8, name.Length, ParamType.String, name);
 
@@ -70,7 +70,7 @@ namespace TestMode
         [Command("setpos")]
         public static void SetPosCommand(BasePlayer sender, float x, float y, float z)
         {
-            var BS = BitStream.New();
+            var BS = BitStream.Create();
 
             BS.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z);
 
@@ -82,7 +82,7 @@ namespace TestMode
         [Command("explode")]
         public static void ExplodeCommand(BasePlayer sender)
         {
-            var bs = BitStream.New();
+            var bs = BitStream.Create();
             float x = sender.Position.X;
             float y = sender.Position.Y;
             float z = sender.Position.Z;
@@ -99,14 +99,14 @@ namespace TestMode
         [Command("createplayer")]
         public static void CreatePlayerCommand(BasePlayer sender, int playerId, string name, int skin)
         {
-            var bs = BitStream.New();
+            var bs = BitStream.Create();
             bs.WriteValue(ParamType.UInt16, playerId, ParamType.Int32, 0, ParamType.UInt8, 0, ParamType.UInt8, name.Length, ParamType.String, name);
 
             int serverJoin = 137;
             bs.SendRpc(serverJoin, sender.Id);
 
             
-            bs = BitStream.New();
+            bs = BitStream.Create();
 
             int team = sender.Team;
             float x = sender.Position.X;

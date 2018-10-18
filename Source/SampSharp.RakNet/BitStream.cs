@@ -122,7 +122,7 @@ namespace SampSharp.RakNet
                 Id = id;
             }
         }
-        public static BitStream New()
+        public static BitStream Create()
         {
             int id = Internal.BS_New();
             return new BitStream(id, true);
