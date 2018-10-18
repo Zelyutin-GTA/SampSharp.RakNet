@@ -10,8 +10,6 @@ namespace SampSharp.RakNet.Syncs
 {
     public class AimSync : ISync
     {
-        public event EventHandler<SyncReadEventArgs> ReadCompleted;
-
         public BitStream BS { get; set; }
 
         public int PacketId { get; set; }
@@ -46,27 +44,6 @@ namespace SampSharp.RakNet.Syncs
         }
         private void Read(bool outcoming)
         {
-            BS.ReadCompleted += (sender, args) =>
-            {
-                var result = args.Result;
-                PacketId = (int)result["packetId"];
-                if (outcoming)
-                {
-                    FromPlayerId = (int)result["fromPlayerId"];
-                }
-
-                CameraMode = (int)result["cameraMode"];
-                CameraFrontVector = new Vector3((float) result["cameraFrontVector_0"], (float) result["cameraFrontVector_1"], (float) result["cameraFrontVector_2"]);
-                CameraPosition = new Vector3((float) result["cameraPosition_0"], (float) result["cameraPosition_2"], (float) result["cameraPosition_2"]);
-                AimZ = (float) result["aimZ"];
-
-                WeaponState = (int)result["weaponState"];
-                CameraZoom = (int)result["cameraZoom"];
-                AspectRatio = (int)result["aspectRatio"];
-
-                ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
-            };
-
             var arguments = new List<object>()
             {
                 ParamType.UInt8, "packetId",
@@ -89,7 +66,22 @@ namespace SampSharp.RakNet.Syncs
                 arguments.Insert(3, "fromPlayerId");
             }
 
-            BS.ReadValue(arguments.ToArray());
+            var result = BS.ReadValue(arguments.ToArray());
+
+            PacketId = (int)result["packetId"];
+            if (outcoming)
+            {
+                FromPlayerId = (int)result["fromPlayerId"];
+            }
+
+            CameraMode = (int)result["cameraMode"];
+            CameraFrontVector = new Vector3((float)result["cameraFrontVector_0"], (float)result["cameraFrontVector_1"], (float)result["cameraFrontVector_2"]);
+            CameraPosition = new Vector3((float)result["cameraPosition_0"], (float)result["cameraPosition_2"], (float)result["cameraPosition_2"]);
+            AimZ = (float)result["aimZ"];
+
+            WeaponState = (int)result["weaponState"];
+            CameraZoom = (int)result["cameraZoom"];
+            AspectRatio = (int)result["aspectRatio"];
         }
         private void Write(bool outcoming)
         {

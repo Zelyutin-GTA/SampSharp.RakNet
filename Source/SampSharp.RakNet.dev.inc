@@ -3,10 +3,7 @@
 
 new bool:blockNextRPC = false;
 new bool:blockNextPacket = false;
-public OnPlayerConnect(playerid)
-{
-	CallRemoteFunction("OnTestRemote", "d", playerid);
-}
+
 public OnIncomingRPC(playerid, rpcid, BitStream:bs)
 {
 	printf("[Pawn] Incoming RPC. %d, %d, %d", playerid, rpcid, bs);
