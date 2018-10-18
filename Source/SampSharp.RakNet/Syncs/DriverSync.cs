@@ -134,7 +134,10 @@ namespace SampSharp.RakNet.Syncs
             this.vehicleHealth = (float)BS.ReadUInt16();
 
             byte healthArmour = Convert.ToByte(BS.ReadUInt8());
-            HealthArmour.GetFromByte(healthArmour, ref this.playerHealth, ref this.playerArmour);
+
+            HealthArmour.GetFromByte(healthArmour, out int _health, out int _armour);
+            this.playerHealth = _health;
+            this.playerArmour = _armour;
 
             this.weaponId = BS.ReadUInt8();
 
