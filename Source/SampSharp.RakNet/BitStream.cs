@@ -116,9 +116,11 @@ namespace SampSharp.RakNet
 
         public void Dispose()
         {
-            int id = Id; // Added to let Id stay readonly (or with private setter)
-            if(IsHandMade) Internal.BS_Delete(out id);
-            Id = id;
+            if (IsHandMade)
+            {
+                Internal.BS_Delete(out int id);
+                Id = id;
+            }
         }
         public static BitStream New()
         {
