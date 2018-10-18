@@ -45,12 +45,12 @@ namespace SampSharp.RakNet
 
         #endregion
 
-        bool LoggingIncomingRPC = false;
-        bool LoggingOutcomingRPC = false;
-        bool LoggingIncomingPacket = false;
-        bool LoggingOutcomingPacket = false;
-        bool LoggingBlockingRPC = false;
-        bool LoggingBlockingPacket = false;
+        public bool LoggingIncomingRPC { get; set; } = false;
+        public bool LoggingOutcomingRPC { get; set; } = false;
+        public bool LoggingIncomingPacket { get; set; } = false;
+        public bool LoggingOutcomingPacket { get; set; } = false;
+        public bool LoggingBlockingRPC { get; set; } = false;
+        public bool LoggingBlockingPacket { get; set; } = false;
 
         public void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket, bool blockingRPC, bool blockingPacket)
         {

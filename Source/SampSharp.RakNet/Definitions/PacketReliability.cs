@@ -6,10 +6,10 @@ namespace SampSharp.RakNet.Definitions
 {
     public enum PacketReliability
     {
-        UNRELIABLE = 6,
-        UNRELIABLE_SEQUENCED,
-        RELIABLE,
-        RELIABLE_ORDERED,
-        RELIABLE_SEQUENCED
+        Unreliable = 6,
+        UnreliableSequenced,
+        Reliable,
+        ReliableOrdered,
+        ReliableSequenced
     };
 }

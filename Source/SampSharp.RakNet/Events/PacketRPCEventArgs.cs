@@ -6,15 +6,15 @@ namespace SampSharp.RakNet.Events
 {
     public class PacketRPCEventArgs : EventArgs
     {
-        public int ID;
-        public int PlayerID;
-        public int BitStreamID;
+        public int Id { get; set; }
+        public int PlayerId { get; set; }
+        public int BitStreamId { get; set; }
 
-        public PacketRPCEventArgs(int id, int playerID, int bitStreamID)
+        public PacketRPCEventArgs(int id, int playerId, int bitStreamId)
         {
-            this.ID = id;
-            this.PlayerID = playerID;
-            this.BitStreamID = bitStreamID;
+            this.Id = id;
+            this.PlayerId = playerId;
+            this.BitStreamId = bitStreamId;
         }
     }
 }

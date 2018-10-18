@@ -12,14 +12,14 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetID;
-        public int fromPlayerID;
-        public int lrKey;
-        public int udKey;
-        public int keys;
-        public Vector3 position;
+        public int packetId { get; set; }
+        public int fromPlayerId { get; set; }
+        public int lrKey { get; set; }
+        public int udKey { get; set; }
+        public int keys { get; set; }
+        public Vector3 position { get; set; }
 
         public SpectatorSync(BitStream bs)
         {
@@ -48,10 +48,10 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetID = (int)result["packetID"];
+                this.packetId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerID = (int)result["fromPlayerID"];
+                    this.fromPlayerId = (int)result["fromPlayerId"];
                 }
 
                 this.lrKey = (int)result["lrKey"];
@@ -64,19 +64,19 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "lrKey",
-                ParamType.UINT16, "udKey",
-                ParamType.UINT16, "keys",
-                ParamType.FLOAT, "position_0",
-                ParamType.FLOAT, "position_1",
-                ParamType.FLOAT, "position_2",
+                ParamType.UInt8, "packetId",
+                ParamType.UInt16, "lrKey",
+                ParamType.UInt16, "udKey",
+                ParamType.UInt16, "keys",
+                ParamType.Float, "position_0",
+                ParamType.Float, "position_1",
+                ParamType.Float, "position_2",
 
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, "fromPlayerID");
+                arguments.Insert(2, ParamType.UInt16);
+                arguments.Insert(3, "fromPlayerId");
             }
 
             BS.ReadValue(arguments.ToArray());
@@ -85,19 +85,19 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.lrKey,
-                ParamType.UINT16, this.udKey,
-                ParamType.UINT16, this.keys,
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z
+                ParamType.UInt8, this.packetId,
+                ParamType.UInt16, this.lrKey,
+                ParamType.UInt16, this.udKey,
+                ParamType.UInt16, this.keys,
+                ParamType.Float, this.position.X,
+                ParamType.Float, this.position.Y,
+                ParamType.Float, this.position.Z
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, this.fromPlayerID);
+                arguments.Insert(2, ParamType.UInt16);
+                arguments.Insert(3, this.fromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());

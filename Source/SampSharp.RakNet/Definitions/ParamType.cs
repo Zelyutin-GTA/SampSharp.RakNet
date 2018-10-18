@@ -6,27 +6,27 @@ namespace SampSharp.RakNet.Definitions
 {
     public enum ParamType
     {
-        INT8,
-        INT16,
-        INT32,
-        UINT8,
-        UINT16,
-        UINT32,
-        FLOAT,
-        BOOL,
-        STRING,
+        Int8,
+        Int16,
+        Int32,
+        UInt8,
+        UInt16,
+        UInt32,
+        Float,
+        Bool,
+        String,
 
         // compressed
-        CINT8,
-        CINT16,
-        CINT32,
-        CUINT8,
-        CUINT16,
-        CUINT32,
-        CFLOAT,
-        CBOOL,
-        CSTRING,
+        CompressedInt8,
+        CompressedInt16,
+        CompressedInt32,
+        CompressedUInt8,
+        CompressedUInt16,
+        CompressedUInt32,
+        CompressedFloat,
+        CompressedBool,
+        CompressedString,
 
-        BITS
+        Bits
     }
 }
