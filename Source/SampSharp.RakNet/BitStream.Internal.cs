@@ -14,7 +14,7 @@ namespace SampSharp.RakNet
 
         static BitStream()
         {
-            Internal = NativeObjectProxyFactory.CreateInstance<BitStreamInternal>(); // TODO: change to class extension as in BaseModeInternal
+            Internal = NativeObjectProxyFactory.CreateInstance<BitStreamInternal>();
         }
         public partial class BitStreamInternal
         {

@@ -38,12 +38,5 @@ namespace SampSharp.RakNet
             OutcomingPacket?.Invoke(this, new PacketRpcEventArgs(packetid, playerid, bs));
             if (LoggingOutcomingPacket) Console.WriteLine($"[SampSharp.RakNet] Hooking Outcoming Packet {playerid}, {packetid}, {bs}");
         }
-        //RakNet callbacs
-        /*
-        OnIncomingPacket(playerid, packetid, BitStream:bs);
-        OnIncomingRpc(playerid, rpcid, BitStream:bs);
-        OnOutcomingPacket(playerid, packetid, BitStream:bs);
-        OnOutcomingRpc(playerid, rpcid, BitStream:bs);
-        */
     }
 }
