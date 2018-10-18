@@ -69,31 +69,31 @@ namespace SampSharp.RakNet.Syncs
                 };
 
                 BS2.ReadValue(
-                    ParamType.FLOAT, "angularVelocity_0",
-                    ParamType.FLOAT, "angularVelocity_1",
-                    ParamType.FLOAT, "angularVelocity_2"
+                    ParamType.Float, "angularVelocity_0",
+                    ParamType.Float, "angularVelocity_1",
+                    ParamType.Float, "angularVelocity_2"
                 );
             };
             
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "trailerID",
-                ParamType.FLOAT, "position_0",
-                ParamType.FLOAT, "position_1",
-                ParamType.FLOAT, "position_2",
-                ParamType.FLOAT, "quaternion_W",
-                ParamType.FLOAT, "quaternion_X",
-                ParamType.FLOAT, "quaternion_Y",
-                ParamType.FLOAT, "quaternion_Z",
-                ParamType.FLOAT, "velocity_0",
-                ParamType.FLOAT, "velocity_1",
-                ParamType.FLOAT, "velocity_2",
+                ParamType.Uint8, "packetID",
+                ParamType.Uint16, "trailerID",
+                ParamType.Float, "position_0",
+                ParamType.Float, "position_1",
+                ParamType.Float, "position_2",
+                ParamType.Float, "quaternion_W",
+                ParamType.Float, "quaternion_X",
+                ParamType.Float, "quaternion_Y",
+                ParamType.Float, "quaternion_Z",
+                ParamType.Float, "velocity_0",
+                ParamType.Float, "velocity_1",
+                ParamType.Float, "velocity_2",
             };
             
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, "fromPlayerID");
             }
 
@@ -104,23 +104,23 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.trailerID,
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z,
-                ParamType.FLOAT, this.quaternion.W,
-                ParamType.FLOAT, this.quaternion.X,
-                ParamType.FLOAT, this.quaternion.Y,
-                ParamType.FLOAT, this.quaternion.Z,
-                ParamType.FLOAT, this.velocity.X,
-                ParamType.FLOAT, this.velocity.Y,
-                ParamType.FLOAT, this.velocity.Z,
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint16, this.trailerID,
+                ParamType.Float, this.position.X,
+                ParamType.Float, this.position.Y,
+                ParamType.Float, this.position.Z,
+                ParamType.Float, this.quaternion.W,
+                ParamType.Float, this.quaternion.X,
+                ParamType.Float, this.quaternion.Y,
+                ParamType.Float, this.quaternion.Z,
+                ParamType.Float, this.velocity.X,
+                ParamType.Float, this.velocity.Y,
+                ParamType.Float, this.velocity.Z,
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, this.fromPlayerID);
             }
 
@@ -128,9 +128,9 @@ namespace SampSharp.RakNet.Syncs
 
             arguments = new List<object>()
             {
-                ParamType.FLOAT, this.angularVelocity.X,
-                ParamType.FLOAT, this.angularVelocity.Y,
-                ParamType.FLOAT, this.angularVelocity.Z,
+                ParamType.Float, this.angularVelocity.X,
+                ParamType.Float, this.angularVelocity.Y,
+                ParamType.Float, this.angularVelocity.Z,
             };
 
             BS.WriteValue(arguments.ToArray());

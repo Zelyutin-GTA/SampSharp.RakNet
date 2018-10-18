@@ -171,7 +171,7 @@ namespace SampSharp.RakNet
                     var partial_nativeParamsSizes = new List<uint>();
                     var partial_returningParamsIndexes = new Dictionary<string, int>();
 
-                    var stringTypeAndContentParamsCount = 2; //ParamType.STRING + string
+                    var stringTypeAndContentParamsCount = 2; //ParamType.String + string
 
                     for (int j = 0; j < necessaryParamsCount; j++) // bs
                     {

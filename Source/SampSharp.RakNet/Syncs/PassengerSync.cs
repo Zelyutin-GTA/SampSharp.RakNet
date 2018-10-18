@@ -80,29 +80,29 @@ namespace SampSharp.RakNet.Syncs
                 };
 
                 BS2.ReadValue(
-                    ParamType.FLOAT, "position_0",
-                    ParamType.FLOAT, "position_1",
-                    ParamType.FLOAT, "position_2"
+                    ParamType.Float, "position_0",
+                    ParamType.Float, "position_1",
+                    ParamType.Float, "position_2"
                 );
             };
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "vehicleID",
-                ParamType.BITS, "driveBy", 2,
-                ParamType.BITS, "seatID", 6,
-                ParamType.BITS, "additionalKey", 2,
-                ParamType.BITS, "weaponID", 6,
-                ParamType.UINT8, "playerHealth",
-                ParamType.UINT8, "playerArmour",
-                ParamType.UINT16, "lrKey",
-                ParamType.UINT16, "udKey",
-                ParamType.UINT16, "keys"
+                ParamType.Uint8, "packetID",
+                ParamType.Uint16, "vehicleID",
+                ParamType.Bits, "driveBy", 2,
+                ParamType.Bits, "seatID", 6,
+                ParamType.Bits, "additionalKey", 2,
+                ParamType.Bits, "weaponID", 6,
+                ParamType.Uint8, "playerHealth",
+                ParamType.Uint8, "playerArmour",
+                ParamType.Uint16, "lrKey",
+                ParamType.Uint16, "udKey",
+                ParamType.Uint16, "keys"
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, "fromPlayerID");
             }
 
@@ -113,22 +113,22 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.vehicleID,
-                ParamType.BITS, this.driveBy, 2,
-                ParamType.BITS, this.seatID, 6,
-                ParamType.BITS, this.additionalKey, 2,
-                ParamType.BITS, this.weaponID, 6,
-                ParamType.UINT8, this.playerHealth,
-                ParamType.UINT8, this.playerArmour,
-                ParamType.UINT16, this.lrKey,
-                ParamType.UINT16, this.udKey,
-                ParamType.UINT16, this.keys,
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint16, this.vehicleID,
+                ParamType.Bits, this.driveBy, 2,
+                ParamType.Bits, this.seatID, 6,
+                ParamType.Bits, this.additionalKey, 2,
+                ParamType.Bits, this.weaponID, 6,
+                ParamType.Uint8, this.playerHealth,
+                ParamType.Uint8, this.playerArmour,
+                ParamType.Uint16, this.lrKey,
+                ParamType.Uint16, this.udKey,
+                ParamType.Uint16, this.keys,
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, this.fromPlayerID);
             }
 
@@ -136,9 +136,9 @@ namespace SampSharp.RakNet.Syncs
 
             arguments = new List<object>()
             {
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z,
+                ParamType.Float, this.position.X,
+                ParamType.Float, this.position.Y,
+                ParamType.Float, this.position.Z,
             };
 
             BS.WriteValue(arguments.ToArray());

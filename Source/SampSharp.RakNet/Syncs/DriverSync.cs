@@ -72,35 +72,35 @@ namespace SampSharp.RakNet.Syncs
                 };
 
                 BS2.ReadValue(
-                    ParamType.FLOAT, "velocity_0",
-                    ParamType.FLOAT, "velocity_1",
-                    ParamType.FLOAT, "velocity_2",
-                    ParamType.FLOAT, "vehicleHealth",
-                    ParamType.UINT8, "playerHealth",
-                    ParamType.UINT8, "playerArmour",
-                    ParamType.BITS, "additionalKey", 2,
-                    ParamType.BITS, "weaponID", 6,
-                    ParamType.UINT8, "sirenState",
-                    ParamType.UINT8, "landingGearState",
-                    ParamType.UINT16, "trailerID",
-                    ParamType.FLOAT, "trainSpeed"
+                    ParamType.Float, "velocity_0",
+                    ParamType.Float, "velocity_1",
+                    ParamType.Float, "velocity_2",
+                    ParamType.Float, "vehicleHealth",
+                    ParamType.Uint8, "playerHealth",
+                    ParamType.Uint8, "playerArmour",
+                    ParamType.Bits, "additionalKey", 2,
+                    ParamType.Bits, "weaponID", 6,
+                    ParamType.Uint8, "sirenState",
+                    ParamType.Uint8, "landingGearState",
+                    ParamType.Uint16, "trailerID",
+                    ParamType.Float, "trainSpeed"
                 );
             };
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "vehicleID",
-                ParamType.UINT16, "lrKey",
-                ParamType.UINT16, "udKey",
-                ParamType.UINT16, "keys",
-                ParamType.FLOAT, "quaternion_W",
-                ParamType.FLOAT, "quaternion_X",
-                ParamType.FLOAT, "quaternion_Y",
-                ParamType.FLOAT, "quaternion_Z",
-                ParamType.FLOAT, "position_0",
-                ParamType.FLOAT, "position_1",
-                ParamType.FLOAT, "position_2",
+                ParamType.Uint8, "packetID",
+                ParamType.Uint16, "vehicleID",
+                ParamType.Uint16, "lrKey",
+                ParamType.Uint16, "udKey",
+                ParamType.Uint16, "keys",
+                ParamType.Float, "quaternion_W",
+                ParamType.Float, "quaternion_X",
+                ParamType.Float, "quaternion_Y",
+                ParamType.Float, "quaternion_Z",
+                ParamType.Float, "position_0",
+                ParamType.Float, "position_1",
+                ParamType.Float, "position_2",
 
             };
 
@@ -165,37 +165,37 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.vehicleID,
-                ParamType.UINT16, this.lrKey,
-                ParamType.UINT16, this.udKey,
-                ParamType.UINT16, this.keys,
-                ParamType.FLOAT, this.quaternion.W,
-                ParamType.FLOAT, this.quaternion.X,
-                ParamType.FLOAT, this.quaternion.Y,
-                ParamType.FLOAT, this.quaternion.Z,
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z,
-                ParamType.UINT16, this.fromPlayerID
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint16, this.vehicleID,
+                ParamType.Uint16, this.lrKey,
+                ParamType.Uint16, this.udKey,
+                ParamType.Uint16, this.keys,
+                ParamType.Float, this.quaternion.W,
+                ParamType.Float, this.quaternion.X,
+                ParamType.Float, this.quaternion.Y,
+                ParamType.Float, this.quaternion.Z,
+                ParamType.Float, this.position.X,
+                ParamType.Float, this.position.Y,
+                ParamType.Float, this.position.Z,
+                ParamType.Uint16, this.fromPlayerID
             };
 
             BS.WriteValue(arguments.ToArray());
 
             arguments = new List<object>()
             {
-                ParamType.FLOAT, this.velocity.X,
-                ParamType.FLOAT, this.velocity.Y,
-                ParamType.FLOAT, this.velocity.Z,
-                ParamType.FLOAT, this.vehicleHealth,
-                ParamType.UINT8, this.playerHealth,
-                ParamType.UINT8, this.playerArmour,
-                ParamType.BITS, this.additionalKey, 2,
-                ParamType.BITS, this.weaponID, 6,
-                ParamType.UINT8, this.sirenState,
-                ParamType.UINT8, this.landingGearState,
-                ParamType.UINT16, this.trailerID,
-                ParamType.FLOAT, this.trainSpeed
+                ParamType.Float, this.velocity.X,
+                ParamType.Float, this.velocity.Y,
+                ParamType.Float, this.velocity.Z,
+                ParamType.Float, this.vehicleHealth,
+                ParamType.Uint8, this.playerHealth,
+                ParamType.Uint8, this.playerArmour,
+                ParamType.Bits, this.additionalKey, 2,
+                ParamType.Bits, this.weaponID, 6,
+                ParamType.Uint8, this.sirenState,
+                ParamType.Uint8, this.landingGearState,
+                ParamType.Uint16, this.trailerID,
+                ParamType.Float, this.trainSpeed
             };
 
             BS.WriteValue(arguments.ToArray());
@@ -203,20 +203,20 @@ namespace SampSharp.RakNet.Syncs
         public void WriteOutcoming()
         {
             BS.WriteValue(
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.fromPlayerID,
-                ParamType.UINT16, this.vehicleID,
-                ParamType.UINT16, this.lrKey,
-                ParamType.UINT16, this.udKey,
-                ParamType.UINT16, this.keys
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint16, this.fromPlayerID,
+                ParamType.Uint16, this.vehicleID,
+                ParamType.Uint16, this.lrKey,
+                ParamType.Uint16, this.udKey,
+                ParamType.Uint16, this.keys
            );
 
             BS.WriteNormQuat(this.quaternion);
             
             BS.WriteValue(
-               ParamType.FLOAT, this.position.X,
-               ParamType.FLOAT, this.position.Y,
-               ParamType.FLOAT, this.position.Z
+               ParamType.Float, this.position.X,
+               ParamType.Float, this.position.Y,
+               ParamType.Float, this.position.Z
             );
 
             BS.WriteVector(this.velocity);

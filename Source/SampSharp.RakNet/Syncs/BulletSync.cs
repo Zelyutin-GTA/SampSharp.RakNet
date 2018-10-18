@@ -67,23 +67,23 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT8, "hitType",
-                ParamType.UINT16, "hitId",
-                ParamType.FLOAT, "origin_0",
-                ParamType.FLOAT, "origin_1",
-                ParamType.FLOAT, "origin_2",
-                ParamType.FLOAT, "hitPosition_0",
-                ParamType.FLOAT, "hitPosition_1",
-                ParamType.FLOAT, "hitPosition_2",
-                ParamType.FLOAT, "offsets_0",
-                ParamType.FLOAT, "offsets_1",
-                ParamType.FLOAT, "offsets_2",
-                ParamType.UINT8, "weaponID",
+                ParamType.Uint8, "packetID",
+                ParamType.Uint8, "hitType",
+                ParamType.Uint16, "hitId",
+                ParamType.Float, "origin_0",
+                ParamType.Float, "origin_1",
+                ParamType.Float, "origin_2",
+                ParamType.Float, "hitPosition_0",
+                ParamType.Float, "hitPosition_1",
+                ParamType.Float, "hitPosition_2",
+                ParamType.Float, "offsets_0",
+                ParamType.Float, "offsets_1",
+                ParamType.Float, "offsets_2",
+                ParamType.Uint8, "weaponID",
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, "fromPlayerID");
             }
 
@@ -93,24 +93,24 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT8, this.hitType,
-                ParamType.UINT16, this.hitID,
-                ParamType.FLOAT, this.origin.X,
-                ParamType.FLOAT, this.origin.Y,
-                ParamType.FLOAT, this.origin.Z,
-                ParamType.FLOAT, this.hitPosition.X,
-                ParamType.FLOAT, this.hitPosition.Y,
-                ParamType.FLOAT, this.hitPosition.Z,
-                ParamType.FLOAT, this.offsets.X,
-                ParamType.FLOAT, this.offsets.Y,
-                ParamType.FLOAT, this.offsets.Z,
-                ParamType.UINT8, this.weaponID,
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint8, this.hitType,
+                ParamType.Uint16, this.hitID,
+                ParamType.Float, this.origin.X,
+                ParamType.Float, this.origin.Y,
+                ParamType.Float, this.origin.Z,
+                ParamType.Float, this.hitPosition.X,
+                ParamType.Float, this.hitPosition.Y,
+                ParamType.Float, this.hitPosition.Z,
+                ParamType.Float, this.offsets.X,
+                ParamType.Float, this.offsets.Y,
+                ParamType.Float, this.offsets.Z,
+                ParamType.Uint8, this.weaponID,
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, this.fromPlayerID);
             }
 

@@ -64,18 +64,18 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "lrKey",
-                ParamType.UINT16, "udKey",
-                ParamType.UINT16, "keys",
-                ParamType.FLOAT, "position_0",
-                ParamType.FLOAT, "position_1",
-                ParamType.FLOAT, "position_2",
+                ParamType.Uint8, "packetID",
+                ParamType.Uint16, "lrKey",
+                ParamType.Uint16, "udKey",
+                ParamType.Uint16, "keys",
+                ParamType.Float, "position_0",
+                ParamType.Float, "position_1",
+                ParamType.Float, "position_2",
 
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, "fromPlayerID");
             }
 
@@ -85,18 +85,18 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.lrKey,
-                ParamType.UINT16, this.udKey,
-                ParamType.UINT16, this.keys,
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint16, this.lrKey,
+                ParamType.Uint16, this.udKey,
+                ParamType.Uint16, this.keys,
+                ParamType.Float, this.position.X,
+                ParamType.Float, this.position.Y,
+                ParamType.Float, this.position.Z
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, this.fromPlayerID);
             }
 

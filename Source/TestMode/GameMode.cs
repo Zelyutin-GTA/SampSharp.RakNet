@@ -62,7 +62,7 @@ namespace TestMode
         {
             var BS = BitStream.New();
 
-            BS.WriteValue(ParamType.UINT16, sender.Id, ParamType.UINT8, name.Length, ParamType.STRING, name);
+            BS.WriteValue(ParamType.Uint16, sender.Id, ParamType.Uint8, name.Length, ParamType.String, name);
 
             BS.SendRPC(11, sender.Id);
             sender.SendClientMessage("Changing name with RPC!");
@@ -72,7 +72,7 @@ namespace TestMode
         {
             var BS = BitStream.New();
 
-            BS.WriteValue(ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z);
+            BS.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z);
 
             int setPosRPC = 12;
             BS.SendRPC(setPosRPC, sender.Id);
@@ -89,7 +89,7 @@ namespace TestMode
             int type = 1;
             float radius = 100.0f;
 
-            bs.WriteValue(ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z, ParamType.UINT16, type, ParamType.FLOAT, radius);
+            bs.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Uint16, type, ParamType.Float, radius);
 
             int createExplosionRPC = 79;
             bs.SendRPC(createExplosionRPC, sender.Id);
@@ -100,7 +100,7 @@ namespace TestMode
         public static void CreatePlayerCommand(BasePlayer sender, int playerID, string name, int skin)
         {
             var bs = BitStream.New();
-            bs.WriteValue(ParamType.UINT16, playerID, ParamType.INT32, 0, ParamType.UINT8, 0, ParamType.UINT8, name.Length, ParamType.STRING, name);
+            bs.WriteValue(ParamType.Uint16, playerID, ParamType.Int32, 0, ParamType.Uint8, 0, ParamType.Uint8, name.Length, ParamType.String, name);
 
             int serverJoin = 137;
             bs.SendRPC(serverJoin, sender.Id);
@@ -115,7 +115,7 @@ namespace TestMode
             float angle = 0;
             int color = Color.Aqua;
             int fight = 0;
-            bs.WriteValue(ParamType.UINT16, playerID, ParamType.UINT8, team, ParamType.UINT32, skin, ParamType.FLOAT, x, ParamType.FLOAT, y, ParamType.FLOAT, z, ParamType.FLOAT, angle, ParamType.UINT32, color, ParamType.UINT8, fight);
+            bs.WriteValue(ParamType.Uint16, playerID, ParamType.Uint8, team, ParamType.Uint32, skin, ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Float, angle, ParamType.Uint32, color, ParamType.Uint8, fight);
 
             int worldPlayerAdd = 32;
             bs.SendRPC(worldPlayerAdd, sender.Id);
@@ -167,7 +167,7 @@ namespace TestMode
                     Console.WriteLine($"Map Clicked X: {x}; Y: {y}; Z: {z};");
                 };
                 
-                BS.ReadValue(ParamType.FLOAT, "x", ParamType.FLOAT, "y", ParamType.FLOAT, "z");
+                BS.ReadValue(ParamType.Float, "x", ParamType.Float, "y", ParamType.Float, "z");
             }
             if (rpcid == 25)
             {
@@ -182,15 +182,15 @@ namespace TestMode
                 };
 
                 BS.ReadValue(
-                    ParamType.INT32, "version",
-                    ParamType.UINT8, "mod",
-                    ParamType.UINT8, "nicknameLen",
-                    ParamType.STRING, "nickname",
-                    ParamType.UINT32, "challengeResponse",
-                    ParamType.UINT8, "authKeyLen",
-                    ParamType.STRING, "authKey",
-                    ParamType.UINT8, "clientVersionLen",
-                    ParamType.STRING, "clientVersion"
+                    ParamType.Int32, "version",
+                    ParamType.Uint8, "mod",
+                    ParamType.Uint8, "nicknameLen",
+                    ParamType.String, "nickname",
+                    ParamType.Uint32, "challengeResponse",
+                    ParamType.Uint8, "authKeyLen",
+                    ParamType.String, "authKey",
+                    ParamType.Uint8, "clientVersionLen",
+                    ParamType.String, "clientVersion"
                 );
             }
         }
@@ -213,7 +213,7 @@ namespace TestMode
                     Console.WriteLine($"Nickname changed. ID: {ID}, Nickname: {nickname}; Len: {nicknameLen}");
                 };
 
-                BS.ReadValue(ParamType.UINT16, "playerID", ParamType.UINT8, "nicknameLen", ParamType.STRING, "nickname");
+                BS.ReadValue(ParamType.Uint16, "playerID", ParamType.Uint8, "nicknameLen", ParamType.String, "nickname");
             }
 
             if (rpcid == 86)
@@ -228,17 +228,17 @@ namespace TestMode
                     Console.WriteLine($"Animation applied. ID: {ID}; Anim Lib: {AnimLib}; Anim Name: {AnimName}");
                 };
                 BS.ReadValue(
-                ParamType.UINT16, "playerID",
-                ParamType.UINT8, "AnimLibLength",
-                ParamType.STRING, "AnimLib",
-                ParamType.UINT8, "AnimNameLength",
-                ParamType.STRING, "AnimName",
-                ParamType.FLOAT, "fDelta",
-                ParamType.BOOL, "loop",
-                ParamType.BOOL, "lockx",
-                ParamType.BOOL, "locky",
-                ParamType.BOOL, "freeze",
-                ParamType.UINT32, "dTime"
+                ParamType.Uint16, "playerID",
+                ParamType.Uint8, "AnimLibLength",
+                ParamType.String, "AnimLib",
+                ParamType.Uint8, "AnimNameLength",
+                ParamType.String, "AnimName",
+                ParamType.Float, "fDelta",
+                ParamType.Bool, "loop",
+                ParamType.Bool, "lockx",
+                ParamType.Bool, "locky",
+                ParamType.Bool, "freeze",
+                ParamType.Uint32, "dTime"
                 );
             }
         }
@@ -252,7 +252,7 @@ namespace TestMode
             var BS = new BitStream(bs);
             switch (packetid)
             {
-                case (int)PacketIdentifiers.ONFOOT_SYNC: 
+                case (int)PacketIdentifiers.OnFootSync: 
                 {
                     var onFoot = new OnFootSync(BS);
                     onFoot.ReadCompleted += (sender, args) =>
@@ -263,7 +263,7 @@ namespace TestMode
                     
                     break;
                 }
-                case (int)PacketIdentifiers.DRIVER_SYNC:
+                case (int)PacketIdentifiers.DriverSync:
                 {
                     var driver = new DriverSync(BS);
                     driver.ReadCompleted += (sender, args) =>
@@ -274,7 +274,7 @@ namespace TestMode
                     driver.ReadIncoming();
                     break;
                 }
-                case (int)PacketIdentifiers.AIM_SYNC:
+                case (int)PacketIdentifiers.AimSync:
                 {
                     var aim = new AimSync(BS);
                     aim.ReadCompleted += (sender, args) =>
@@ -285,7 +285,7 @@ namespace TestMode
                     
                     break;
                 }
-                case (int)PacketIdentifiers.BULLET_SYNC:
+                case (int)PacketIdentifiers.BulletSync:
                 {
                     var bullet = new BulletSync(BS);
                     bullet.ReadCompleted += (sender, args) =>
@@ -301,7 +301,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.PASSENGER_SYNC:
+                case (int)PacketIdentifiers.PassengerSync:
                 {
                     var passenger = new PassengerSync(BS);
                     passenger.ReadCompleted += (sender, args) =>
@@ -312,7 +312,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.SPECTATOR_SYNC:
+                case (int)PacketIdentifiers.SpectatorSync:
                 {
                     var spectator = new SpectatorSync(BS);
                     spectator.ReadCompleted += (sender, args) =>
@@ -323,7 +323,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.TRAILER_SYNC:
+                case (int)PacketIdentifiers.TrailerSync:
                 {
                     var trailer = new TrailerSync(BS);
                     trailer.ReadCompleted += (sender, args) =>
@@ -334,7 +334,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.UNOCCUPIED_SYNC:
+                case (int)PacketIdentifiers.UnoccupiedSync:
                 {
                     var unoccupied = new UnoccupiedSync(BS);
                     unoccupied.ReadCompleted += (sender, args) =>
@@ -357,7 +357,7 @@ namespace TestMode
             var BS = new BitStream(bs);
             switch (packetid)
             {
-                case (int)PacketIdentifiers.ONFOOT_SYNC:
+                case (int)PacketIdentifiers.OnFootSync:
                 {
                     var onFoot = new OnFootSync(BS);
                     onFoot.ReadCompleted += (sender, args) =>
@@ -371,7 +371,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.DRIVER_SYNC:
+                case (int)PacketIdentifiers.DriverSync:
                 {
                     var driver = new DriverSync(BS);
                     driver.ReadCompleted += (sender, args) =>
@@ -385,7 +385,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.AIM_SYNC:
+                case (int)PacketIdentifiers.AimSync:
                 {
                     var aim = new AimSync(BS);
                     aim.ReadCompleted += (sender, args) =>
@@ -396,7 +396,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.BULLET_SYNC:
+                case (int)PacketIdentifiers.BulletSync:
                 {
                     var bullet = new BulletSync(BS);
                     bullet.ReadCompleted += (sender, args) =>
@@ -407,7 +407,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.PASSENGER_SYNC:
+                case (int)PacketIdentifiers.PassengerSync:
                 {
                     var passenger = new PassengerSync(BS);
                     passenger.ReadCompleted += (sender, args) =>
@@ -418,13 +418,13 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.SPECTATOR_SYNC:
+                case (int)PacketIdentifiers.SpectatorSync:
                 {
                     //Spectator syncronization does not have outcoming packets;
 
                     break;
                 }
-                case (int)PacketIdentifiers.TRAILER_SYNC:
+                case (int)PacketIdentifiers.TrailerSync:
                 {
                     var trailer = new TrailerSync(BS);
                     trailer.ReadCompleted += (sender, args) =>
@@ -435,7 +435,7 @@ namespace TestMode
 
                     break;
                 }
-                case (int)PacketIdentifiers.UNOCCUPIED_SYNC:
+                case (int)PacketIdentifiers.UnoccupiedSync:
                 {
                     var unoccupied = new UnoccupiedSync(BS);
                     unoccupied.ReadCompleted += (sender, args) =>

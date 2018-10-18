@@ -76,35 +76,35 @@ namespace SampSharp.RakNet.Syncs
                 };
 
                 BS2.ReadValue(
-                    ParamType.FLOAT, "velocity_0",
-                    ParamType.FLOAT, "velocity_1",
-                    ParamType.FLOAT, "velocity_2",
-                    ParamType.FLOAT, "angularVelocity_0",
-                    ParamType.FLOAT, "angularVelocity_1",
-                    ParamType.FLOAT, "angularVelocity_2",
-                    ParamType.FLOAT, "vehicleHealth"
+                    ParamType.Float, "velocity_0",
+                    ParamType.Float, "velocity_1",
+                    ParamType.Float, "velocity_2",
+                    ParamType.Float, "angularVelocity_0",
+                    ParamType.Float, "angularVelocity_1",
+                    ParamType.Float, "angularVelocity_2",
+                    ParamType.Float, "vehicleHealth"
                 );
             };
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "vehicleID",
-                ParamType.UINT8, "seatID",
-                ParamType.FLOAT, "roll_0",
-                ParamType.FLOAT, "roll_1",
-                ParamType.FLOAT, "roll_2",
-                ParamType.FLOAT, "direction_0",
-                ParamType.FLOAT, "direction_1",
-                ParamType.FLOAT, "direction_2",
-                ParamType.FLOAT, "position_0",
-                ParamType.FLOAT, "position_1",
-                ParamType.FLOAT, "position_2",
+                ParamType.Uint8, "packetID",
+                ParamType.Uint16, "vehicleID",
+                ParamType.Uint8, "seatID",
+                ParamType.Float, "roll_0",
+                ParamType.Float, "roll_1",
+                ParamType.Float, "roll_2",
+                ParamType.Float, "direction_0",
+                ParamType.Float, "direction_1",
+                ParamType.Float, "direction_2",
+                ParamType.Float, "position_0",
+                ParamType.Float, "position_1",
+                ParamType.Float, "position_2",
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, "fromPlayerID");
             }
 
@@ -115,23 +115,23 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.vehicleID,
-                ParamType.UINT8, this.seatID,
-                ParamType.FLOAT, this.roll.X,
-                ParamType.FLOAT, this.roll.Y,
-                ParamType.FLOAT, this.roll.Z,
-                ParamType.FLOAT, this.direction.X,
-                ParamType.FLOAT, this.direction.Y,
-                ParamType.FLOAT, this.direction.Z,
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z,
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint16, this.vehicleID,
+                ParamType.Uint8, this.seatID,
+                ParamType.Float, this.roll.X,
+                ParamType.Float, this.roll.Y,
+                ParamType.Float, this.roll.Z,
+                ParamType.Float, this.direction.X,
+                ParamType.Float, this.direction.Y,
+                ParamType.Float, this.direction.Z,
+                ParamType.Float, this.position.X,
+                ParamType.Float, this.position.Y,
+                ParamType.Float, this.position.Z,
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, this.fromPlayerID);
             }
 
@@ -139,13 +139,13 @@ namespace SampSharp.RakNet.Syncs
 
             arguments = new List<object>()
             {
-                ParamType.FLOAT, this.velocity.X,
-                ParamType.FLOAT, this.velocity.Y,
-                ParamType.FLOAT, this.velocity.Z,
-                ParamType.FLOAT, this.angularVelocity.X,
-                ParamType.FLOAT, this.angularVelocity.Y,
-                ParamType.FLOAT, this.angularVelocity.Z,
-                ParamType.FLOAT, this.vehicleHealth,
+                ParamType.Float, this.velocity.X,
+                ParamType.Float, this.velocity.Y,
+                ParamType.Float, this.velocity.Z,
+                ParamType.Float, this.angularVelocity.X,
+                ParamType.Float, this.angularVelocity.Y,
+                ParamType.Float, this.angularVelocity.Z,
+                ParamType.Float, this.vehicleHealth,
             };
 
             BS.WriteValue(arguments.ToArray());

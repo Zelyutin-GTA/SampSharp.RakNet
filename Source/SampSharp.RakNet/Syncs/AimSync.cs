@@ -69,23 +69,23 @@ namespace SampSharp.RakNet.Syncs
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT8, "cameraMode",
-                ParamType.FLOAT, "cameraFrontVector_0",
-                ParamType.FLOAT, "cameraFrontVector_1",
-                ParamType.FLOAT, "cameraFrontVector_2",
-                ParamType.FLOAT, "cameraPosition_0",
-                ParamType.FLOAT, "cameraPosition_1",
-                ParamType.FLOAT, "cameraPosition_2",
-                ParamType.FLOAT, "aimZ",
-                ParamType.BITS, "weaponState", 2,
-                ParamType.BITS, "cameraZoom", 6,
-                ParamType.UINT8, "aspectRatio",
+                ParamType.Uint8, "packetID",
+                ParamType.Uint8, "cameraMode",
+                ParamType.Float, "cameraFrontVector_0",
+                ParamType.Float, "cameraFrontVector_1",
+                ParamType.Float, "cameraFrontVector_2",
+                ParamType.Float, "cameraPosition_0",
+                ParamType.Float, "cameraPosition_1",
+                ParamType.Float, "cameraPosition_2",
+                ParamType.Float, "aimZ",
+                ParamType.Bits, "weaponState", 2,
+                ParamType.Bits, "cameraZoom", 6,
+                ParamType.Uint8, "aspectRatio",
 
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, "fromPlayerID");
             }
 
@@ -95,23 +95,23 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT8, this.cameraMode,
-                ParamType.FLOAT, this.cameraFrontVector.X,
-                ParamType.FLOAT, this.cameraFrontVector.Y,
-                ParamType.FLOAT, this.cameraFrontVector.Z,
-                ParamType.FLOAT, this.cameraPosition.X,
-                ParamType.FLOAT, this.cameraPosition.Y,
-                ParamType.FLOAT, this.cameraPosition.Z,
-                ParamType.FLOAT, this.aimZ,
-                ParamType.BITS, this.weaponState, 2,
-                ParamType.BITS, this.cameraZoom, 6,
-                ParamType.UINT8, this.aspectRatio
+                ParamType.Uint8, this.packetID,
+                ParamType.Uint8, this.cameraMode,
+                ParamType.Float, this.cameraFrontVector.X,
+                ParamType.Float, this.cameraFrontVector.Y,
+                ParamType.Float, this.cameraFrontVector.Z,
+                ParamType.Float, this.cameraPosition.X,
+                ParamType.Float, this.cameraPosition.Y,
+                ParamType.Float, this.cameraPosition.Z,
+                ParamType.Float, this.aimZ,
+                ParamType.Bits, this.weaponState, 2,
+                ParamType.Bits, this.cameraZoom, 6,
+                ParamType.Uint8, this.aspectRatio
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
+                arguments.Insert(2, ParamType.Uint16);
                 arguments.Insert(3, this.fromPlayerID);
             }
 
