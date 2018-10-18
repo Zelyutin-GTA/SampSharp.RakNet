@@ -14,17 +14,17 @@ namespace SampSharp.RakNet
         public event EventHandler<PacketRpcEventArgs> OutcomingPacket;
 
         [Callback]
-        internal void OnIncomingRpc(int playerid, int rpcid, int bs)
+        internal void OnIncomingRPC(int playerid, int rpcid, int bs)
         {
             IncomingRpc?.Invoke(this, new PacketRpcEventArgs(rpcid, playerid, bs));
-            if(LoggingIncomingRpc) Console.WriteLine($"[SampSharp.RakNet] Hooking Incoming Rpc {playerid}, {rpcid}, {bs}");   
+            if(LoggingIncomingRpc) Console.WriteLine($"[SampSharp.RakNet] Hooking Incoming RPC {playerid}, {rpcid}, {bs}");   
         }
 
         [Callback]
-        internal void OnOutcomingRpc(int playerid, int rpcid, int bs)
+        internal void OnOutcomingRPC(int playerid, int rpcid, int bs)
         {
             OutcomingRpc?.Invoke(this, new PacketRpcEventArgs(rpcid, playerid, bs));
-            if (LoggingOutcomingRpc) Console.WriteLine($"[SampSharp.RakNet] Hooking Outcoming Rpc {playerid}, {rpcid}, {bs}");
+            if (LoggingOutcomingRpc) Console.WriteLine($"[SampSharp.RakNet] Hooking Outcoming RPC {playerid}, {rpcid}, {bs}");
         }
         [Callback]
         internal void OnIncomingPacket(int playerid, int packetid, int bs)
