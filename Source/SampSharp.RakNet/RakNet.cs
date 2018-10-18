@@ -36,7 +36,7 @@ namespace SampSharp.RakNet
                 throw new RakNetException("[SampSharp.RakNet] Gamemode should implement IHasClient interface to use SampSharp.RakNet");
             }
 
-            this.GameMode = gameMode;
+            GameMode = gameMode;
             RakNet.Mode = gameMode;
             gameMode.Services.AddService<IRakNet>(this);
 
@@ -45,31 +45,31 @@ namespace SampSharp.RakNet
 
         #endregion
 
-        bool LoggingIncomingRPC = false;
-        bool LoggingOutcomingRPC = false;
-        bool LoggingIncomingPacket = false;
-        bool LoggingOutcomingPacket = false;
-        bool LoggingBlockingRPC = false;
-        bool LoggingBlockingPacket = false;
+        public bool LoggingIncomingRpc { get; set; } = false;
+        public bool LoggingOutcomingRpc { get; set; } = false;
+        public bool LoggingIncomingPacket { get; set; } = false;
+        public bool LoggingOutcomingPacket { get; set; } = false;
+        public bool LoggingBlockingRpc { get; set; } = false;
+        public bool LoggingBlockingPacket { get; set; } = false;
 
-        public void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket, bool blockingRPC, bool blockingPacket)
+        public void SetLogging(bool incomingRpc, bool outcomingRpc, bool incomingPacket, bool outcomingPacket, bool blockingRpc, bool blockingPacket)
         {
-            this.LoggingIncomingRPC = incomingRPC;
-            this.LoggingOutcomingRPC = outcomingRPC;
-            this.LoggingIncomingPacket = incomingPacket;
-            this.LoggingOutcomingPacket = outcomingPacket;
-            this.LoggingBlockingRPC = blockingRPC;
-            this.LoggingBlockingPacket = blockingPacket;
+            LoggingIncomingRpc = incomingRpc;
+            LoggingOutcomingRpc = outcomingRpc;
+            LoggingIncomingPacket = incomingPacket;
+            LoggingOutcomingPacket = outcomingPacket;
+            LoggingBlockingRpc = blockingRpc;
+            LoggingBlockingPacket = blockingPacket;
         }
 
-        public void BlockRPC()
+        public void BlockRpc()
         {
-            if (this.LoggingBlockingRPC) Console.WriteLine($"[S#] Blocking next RPC");
-            Internal.CallRemoteFunction("BlockNextRPC", "");
+            if (LoggingBlockingRpc) Console.WriteLine($"[S#] Blocking next Rpc");
+            Internal.CallRemoteFunction("BlockNextRpc", "");
         }
         public void BlockPacket()
         {
-            if (this.LoggingBlockingPacket) Console.WriteLine($"[S#] Blocking next Packet");
+            if (LoggingBlockingPacket) Console.WriteLine($"[S#] Blocking next Packet");
             Internal.CallRemoteFunction("BlockNextPacket", "");
         }
 

@@ -6,13 +6,13 @@ namespace SampSharp.RakNet
 {
     public interface IRakNet : IService
     {
-        event EventHandler<PacketRPCEventArgs> IncomingRPC;
-        event EventHandler<PacketRPCEventArgs> OutcomingRPC;
-        event EventHandler<PacketRPCEventArgs> IncomingPacket;
-        event EventHandler<PacketRPCEventArgs> OutcomingPacket;
+        event EventHandler<PacketRpcEventArgs> IncomingRpc;
+        event EventHandler<PacketRpcEventArgs> OutcomingRpc;
+        event EventHandler<PacketRpcEventArgs> IncomingPacket;
+        event EventHandler<PacketRpcEventArgs> OutcomingPacket;
 
-        void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket, bool blockingRPC, bool blockingPacket);
-        void BlockRPC();
+        void SetLogging(bool incomingRpc, bool outcomingRpc, bool incomingPacket, bool outcomingPacket, bool blockingRpc, bool blockingPacket);
+        void BlockRpc();
         void BlockPacket();
         void PostLoad(BaseMode gameMode);
     }

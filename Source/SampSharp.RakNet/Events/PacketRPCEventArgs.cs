@@ -4,17 +4,17 @@ using System.Text;
 
 namespace SampSharp.RakNet.Events
 {
-    public class PacketRPCEventArgs : EventArgs
+    public class PacketRpcEventArgs : EventArgs
     {
-        public int ID;
-        public int PlayerID;
-        public int BitStreamID;
+        public int Id { get; set; }
+        public int PlayerId { get; set; }
+        public int BitStreamId { get; set; }
 
-        public PacketRPCEventArgs(int id, int playerID, int bitStreamID)
+        public PacketRpcEventArgs(int id, int playerId, int bitStreamId)
         {
-            this.ID = id;
-            this.PlayerID = playerID;
-            this.BitStreamID = bitStreamID;
+            Id = id;
+            PlayerId = playerId;
+            BitStreamId = bitStreamId;
         }
     }
 }

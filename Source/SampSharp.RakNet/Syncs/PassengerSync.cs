@@ -12,98 +12,98 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetID;
-        public int fromPlayerID;
-        public int driveBy;
-        public int seatID;
-        public int vehicleID;
-        public int additionalKey;
-        public int weaponID;
-        public int playerHealth;
-        public int playerArmour;
-        public int lrKey;
-        public int udKey;
-        public int keys;
-        public Vector3 position;
+        public int PacketId { get; set; }
+        public int FromPlayerId { get; set; }
+        public int DriveBy { get; set; }
+        public int SeatId { get; set; }
+        public int VehicleId { get; set; }
+        public int AdditionalKey { get; set; }
+        public int WeaponId { get; set; }
+        public int PlayerHealth { get; set; }
+        public int PlayerArmour { get; set; }
+        public int LRKey { get; set; }
+        public int UDKey { get; set; }
+        public int Keys { get; set; }
+        public Vector3 Position { get; set; }
 
         public PassengerSync(BitStream bs)
         {
-            this.BS = bs;
+            BS = bs;
         }
         public void ReadIncoming()
         {
-            this.Read(false);
+            Read(false);
         }
         public void ReadOutcoming()
         {
-            this.Read(true);
+            Read(true);
         }
         public void WriteIncoming()
         {
-            this.Write(false);
+            Write(false);
         }
         public void WriteOutcoming()
         {
-            this.Write(true);
+            Write(true);
         }
         private void Read(bool outcoming)
         {
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetID = (int)result["packetID"];
+                PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerID = (int)result["fromPlayerID"];
+                    FromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.vehicleID = (int)result["vehicleID"];
-                this.driveBy = (int)result["driveBy"];
-                this.seatID = (int)result["seatID"];
-                this.additionalKey = (int)result["additionalKey"];
-                this.weaponID = (int)result["weaponID"];
-                this.playerHealth = (int)result["playerHealth"];
-                this.playerArmour = (int)result["playerArmour"];
-                this.lrKey = (int)result["lrKey"];
-                this.udKey = (int)result["udKey"];
-                this.keys = (int)result["keys"];
+                VehicleId = (int)result["vehicleId"];
+                DriveBy = (int)result["driveBy"];
+                SeatId = (int)result["seatId"];
+                AdditionalKey = (int)result["additionalKey"];
+                WeaponId = (int)result["weaponId"];
+                PlayerHealth = (int)result["playerHealth"];
+                PlayerArmour = (int)result["playerArmour"];
+                LRKey = (int)result["lrKey"];
+                UDKey = (int)result["udKey"];
+                Keys = (int)result["keys"];
 
-                var BS2 = new BitStream(BS.ID);
+                var BS2 = new BitStream(BS.Id);
                 BS2.ReadCompleted += (sender2, args2) =>
                 {
                     result = args2.Result;
-                    this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+                    Position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
 
-                    this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                    ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
                 };
 
                 BS2.ReadValue(
-                    ParamType.FLOAT, "position_0",
-                    ParamType.FLOAT, "position_1",
-                    ParamType.FLOAT, "position_2"
+                    ParamType.Float, "position_0",
+                    ParamType.Float, "position_1",
+                    ParamType.Float, "position_2"
                 );
             };
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "vehicleID",
-                ParamType.BITS, "driveBy", 2,
-                ParamType.BITS, "seatID", 6,
-                ParamType.BITS, "additionalKey", 2,
-                ParamType.BITS, "weaponID", 6,
-                ParamType.UINT8, "playerHealth",
-                ParamType.UINT8, "playerArmour",
-                ParamType.UINT16, "lrKey",
-                ParamType.UINT16, "udKey",
-                ParamType.UINT16, "keys"
+                ParamType.UInt8, "packetId",
+                ParamType.UInt16, "vehicleId",
+                ParamType.Bits, "driveBy", 2,
+                ParamType.Bits, "seatId", 6,
+                ParamType.Bits, "additionalKey", 2,
+                ParamType.Bits, "weaponId", 6,
+                ParamType.UInt8, "playerHealth",
+                ParamType.UInt8, "playerArmour",
+                ParamType.UInt16, "lrKey",
+                ParamType.UInt16, "udKey",
+                ParamType.UInt16, "keys"
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, "fromPlayerID");
+                arguments.Insert(2, ParamType.UInt16);
+                arguments.Insert(3, "fromPlayerId");
             }
 
             BS.ReadValue(arguments.ToArray());
@@ -113,32 +113,32 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.vehicleID,
-                ParamType.BITS, this.driveBy, 2,
-                ParamType.BITS, this.seatID, 6,
-                ParamType.BITS, this.additionalKey, 2,
-                ParamType.BITS, this.weaponID, 6,
-                ParamType.UINT8, this.playerHealth,
-                ParamType.UINT8, this.playerArmour,
-                ParamType.UINT16, this.lrKey,
-                ParamType.UINT16, this.udKey,
-                ParamType.UINT16, this.keys,
+                ParamType.UInt8, PacketId,
+                ParamType.UInt16, VehicleId,
+                ParamType.Bits, DriveBy, 2,
+                ParamType.Bits, SeatId, 6,
+                ParamType.Bits, AdditionalKey, 2,
+                ParamType.Bits, WeaponId, 6,
+                ParamType.UInt8, PlayerHealth,
+                ParamType.UInt8, PlayerArmour,
+                ParamType.UInt16, LRKey,
+                ParamType.UInt16, UDKey,
+                ParamType.UInt16, Keys,
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, this.fromPlayerID);
+                arguments.Insert(2, ParamType.UInt16);
+                arguments.Insert(3, FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());
 
             arguments = new List<object>()
             {
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z,
+                ParamType.Float, Position.X,
+                ParamType.Float, Position.Y,
+                ParamType.Float, Position.Z,
             };
 
             BS.WriteValue(arguments.ToArray());

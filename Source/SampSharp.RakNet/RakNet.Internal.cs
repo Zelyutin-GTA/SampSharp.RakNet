@@ -4,7 +4,7 @@ namespace SampSharp.RakNet
 {
     public partial class RakNet
     {
-        protected static RakNetInternal Internal;
+        protected static RakNetInternal Internal { get; set; }
 
         static RakNet()
         {

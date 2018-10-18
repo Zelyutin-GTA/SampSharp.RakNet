@@ -11,11 +11,11 @@ namespace SampSharp.RakNet
         {
             private enum ParamTypeGroup
             {
-                INT,
-                BOOL,
-                FLOAT,
-                STRING,
-                BITS
+                Int,
+                Bool,
+                Float,
+                String,
+                Bits
             }
             private object[] PrepareParams(int bs, bool returning, params object[] arguments)
             {
@@ -63,7 +63,7 @@ namespace SampSharp.RakNet
                             {
                                 nativeParams.Add(new int[0]);
                             }
-                            else if (paramTypeGroup == ParamTypeGroup.BITS && j == 2)
+                            else if (paramTypeGroup == ParamTypeGroup.Bits && j == 2)
                             {
                                 nativeParams.Add(arguments[i + j]);
                             }
@@ -77,11 +77,11 @@ namespace SampSharp.RakNet
                             nativeParams.Add(arguments[i + j]);
                         }
                     }
-                    if (paramTypeGroup == ParamTypeGroup.STRING)
+                    if (paramTypeGroup == ParamTypeGroup.String)
                     {
                         int lengthSpecifierParamTypeIndex = i - 2;
                         int lengthSpecifierIndex = i - 1;
-                        if (lengthSpecifierParamTypeIndex < 0 || !typeof(ParamType).IsAssignableFrom(arguments[lengthSpecifierParamTypeIndex].GetType()) || GetParamTypeGroup((ParamType)arguments[lengthSpecifierParamTypeIndex]) != ParamTypeGroup.INT)
+                        if (lengthSpecifierParamTypeIndex < 0 || !typeof(ParamType).IsAssignableFrom(arguments[lengthSpecifierParamTypeIndex].GetType()) || GetParamTypeGroup((ParamType)arguments[lengthSpecifierParamTypeIndex]) != ParamTypeGroup.Int)
                         {
                             throw new RakNetException($"String param [index:{i}] doesn't have prior length specifying");
                         }
@@ -104,44 +104,44 @@ namespace SampSharp.RakNet
             {
                 var intType = new ParamType[]
                 {
-                    ParamType.INT8,
-                    ParamType.INT16,
-                    ParamType.INT32,
-                    ParamType.UINT8,
-                    ParamType.UINT16,
-                    ParamType.UINT32,
-                    ParamType.CINT8,
-                    ParamType.CINT16,
-                    ParamType.CINT32,
-                    ParamType.CUINT8,
-                    ParamType.CUINT16,
-                    ParamType.CUINT32
+                    ParamType.Int8,
+                    ParamType.Int16,
+                    ParamType.Int32,
+                    ParamType.UInt8,
+                    ParamType.UInt16,
+                    ParamType.UInt32,
+                    ParamType.CompressedInt8,
+                    ParamType.CompressedInt16,
+                    ParamType.CompressedInt32,
+                    ParamType.CompressedUInt8,
+                    ParamType.CompressedUInt16,
+                    ParamType.CompressedUInt32
                 };
                 var boolType = new ParamType[]
                 {
-                    ParamType.BOOL,
-                    ParamType.CBOOL
+                    ParamType.Bool,
+                    ParamType.CompressedBool
                 };
                 var floatType = new ParamType[]
                 {
-                    ParamType.FLOAT,
-                    ParamType.CFLOAT
+                    ParamType.Float,
+                    ParamType.CompressedFloat
                 };
                 var stringType = new ParamType[]
                 {
-                    ParamType.STRING,
-                    ParamType.CSTRING
+                    ParamType.String,
+                    ParamType.CompressedString
                 };
                 var bitsType = new ParamType[]
                 {
-                    ParamType.BITS
+                    ParamType.Bits
                 };
 
-                if (intType.Contains(param)) return ParamTypeGroup.INT;
-                else if (boolType.Contains(param)) return ParamTypeGroup.BOOL;
-                else if (floatType.Contains(param)) return ParamTypeGroup.FLOAT;
-                else if (stringType.Contains(param)) return ParamTypeGroup.STRING;
-                else if (bitsType.Contains(param)) return ParamTypeGroup.BITS;
+                if (intType.Contains(param)) return ParamTypeGroup.Int;
+                else if (boolType.Contains(param)) return ParamTypeGroup.Bool;
+                else if (floatType.Contains(param)) return ParamTypeGroup.Float;
+                else if (stringType.Contains(param)) return ParamTypeGroup.String;
+                else if (bitsType.Contains(param)) return ParamTypeGroup.Bits;
 
                 throw new RakNetException($"Param has unknown ParamType");
             }
@@ -149,11 +149,11 @@ namespace SampSharp.RakNet
             {
                 switch (group)
                 {
-                    case ParamTypeGroup.INT: return 1;
-                    case ParamTypeGroup.BOOL: return 1;
-                    case ParamTypeGroup.FLOAT: return 1;
-                    case ParamTypeGroup.STRING: return 1;
-                    case ParamTypeGroup.BITS: return 2;
+                    case ParamTypeGroup.Int: return 1;
+                    case ParamTypeGroup.Bool: return 1;
+                    case ParamTypeGroup.Float: return 1;
+                    case ParamTypeGroup.String: return 1;
+                    case ParamTypeGroup.Bits: return 2;
                 }
 
                 throw new RakNetException($"Param has unknown ParamGroupType");
@@ -162,11 +162,11 @@ namespace SampSharp.RakNet
             {
                 switch (group)
                 {
-                    case ParamTypeGroup.INT: return new Type[]{ typeof(int) };
-                    case ParamTypeGroup.BOOL: return new Type[] { typeof(bool) };
-                    case ParamTypeGroup.FLOAT: return new Type[] { typeof(float) };
-                    case ParamTypeGroup.STRING: if (returning) return new Type[] { typeof(int[]) }; else return new Type[] { typeof(string) };
-                    case ParamTypeGroup.BITS: return new Type[] { typeof(int), typeof(int) };
+                    case ParamTypeGroup.Int: return new Type[]{ typeof(int) };
+                    case ParamTypeGroup.Bool: return new Type[] { typeof(bool) };
+                    case ParamTypeGroup.Float: return new Type[] { typeof(float) };
+                    case ParamTypeGroup.String: if (returning) return new Type[] { typeof(int[]) }; else return new Type[] { typeof(string) };
+                    case ParamTypeGroup.Bits: return new Type[] { typeof(int), typeof(int) };
                 }
 
                 throw new RakNetException($"Param has unknown ParamGroupType");

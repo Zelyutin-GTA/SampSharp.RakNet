@@ -6,9 +6,9 @@ namespace SampSharp.RakNet.Definitions
 {
     public enum PacketPriority
     {
-        SYSTEM_PRIORITY,
-        HIGH_PRIORITY,
-        MEDIUM_PRIORITY,
-        LOW_PRIORITY
+        SystemPriority,
+        HighPriority,
+        MediumPriority,
+        LowPriority
     }
 }

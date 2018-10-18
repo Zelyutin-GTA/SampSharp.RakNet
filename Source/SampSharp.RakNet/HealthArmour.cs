@@ -4,7 +4,7 @@ namespace SampSharp.RakNet
 {
     public class HealthArmour
     {
-        public static void GetFromByte(byte healthArmour, ref int health, ref int armour)
+        public static void GetFromByte(byte healthArmour, out int health, out int armour)
         {
             byte byteHealth, byteArmour;
             byte byteArmTemp = 0, byteHlTemp = 0;

@@ -6,7 +6,7 @@ namespace SampSharp.RakNet
 {
     public partial class BitStream : IDisposable
     {
-        public int ID { get; private set; }
+        public int Id { get; private set; }
         public bool IsHandMade{ get; private set; }
         public BitStream(int id, bool isHandMade = false)
         {
@@ -14,51 +14,51 @@ namespace SampSharp.RakNet
             {
                 Console.WriteLine("[SampSharp.RakNet][Warning] Trying to create BitStream with id(handle) = 0");
             }
-            this.IsHandMade = isHandMade;
-            this.ID = id;
+            IsHandMade = isHandMade;
+            Id = id;
         }
         public bool IsEmptyHandle()
         {
-            return this.ID == 0;
+            return Id == 0;
         }
         public void Reset()
         {
-            Internal.BS_Reset(this.ID);
+            Internal.BS_Reset(Id);
         }
         public void ResetReadPointer()
         {
-            Internal.BS_ResetReadPointer(this.ID);
+            Internal.BS_ResetReadPointer(Id);
         }
         public void ResetWritePointer()
         {
-            Internal.BS_ResetWritePointer(this.ID);
+            Internal.BS_ResetWritePointer(Id);
         }
         public void IgnoreBits(int number)
         {
-            Internal.BS_IgnoreBits(this.ID, number);
+            Internal.BS_IgnoreBits(Id, number);
         }
         public int WriteOffset
         {
             get
             {
-                Internal.BS_GetWriteOffset(this.ID, out int offset);
+                Internal.BS_GetWriteOffset(Id, out int offset);
                 return offset;
             }
             set
             {
-                Internal.BS_SetWriteOffset(this.ID, value);
+                Internal.BS_SetWriteOffset(Id, value);
             }
         }
         public int ReadOffset
         {
             get
             {
-                Internal.BS_GetReadOffset(this.ID, out int offset);
+                Internal.BS_GetReadOffset(Id, out int offset);
                 return offset;
             }
             set
             {
-                Internal.BS_SetReadOffset(this.ID, value);
+                Internal.BS_SetReadOffset(Id, value);
             }
         }
 
@@ -66,7 +66,7 @@ namespace SampSharp.RakNet
         {
             get
             {
-                Internal.BS_GetNumberOfBitsUsed(this.ID, out int number);
+                Internal.BS_GetNumberOfBitsUsed(Id, out int number);
                 return number;
             }
         }
@@ -74,7 +74,7 @@ namespace SampSharp.RakNet
         {
             get
             {
-                Internal.BS_GetNumberOfBytesUsed(this.ID, out int number);
+                Internal.BS_GetNumberOfBytesUsed(Id, out int number);
                 return number;
             }
         }
@@ -82,7 +82,7 @@ namespace SampSharp.RakNet
         {
             get
             {
-                Internal.BS_GetNumberOfUnreadBits(this.ID, out int number);
+                Internal.BS_GetNumberOfUnreadBits(Id, out int number);
                 return number;
             }
         }
@@ -90,35 +90,35 @@ namespace SampSharp.RakNet
         {
             get
             {
-                Internal.BS_GetNumberOfBitsAllocated(this.ID, out int number);
+                Internal.BS_GetNumberOfBitsAllocated(Id, out int number);
                 return number;
             }
         }
         public void WriteValue(params object[] arguments)
         {
-            Internal.BS_WriteValue(this.ID, arguments);
+            Internal.BS_WriteValue(Id, arguments);
         }
         public void ReadValue(params object[] arguments)
         {
-            var values = Internal.BS_ReadValue(this.ID, arguments);
+            var values = Internal.BS_ReadValue(Id, arguments);
             var e = new BitStreamReadEventArgs(values);
-            this.ReadCompleted?.Invoke(this, e);
+            ReadCompleted?.Invoke(this, e);
         }
 
-        public void SendRPC(int rpcID, int playerID, PacketPriority priority = PacketPriority.HIGH_PRIORITY, PacketReliability reliability = PacketReliability.RELIABLE_ORDERED)
+        public void SendRpc(int rpcId, int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
         {
-            var result = Internal.BS_RPC(this.ID, playerID, rpcID, (int)priority, (int)reliability);
+            var result = Internal.BS_RPC(Id, playerId, rpcId, (int)priority, (int)reliability);
         }
-        public void SendPacket(int playerID, PacketPriority priority = PacketPriority.HIGH_PRIORITY, PacketReliability reliability = PacketReliability.RELIABLE_ORDERED)
+        public void SendPacket(int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
         {
-            var result = Internal.BS_Send(this.ID, playerID, (int)priority, (int)reliability);
+            var result = Internal.BS_Send(Id, playerId, (int)priority, (int)reliability);
         }
 
         public void Dispose()
         {
-            int id = this.ID; // Added to let this.ID stay readonly (or with private setter)
-            if(this.IsHandMade) Internal.BS_Delete(out id);
-            this.ID = id;
+            int id = Id; // Added to let Id stay readonly (or with private setter)
+            if(IsHandMade) Internal.BS_Delete(out id);
+            Id = id;
         }
         public static BitStream New()
         {

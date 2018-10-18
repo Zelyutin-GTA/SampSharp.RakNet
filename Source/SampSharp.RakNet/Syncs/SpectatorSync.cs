@@ -12,22 +12,22 @@ namespace SampSharp.RakNet.Syncs
     {
         public event EventHandler<SyncReadEventArgs> ReadCompleted;
 
-        public BitStream BS;
+        public BitStream BS { get; set; }
 
-        public int packetID;
-        public int fromPlayerID;
-        public int lrKey;
-        public int udKey;
-        public int keys;
-        public Vector3 position;
+        public int PacketId { get; set; }
+        public int FromPlayerId { get; set; }
+        public int LRKey { get; set; }
+        public int UDKey { get; set; }
+        public int Keys { get; set; }
+        public Vector3 position { get; set; }
 
         public SpectatorSync(BitStream bs)
         {
-            this.BS = bs;
+            BS = bs;
         }
         public void ReadIncoming()
         {
-            this.Read(false);
+            Read(false);
         }
         public void ReadOutcoming()
         {
@@ -36,7 +36,7 @@ namespace SampSharp.RakNet.Syncs
         }
         public void WriteIncoming()
         {
-            this.Write(false);
+            Write(false);
         }
         public void WriteOutcoming()
         {
@@ -48,35 +48,35 @@ namespace SampSharp.RakNet.Syncs
             BS.ReadCompleted += (sender, args) =>
             {
                 var result = args.Result;
-                this.packetID = (int)result["packetID"];
+                PacketId = (int)result["packetId"];
                 if (outcoming)
                 {
-                    this.fromPlayerID = (int)result["fromPlayerID"];
+                    FromPlayerId = (int)result["fromPlayerId"];
                 }
 
-                this.lrKey = (int)result["lrKey"];
-                this.udKey = (int)result["udKey"];
-                this.keys = (int)result["keys"];
-                this.position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
+                LRKey = (int)result["lrKey"];
+                UDKey = (int)result["udKey"];
+                Keys = (int)result["keys"];
+                position = new Vector3((float)result["position_0"], (float)result["position_1"], (float)result["position_2"]);
 
-                this.ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
+                ReadCompleted.Invoke(this, new SyncReadEventArgs(this));
             };
 
             var arguments = new List<object>()
             {
-                ParamType.UINT8, "packetID",
-                ParamType.UINT16, "lrKey",
-                ParamType.UINT16, "udKey",
-                ParamType.UINT16, "keys",
-                ParamType.FLOAT, "position_0",
-                ParamType.FLOAT, "position_1",
-                ParamType.FLOAT, "position_2",
+                ParamType.UInt8, "packetId",
+                ParamType.UInt16, "lrKey",
+                ParamType.UInt16, "udKey",
+                ParamType.UInt16, "keys",
+                ParamType.Float, "position_0",
+                ParamType.Float, "position_1",
+                ParamType.Float, "position_2",
 
             };
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, "fromPlayerID");
+                arguments.Insert(2, ParamType.UInt16);
+                arguments.Insert(3, "fromPlayerId");
             }
 
             BS.ReadValue(arguments.ToArray());
@@ -85,19 +85,19 @@ namespace SampSharp.RakNet.Syncs
         {
             var arguments = new List<object>()
             {
-                ParamType.UINT8, this.packetID,
-                ParamType.UINT16, this.lrKey,
-                ParamType.UINT16, this.udKey,
-                ParamType.UINT16, this.keys,
-                ParamType.FLOAT, this.position.X,
-                ParamType.FLOAT, this.position.Y,
-                ParamType.FLOAT, this.position.Z
+                ParamType.UInt8, PacketId,
+                ParamType.UInt16, LRKey,
+                ParamType.UInt16, UDKey,
+                ParamType.UInt16, Keys,
+                ParamType.Float, position.X,
+                ParamType.Float, position.Y,
+                ParamType.Float, position.Z
             };
 
             if (outcoming)
             {
-                arguments.Insert(2, ParamType.UINT16);
-                arguments.Insert(3, this.fromPlayerID);
+                arguments.Insert(2, ParamType.UInt16);
+                arguments.Insert(3, FromPlayerId);
             }
 
             BS.WriteValue(arguments.ToArray());
