@@ -11,7 +11,7 @@ namespace SampSharp.RakNet
         {
             private enum ParamTypeGroup
             {
-                INT,
+                Int,
                 Bool,
                 Float,
                 String,
@@ -81,7 +81,7 @@ namespace SampSharp.RakNet
                     {
                         int lengthSpecifierParamTypeIndex = i - 2;
                         int lengthSpecifierIndex = i - 1;
-                        if (lengthSpecifierParamTypeIndex < 0 || !typeof(ParamType).IsAssignableFrom(arguments[lengthSpecifierParamTypeIndex].GetType()) || GetParamTypeGroup((ParamType)arguments[lengthSpecifierParamTypeIndex]) != ParamTypeGroup.INT)
+                        if (lengthSpecifierParamTypeIndex < 0 || !typeof(ParamType).IsAssignableFrom(arguments[lengthSpecifierParamTypeIndex].GetType()) || GetParamTypeGroup((ParamType)arguments[lengthSpecifierParamTypeIndex]) != ParamTypeGroup.Int)
                         {
                             throw new RakNetException($"String param [index:{i}] doesn't have prior length specifying");
                         }
@@ -137,7 +137,7 @@ namespace SampSharp.RakNet
                     ParamType.Bits
                 };
 
-                if (intType.Contains(param)) return ParamTypeGroup.INT;
+                if (intType.Contains(param)) return ParamTypeGroup.Int;
                 else if (boolType.Contains(param)) return ParamTypeGroup.Bool;
                 else if (floatType.Contains(param)) return ParamTypeGroup.Float;
                 else if (stringType.Contains(param)) return ParamTypeGroup.String;
@@ -149,7 +149,7 @@ namespace SampSharp.RakNet
             {
                 switch (group)
                 {
-                    case ParamTypeGroup.INT: return 1;
+                    case ParamTypeGroup.Int: return 1;
                     case ParamTypeGroup.Bool: return 1;
                     case ParamTypeGroup.Float: return 1;
                     case ParamTypeGroup.String: return 1;
@@ -162,7 +162,7 @@ namespace SampSharp.RakNet
             {
                 switch (group)
                 {
-                    case ParamTypeGroup.INT: return new Type[]{ typeof(int) };
+                    case ParamTypeGroup.Int: return new Type[]{ typeof(int) };
                     case ParamTypeGroup.Bool: return new Type[] { typeof(bool) };
                     case ParamTypeGroup.Float: return new Type[] { typeof(float) };
                     case ParamTypeGroup.String: if (returning) return new Type[] { typeof(int[]) }; else return new Type[] { typeof(string) };
