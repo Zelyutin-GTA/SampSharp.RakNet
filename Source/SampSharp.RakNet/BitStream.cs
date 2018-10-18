@@ -105,7 +105,7 @@ namespace SampSharp.RakNet
             this.ReadCompleted?.Invoke(this, e);
         }
 
-        public void SendRPC(int rpcId, int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
+        public void SendRpc(int rpcId, int playerId, PacketPriority priority = PacketPriority.HighPriority, PacketReliability reliability = PacketReliability.ReliableOrdered)
         {
             var result = Internal.BS_RPC(this.Id, playerId, rpcId, (int)priority, (int)reliability);
         }

@@ -27,8 +27,8 @@ namespace TestMode
         {
             RakNet = Services.GetService<IRakNet>();
             RakNet.SetLogging(false, false, false, false, true, true);
-            RakNet.IncomingRPC += (sender, args) => OnIncomingRPC(args);
-            RakNet.OutcomingRPC += (sender, args) => OnOutcomingRPC(args);
+            RakNet.IncomingRpc += (sender, args) => OnIncomingRpc(args);
+            RakNet.OutcomingRpc += (sender, args) => OnOutcomingRpc(args);
             RakNet.IncomingPacket += (sender, args) => OnIncomingPacket(args);
             RakNet.OutcomingPacket += (sender, args) => OnOutcomingPacket(args);
 
@@ -52,10 +52,10 @@ namespace TestMode
 
         #region Test Commands
         [Command("setnamenonrpc")]
-        public static void SetNameNonRPCCommand(BasePlayer sender, string name)
+        public static void SetNameNonRpcCommand(BasePlayer sender, string name)
         {
             sender.Name = name;
-            sender.SendClientMessage("Changing name without RPC!");
+            sender.SendClientMessage("Changing name without Rpc!");
         }
         [Command("setname")]
         public static void SetNameCommand(BasePlayer sender, string name)
@@ -64,8 +64,8 @@ namespace TestMode
 
             BS.WriteValue(ParamType.UInt16, sender.Id, ParamType.UInt8, name.Length, ParamType.String, name);
 
-            BS.SendRPC(11, sender.Id);
-            sender.SendClientMessage("Changing name with RPC!");
+            BS.SendRpc(11, sender.Id);
+            sender.SendClientMessage("Changing name with Rpc!");
         }
         [Command("setpos")]
         public static void SetPosCommand(BasePlayer sender, float x, float y, float z)
@@ -74,9 +74,9 @@ namespace TestMode
 
             BS.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z);
 
-            int setPosRPC = 12;
-            BS.SendRPC(setPosRPC, sender.Id);
-            sender.SendClientMessage("Setting position with RPC!");
+            int setPosRpc = 12;
+            BS.SendRpc(setPosRpc, sender.Id);
+            sender.SendClientMessage("Setting position with Rpc!");
         }
 
         [Command("explode")]
@@ -91,9 +91,9 @@ namespace TestMode
 
             bs.WriteValue(ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.UInt16, type, ParamType.Float, radius);
 
-            int createExplosionRPC = 79;
-            bs.SendRPC(createExplosionRPC, sender.Id);
-            sender.SendClientMessage("Creating Explosion with RPC!");
+            int createExplosionRpc = 79;
+            bs.SendRpc(createExplosionRpc, sender.Id);
+            sender.SendClientMessage("Creating Explosion with Rpc!");
         }
 
         [Command("createplayer")]
@@ -103,7 +103,7 @@ namespace TestMode
             bs.WriteValue(ParamType.UInt16, playerId, ParamType.Int32, 0, ParamType.UInt8, 0, ParamType.UInt8, name.Length, ParamType.String, name);
 
             int serverJoin = 137;
-            bs.SendRPC(serverJoin, sender.Id);
+            bs.SendRpc(serverJoin, sender.Id);
 
             
             bs = BitStream.New();
@@ -118,15 +118,15 @@ namespace TestMode
             bs.WriteValue(ParamType.UInt16, playerId, ParamType.UInt8, team, ParamType.UInt32, skin, ParamType.Float, x, ParamType.Float, y, ParamType.Float, z, ParamType.Float, angle, ParamType.UInt32, color, ParamType.UInt8, fight);
 
             int worldPlayerAdd = 32;
-            bs.SendRPC(worldPlayerAdd, sender.Id);
-            sender.SendClientMessage("Creating Player with RPC!");
+            bs.SendRpc(worldPlayerAdd, sender.Id);
+            sender.SendClientMessage("Creating Player with Rpc!");
         }
 
         [Command("setanimnonrpc")]
-        public static void SetAnimNonRPCCommand(BasePlayer sender, string animlib, string animname)
+        public static void SetAnimNonRpcCommand(BasePlayer sender, string animlib, string animname)
         {
             sender.ApplyAnimation(animlib, animname, 1.0f, true, false, false, false, 0);
-            sender.SendClientMessage("Applying animation without RPC!");
+            sender.SendClientMessage("Applying animation without Rpc!");
         }
 
         [Command("spectate")]
@@ -150,8 +150,8 @@ namespace TestMode
         }
         #endregion
         
-        #region RPC/Packet handlers
-        void OnIncomingRPC(PacketRPCEventArgs e)
+        #region Rpc/Packet handlers
+        void OnIncomingRpc(PacketRpcEventArgs e)
         {
             var bs = e.BitStreamId;
             var rpcid = e.Id;
@@ -197,7 +197,7 @@ namespace TestMode
             }
         }
 
-        void OnOutcomingRPC(PacketRPCEventArgs e)
+        void OnOutcomingRpc(PacketRpcEventArgs e)
         {
             var bs = e.BitStreamId;
             var rpcid = e.Id;
@@ -245,7 +245,7 @@ namespace TestMode
             }
         }
 
-        void OnIncomingPacket(PacketRPCEventArgs e)
+        void OnIncomingPacket(PacketRpcEventArgs e)
         {
             var bs = e.BitStreamId;
             var packetid = e.Id;
@@ -350,7 +350,7 @@ namespace TestMode
             }
         }
 
-        void OnOutcomingPacket(PacketRPCEventArgs e)
+        void OnOutcomingPacket(PacketRpcEventArgs e)
         {
             var bs = e.BitStreamId;
             var packetid = e.Id;

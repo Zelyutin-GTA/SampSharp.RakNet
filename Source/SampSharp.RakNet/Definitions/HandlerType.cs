@@ -2,9 +2,9 @@
 {
     public enum HandlerType
     {
-        IncomingRPC,
+        IncomingRpc,
         IncomingPacket,
-        OutcomingRPC,
+        OutcomingRpc,
         OutcomingPacket,
         NumberOfHandlerTypes
     }

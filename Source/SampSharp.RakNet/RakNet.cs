@@ -45,27 +45,27 @@ namespace SampSharp.RakNet
 
         #endregion
 
-        public bool LoggingIncomingRPC { get; set; } = false;
-        public bool LoggingOutcomingRPC { get; set; } = false;
+        public bool LoggingIncomingRpc { get; set; } = false;
+        public bool LoggingOutcomingRpc { get; set; } = false;
         public bool LoggingIncomingPacket { get; set; } = false;
         public bool LoggingOutcomingPacket { get; set; } = false;
-        public bool LoggingBlockingRPC { get; set; } = false;
+        public bool LoggingBlockingRpc { get; set; } = false;
         public bool LoggingBlockingPacket { get; set; } = false;
 
-        public void SetLogging(bool incomingRPC, bool outcomingRPC, bool incomingPacket, bool outcomingPacket, bool blockingRPC, bool blockingPacket)
+        public void SetLogging(bool incomingRpc, bool outcomingRpc, bool incomingPacket, bool outcomingPacket, bool blockingRpc, bool blockingPacket)
         {
-            this.LoggingIncomingRPC = incomingRPC;
-            this.LoggingOutcomingRPC = outcomingRPC;
+            this.LoggingIncomingRpc = incomingRpc;
+            this.LoggingOutcomingRpc = outcomingRpc;
             this.LoggingIncomingPacket = incomingPacket;
             this.LoggingOutcomingPacket = outcomingPacket;
-            this.LoggingBlockingRPC = blockingRPC;
+            this.LoggingBlockingRpc = blockingRpc;
             this.LoggingBlockingPacket = blockingPacket;
         }
 
-        public void BlockRPC()
+        public void BlockRpc()
         {
-            if (this.LoggingBlockingRPC) Console.WriteLine($"[S#] Blocking next RPC");
-            Internal.CallRemoteFunction("BlockNextRPC", "");
+            if (this.LoggingBlockingRpc) Console.WriteLine($"[S#] Blocking next Rpc");
+            Internal.CallRemoteFunction("BlockNextRpc", "");
         }
         public void BlockPacket()
         {
