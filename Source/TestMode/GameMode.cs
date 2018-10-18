@@ -148,7 +148,9 @@ namespace TestMode
             sender.ToggleSpectating(false);
             sender.SendClientMessage("Spectating player!");
         }
-
+        #endregion
+        
+        #region RPC/Packet handlers
         void OnIncomingRPC(PacketRPCEventArgs e)
         {
             var bs = e.BitStreamID;
