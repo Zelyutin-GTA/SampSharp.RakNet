@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Zelyutin/SampSharp.RakNet/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Zelyutin/SampSharp.RakNet</PackageProjectUrl>
+    <PackageId>SampSharp.RakNet</PackageId>
+    <Title>Pawn.RakNet Wrapper for SampSharp</Title>
+    <Description>A SampSharp wrapper for the Pawn.RakNet plugin.</Description>
+    <Product>SampSharp.RakNet</Product>
+    <Company>Danil Zelyutin</Company>
+    <Authors>Danil Zelyutin</Authors>
+    <Copyright>Danil Zelyutin</Copyright>
+    <Version>0.0.0-localbuild</Version>
+    <AssemblyVersion>0.0.0</AssemblyVersion>
+    <FileVersion>0.0.0</FileVersion>
+    <PackageReleaseNotes>placeholder</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SampSharp.Core" Version="0.8.0-alpha8" />
+    <PackageReference Include="SampSharp.GameMode" Version="0.8.0-alpha8" />
+  </ItemGroup>
+
+</Project>
