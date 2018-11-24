@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "TestMode": {
-      "commandName": "Executable",
-      "executablePath": "D:\\projects\\sampsharp-raknet\\Env\\samp-server.exe",
-      "workingDirectory": "D:\\projects\\sampsharp-raknet\\Env"
-    }
-  }
-}
