@@ -262,4 +262,6 @@ __pycache__/
 
 #SampSharp.Raknet
 Env/
-Source/TestMode/Properties/launchSettings.json
+src/TestMode/Properties/launchSettings.json
+
+tools/
