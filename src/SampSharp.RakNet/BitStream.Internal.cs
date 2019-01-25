@@ -42,7 +42,7 @@ namespace SampSharp.RakNet
             }
 
             [NativeMethod]
-            public virtual int BS_Delete(out int bs)
+            public virtual int BS_Delete(ref int bs)
             {
                 throw new NativeNotImplementedException();
             }
