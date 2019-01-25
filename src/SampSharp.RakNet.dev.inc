@@ -52,8 +52,8 @@ public OnOutcomingPacket(playerid, packetid, BitStream:bs)
 	}
 	return 1;
 }
-forward BlockNextRPC();
-public BlockNextRPC()
+forward BlockNextRpc();
+public BlockNextRpc()
 {
 	blockNextRPC = true;
 	printf("[Pawn] Blocking Next RPC");
