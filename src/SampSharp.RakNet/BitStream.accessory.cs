@@ -107,9 +107,13 @@ namespace SampSharp.RakNet
         {
             WriteValue(ParamType.Bool, param);
         }
-        public void WriteString(string param)
+        public void WriteString(string param, ParamType lengthParamType)
         {
-            WriteValue(ParamType.String, param);
+            WriteString(param, lengthParamType, param.Length);
+        }
+        public void WriteString(string param, ParamType lengthParamType, int specifiedLength)
+        {
+            WriteValue(lengthParamType, specifiedLength, ParamType.String, param);
         }
         public void WriteBits(int param, int count)
         {
