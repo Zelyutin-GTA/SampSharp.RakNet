@@ -135,7 +135,7 @@ namespace SampSharp.RakNet
             {
                 int id = Id;
                 Internal.BS_Delete(ref id);
-                Id = id; Id = id;
+                Id = id;
             }
         }
         public static BitStream Create()
