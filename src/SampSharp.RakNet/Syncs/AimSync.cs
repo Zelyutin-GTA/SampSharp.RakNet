@@ -90,7 +90,7 @@ namespace SampSharp.RakNet.Syncs
 
             CameraMode = (int)result["cameraMode"];
             CameraFrontVector = new Vector3((float)result["cameraFrontVector_0"], (float)result["cameraFrontVector_1"], (float)result["cameraFrontVector_2"]);
-            CameraPosition = new Vector3((float)result["cameraPosition_0"], (float)result["cameraPosition_2"], (float)result["cameraPosition_2"]);
+            CameraPosition = new Vector3((float)result["cameraPosition_0"], (float)result["cameraPosition_1"], (float)result["cameraPosition_2"]);
             AimZ = (float)result["aimZ"];
 
             WeaponState = (int)result["weaponState"];
