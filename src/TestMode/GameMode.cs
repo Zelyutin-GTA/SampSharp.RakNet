@@ -29,12 +29,9 @@ using SampSharp.RakNet.Syncs;
 
 namespace TestMode
 {
-    public class GameMode : BaseMode, IHasClient
+    public class GameMode : BaseMode
     {
         IRakNet RakNet;
-        #region Implementation of IHasClient
-        public IGameModeClient GameModeClient => Client;
-        #endregion
 
         #region Overrides of BaseMode
         protected override void OnInitialized(EventArgs e)

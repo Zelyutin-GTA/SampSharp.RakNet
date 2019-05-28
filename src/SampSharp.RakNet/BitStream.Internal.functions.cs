@@ -188,7 +188,7 @@ namespace SampSharp.RakNet
 
             private void ExecuteReturningNative(Type[] nativeParamsTypes, ref object[] nativeParams, uint[] nativeParamsSizes, Dictionary<string, int> returningParamsIndexes, ref Dictionary<string, object> returningParams, uint? extraParamSize)
             {
-                var loader = RakNet.Client.NativeLoader;
+                var loader = RakNet.Mode.Client.NativeLoader;
 
                 if (extraParamSize != null)
                 {
